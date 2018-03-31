@@ -336,8 +336,9 @@ class LetterArray: Equatable {
     }
     
     // New, smarter implementation
-    func testLexical(_ suffix: Letter, endOfWord: Bool) -> Bool {
+    func testLexical(_ suffix: Letter, remainingLetters: Int) -> Bool {
         
+        let endOfWord = (remainingLetters == 1)
         let last = lastLetter()
         let nextToLast = nextToLastLetter()
         let lexSuffix: LexicalLetter = letterDictionary[suffix]!
@@ -526,6 +527,9 @@ class LetterArray: Equatable {
                     if sylState == .articulateStart {
                         expecting = conBlend!.initialFollowers!()
                     }
+                    else if remainingLetters == 2 {
+                        expecting = conBlend!.finalFollowers!(phonemes)
+                    }
                     else {
                         expecting = conBlend!.interiorFollowers!(phonemes)
                     }
@@ -584,6 +588,9 @@ class LetterArray: Equatable {
                     else if numLetters() == 1 {
                         expecting = dipBlend!.initialFollowers!()
                     }
+                    else if remainingLetters == 2 {
+                        expecting = dipBlend!.finalFollowers!(phonemes)
+                    }
                     else {
                         expecting = dipBlend!.interiorFollowers!(phonemes)
                     }
@@ -605,7 +612,12 @@ class LetterArray: Equatable {
                     return lexSuffix!.verifyEndOfWord!(phonemes)
                 }
                 
-                expecting = lexSuffix!.interiorFollowers!(phonemes)
+                if remainingLetters == 2 {
+                    expecting = lexSuffix!.finalFollowers!(phonemes)
+                }
+                else {
+                    expecting = lexSuffix!.interiorFollowers!(phonemes)
+                }
                 
                 // Reset state values
                 sylState = .articulateStop
@@ -647,6 +659,9 @@ class LetterArray: Equatable {
                         
                         if sylState == .articulateStart {
                             expecting = conBlend!.initialFollowers!()
+                        }
+                        else if remainingLetters == 2 {
+                            expecting = conBlend!.finalFollowers!(phonemes)
                         }
                         else {
                             expecting = conBlend!.interiorFollowers!(phonemes)
@@ -723,6 +738,10 @@ class LetterArray: Equatable {
                 
                 else if numLetters() == 1 {
                     expecting = vowelBlend!.initialFollowers!()
+                }
+                    
+                else if remainingLetters == 2 {
+                    expecting = vowelBlend!.finalFollowers!(phonemes)
                 }
                     
                 else {

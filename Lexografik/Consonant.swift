@@ -13,13 +13,18 @@ class Consonant: LexicalLetter {
     let dipthong: Bool
     let liquidBlend: Bool
     
-    init(id: Letter, blendStart: [Letter], blendInto: [Letter], canPlural: Bool, endBias: Int, dipthong: Bool, liquidBlend: Bool) {
+    init(id: Letter, blendStart: [Letter], blendInto: [Letter], blendFinal: [Letter],
+         canPlural: Bool, endBias: Int, dipthong: Bool, liquidBlend: Bool) {
         
         self.dipthong = dipthong
         self.liquidBlend = liquidBlend
-        super.init(id: id, blendStart: blendStart, blendInto: blendInto, canPlural: canPlural, endBias: endBias)
+        super.init(id: id, blendStart: blendStart, blendInto: blendInto, blendFinal: blendFinal,
+                   canPlural: canPlural, endBias: endBias)
+        
         self.initialFollowers = { return blendStart + vowels + [.Y] }
-        self.interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return blendInto + vowels + [.Y] }
+        self.interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+            return blendInto + vowels }
+
         if endBias > 1 {
             self.verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return true }
         }
@@ -29,22 +34,27 @@ class Consonant: LexicalLetter {
         
         if canPlural {
             self.verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
+            self.finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return blendFinal + [.S] }
         }
         else {
             self.verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return false }
+            self.finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return blendFinal }
         }
         
     }
     
-    init(id: Letter, blendStart: [Letter], blendInto: [Letter], canPlural: Bool, endBias: Int,
-        dipthong: Bool, liquidBlend: Bool,
-        initial: (() -> [Letter])?,
-        interior: ((PhoneticElementArray) -> [Letter])?,
-        verifyEnd: ((PhoneticElementArray) -> Bool)?) {
+    init(id: Letter, blendStart: [Letter], blendInto: [Letter], blendFinal: [Letter],
+         canPlural: Bool, endBias: Int, dipthong: Bool, liquidBlend: Bool,
+         initial: (() -> [Letter])?,
+         interior: ((PhoneticElementArray) -> [Letter])?,
+         verifyEnd: ((PhoneticElementArray) -> Bool)?) {
         
         self.dipthong = dipthong
         self.liquidBlend = liquidBlend
-        super.init(id: id, blendStart: blendStart, blendInto: blendInto, canPlural: canPlural, endBias: endBias)
+        super.init(id: id, blendStart: blendStart, blendInto: blendInto, blendFinal: [],
+                   canPlural: canPlural, endBias: endBias)
         
         if initial == nil {
             self.initialFollowers = { return blendStart + vowels + [.Y] }
@@ -54,10 +64,20 @@ class Consonant: LexicalLetter {
         }
         
         if interior == nil {
-            self.interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return blendInto + vowels + [.Y] }
+            self.interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return blendInto + vowels + [.Y] }
         }
         else {
             self.interiorFollowers = interior
+        }
+        
+        if canPlural {
+            self.finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return blendFinal + [.S] }
+        }
+        else {
+            self.finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return blendFinal }
         }
         
         if verifyEnd == nil {
@@ -92,6 +112,7 @@ class Consonant: LexicalLetter {
 let B = Consonant( id: .B,
     blendStart: [.L, .R],
     blendInto: [.B, .L],
+    blendFinal: [.A, .E, .I, .O, .Y],
     canPlural: true,
     endBias: 2,
     dipthong: false,
@@ -118,6 +139,7 @@ let B = Consonant( id: .B,
 let C = Consonant( id: .C,
     blendStart: [.H, .L, .R],
     blendInto: [.C, .H, .K, .R, .S, .T],
+    blendFinal: [.A, .E, .H, .I, .K, .O, .T, .Y],
     canPlural: true,
     endBias: 1,
     dipthong: false,
@@ -161,6 +183,7 @@ let C = Consonant( id: .C,
 let D = Consonant( id: .D,
     blendStart: [.R],
     blendInto: [.D],
+    blendFinal: [.A, .E, .I, .O, .Y],
     canPlural: true,
     endBias: 3,
     dipthong: false,
@@ -168,7 +191,8 @@ let D = Consonant( id: .D,
 
 let F = Consonant( id: .F,
     blendStart: [.L, .R],
-    blendInto: [.F, .T],
+    blendInto: [.F, .R, .T],    // do we need L here?
+    blendFinal: [.E, .F, .I, .T, .U, .Y],
     canPlural: true,
     endBias: 2,
     dipthong: false,
@@ -208,6 +232,7 @@ let F = Consonant( id: .F,
 let G = Consonant( id: .G,
     blendStart: [.L, .N, .R],
     blendInto: [.G, .H, .N],
+    blendFinal: [.A, .E, .H, .I, .N, .O, .Y],
     canPlural: true,
     endBias: 2,
     dipthong: false,
@@ -243,6 +268,7 @@ let G = Consonant( id: .G,
 let H = Consonant( id: .H,
     blendStart: [],
     blendInto: [.M, .R, .T],
+    blendFinal: [.E, .N, .T, .O, .Y],
     canPlural: true,
     endBias: 3,
     dipthong: true,
@@ -251,6 +277,7 @@ let H = Consonant( id: .H,
 let J = Consonant( id: .J,
     blendStart: [],
     blendInto: [],
+    blendFinal: [.A, .O],
     canPlural: false,
     endBias: 0,
     dipthong: false,
@@ -259,6 +286,7 @@ let J = Consonant( id: .J,
 let K = Consonant( id: .K,
     blendStart: [.L, .N, .R],
     blendInto: [.L, .N, .R],
+    blendFinal: [.A, .E, .I, .O, .Y],
     canPlural: true,
     endBias: 2,
     dipthong: false,
@@ -296,6 +324,7 @@ let K = Consonant( id: .K,
 let L = Consonant( id: .L,
     blendStart: [],
     blendInto: [.B, .C, .D, .F, .G, .K, .L, .M, .P, .S, .T, .V],
+    blendFinal: [.A, .B, .D, .E, .I, .L, .M, .O, .P, .T, .Y],
     canPlural: true,
     endBias: 2,
     dipthong: false,
@@ -304,6 +333,7 @@ let L = Consonant( id: .L,
 let M = Consonant( id: .M,
     blendStart: [],
     blendInto: [.B, .M, .P],
+    blendFinal: [.A, .B, .E, .I, .O, .P, .Y],
     canPlural: true,
     endBias: 2,
     dipthong: false,
@@ -311,7 +341,8 @@ let M = Consonant( id: .M,
 
 let N = Consonant( id: .N,
     blendStart: [.Y],
-    blendInto: [.C, .D, .F, .G, .K, .L, .M, .N, .P, .Q, .S, .T, .V, .Z],
+    blendInto: [.C, .D, .F, .G, .K, .L, .M, .N, .P, .Q, .S, .T, .V, .Y, .Z],
+    blendFinal: [.C, .D, .E, .G, .I, .K, .N, .O, .T, .Y],
     canPlural: true,
     endBias: 3,
     dipthong: false,
@@ -320,6 +351,7 @@ let N = Consonant( id: .N,
 let P = Consonant( id: .P,
     blendStart: [.H, .L, .R, .S],
     blendInto: [.P, .S, .T],
+    blendFinal: [.A, .E, .H, .I, .O, .T, .Y],
     canPlural: true,
     endBias: 2,
     dipthong: false,
@@ -345,6 +377,7 @@ let P = Consonant( id: .P,
 let Q = Consonant( id: .Q,
     blendStart: [],
     blendInto: [],
+    blendFinal: [],
     canPlural: false,
     endBias: 0,
     dipthong: false,
@@ -356,6 +389,7 @@ let Q = Consonant( id: .Q,
 let R = Consonant( id: .R,
     blendStart: [.H],
     blendInto: [.B, .C, .D, .F, .G, .K, .L, .M, .N, .P, .R, .S, .T, .V],
+    blendFinal: [.A, .B, .D, .E, .F, .G, .I, .K, .L, .M, .N, .O, .P, .T, .Y],
     canPlural: true,
     endBias: 3,
     dipthong: false,
@@ -392,22 +426,25 @@ let R = Consonant( id: .R,
 let S = Consonant(id: .S,
     blendStart: [.C, .H, .K, .L, .M, .N, .P, .Q, .T, .W],
     blendInto: [.C, .H, .K, .L, .M, .N, .P, .Q, .S, .T, .W],
-    canPlural: true,    // to allow final SS, i.e. CLASS, LESS
+    blendFinal: [.A, .C, .E, .H, .K, .M, .O, .P, .S, .T, .Y],
+    canPlural: false,
     endBias: 3,
     dipthong: false,
     liquidBlend: false )
 
 let T = Consonant( id: .T,
     blendStart: [.H, .R, .W, .Y],
-    blendInto: [.C, .H, .R, .T],
+    blendInto: [.C, .H, .R, .T, .Z],
+    blendFinal: [.A, .E, .H, .O, .T, .Y, .Z],
     canPlural: true,
     endBias: 3,
     dipthong: false,
     liquidBlend: true )
 
 let V = Consonant( id: .V,
-    blendStart: [],
+    blendStart: [.Y],
     blendInto: [],
+    blendFinal: [.E, .Y],
     canPlural: false,
     endBias: 0,
     dipthong: false,
@@ -416,6 +453,7 @@ let V = Consonant( id: .V,
 let W = Consonant( id: .W,
     blendStart: [.H, .R],
     blendInto: [.D, .K, .L, .N, .S, .T],
+    blendFinal: [.L, .N, .Y],
     canPlural: true,
     endBias: 3,
     dipthong: true,
@@ -424,6 +462,7 @@ let W = Consonant( id: .W,
 let X = Consonant( id: .X,
     blendStart: [],
     blendInto: [.T],
+    blendFinal: [.I, .T, .Y],
     canPlural: false,
     endBias: 2,
     dipthong: false,
@@ -434,21 +473,23 @@ let X = Consonant( id: .X,
 
 let Y = Consonant( id: .Y,
     blendStart: [],
-    blendInto: [],
+    blendInto: [.L, .M, .N, .P, .R, .S],    // these are also covered in YBlend, are they needed here?
+    blendFinal: [.L, .O, .M, .R],   // VINYL, YOYO, ANTONYM, MARTYR
     canPlural: false,
     endBias: 3,
     dipthong: true,
     liquidBlend: true )
 
 let Z = Consonant( id: .Z,
-    blendStart: [],
+    blendStart: [.Y],    // ZYGOTE
     blendInto: [.Z],
+    blendFinal: [.A, .E, .O, .Y, .Z],
     canPlural: false,
     endBias: 1,
     dipthong: false,
     liquidBlend: true )
 
 let consonantMap: [Letter:Consonant] = [.B:B, .C:C, .D:D, .F:F, .G:G, .H:H, .J:J, .K:K, .L:L, .M:M, .N:N,
-                                        .P:P, .Q:Q, .R:R, .S:S, .T:T, .V:V, .W:W, .X:X, .Y:Y, .Z:Z]
+     .P:P, .Q:Q, .R:R, .S:S, .T:T, .V:V, .W:W, .X:X, .Y:Y, .Z:Z]
 
 

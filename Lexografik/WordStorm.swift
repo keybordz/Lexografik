@@ -160,7 +160,7 @@ class WordStorm {
                 newPartialWord.exactMatches = partialWord.exactMatches
                 
                 // Does adding the new character maintain the "wordability" of the array
-                if newPartialWord.testLexical(c, endOfWord: length == 1) {
+                if newPartialWord.testLexical(c, remainingLetters: length) {
                     newPartialWord.appendLetters([c])
                     newPartialWord.phonemes.final = true
                 }

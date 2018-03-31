@@ -13,6 +13,10 @@ class PhoneticElement {
     var numLetters: Int = 0
     var initialFollowers: (() -> [Letter])?
     var interiorFollowers: ((PhoneticElementArray) -> [Letter])?
+    var finalFollowers: ((PhoneticElementArray) -> [Letter])?
+    var generateFollowers: ((PhoneticElementArray, Int) -> [PhoneticElement])?
+    
+    // these can go away
     var verifyEndOfWord: ((PhoneticElementArray) -> Bool)?
     var verifyPlural: ((PhoneticElementArray) -> Bool)?
 }

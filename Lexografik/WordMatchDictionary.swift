@@ -12,7 +12,7 @@ let wordMatchDictionary: [String:[String]] = [
     
     "AAR": ["AARDVARK", "AARDVARKS"],
     "ACE": ["ACED", "ACES", "ACETATE", "ACETATES"],
-    "AER": ["AERATE", "AERATED", "AERATES", "AERATING", "AERATION", "AERIE", "AERIES"],
+    "AER": ["AERATE", "AERATED", "AERATES", "AERATING", "AERATION", "AERIE", "AERIES", "AEROSPACE"],
     "AHE": ["AHEM", "AHEMS"],
     "AOR": ["AORTA", "AORTAS"],
     "EAC": ["EACH"],

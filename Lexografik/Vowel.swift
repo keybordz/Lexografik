@@ -10,13 +10,14 @@ import Foundation
 
 class Vowel: LexicalLetter {
     
-    override init(id: Letter, blendStart: [Letter], blendInto: [Letter], canPlural: Bool, endBias: Int) {
+    override init(id: Letter, blendStart: [Letter], blendInto: [Letter], blendFinal: [Letter], canPlural: Bool, endBias: Int) {
         
-        super.init(id: id, blendStart: blendStart, blendInto: blendInto, canPlural: canPlural, endBias: endBias)
+        super.init(id: id, blendStart: blendStart, blendInto: blendInto, blendFinal: blendFinal, canPlural: canPlural, endBias: endBias)
         
         self.initialFollowers = { return blendStart + consonants }
         self.interiorFollowers = { (phonemes:PhoneticElementArray) in return blendInto + consonants }
-        
+        self.finalFollowers = { (phonemes:PhoneticElementArray) in return blendInto + blendFinal }
+    
         self.verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in
             let lastElement = phonemes.lastElement()
             
@@ -37,10 +38,10 @@ class Vowel: LexicalLetter {
         self.verifyPlural = { (elements:PhoneticElementArray) -> Bool in return true }
     }
     
-    init(id: Letter, blendStart: [Letter], blendInto: [Letter], canPlural: Bool, endBias: Int,
+    init(id: Letter, blendStart: [Letter], blendInto: [Letter], blendFinal: [Letter], canPlural: Bool, endBias: Int,
         verifyEnd: @escaping (PhoneticElementArray) -> Bool) {
         
-        super.init(id: id, blendStart: blendStart, blendInto: blendInto, canPlural: canPlural, endBias: endBias)
+        super.init(id: id, blendStart: blendStart, blendInto: blendInto, blendFinal: blendFinal, canPlural: canPlural, endBias: endBias)
         
         self.initialFollowers = { return blendStart + consonants }
         self.interiorFollowers = { (phonemes:PhoneticElementArray) in return blendInto + consonants }
@@ -52,20 +53,23 @@ class Vowel: LexicalLetter {
 
 // VOWELS
 let A = Vowel( id: .A,
-    blendStart: [.I, .U],
+    blendStart: [.A, .E, .I, .O, .U],
     blendInto: [.I, .U],
+    blendFinal: [.B, .C, .D, .F, .G, .K, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
     canPlural: true,
     endBias: 1 )
 
 let E = Vowel( id: .E,
     blendStart: [.A, .E, .I, .O, .U],
     blendInto: [.A, .E, .I, .U],
+    blendFinal: [.D, .F, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
     canPlural: true,
     endBias: 3 )
 
 let I = Vowel( id: .I,
     blendStart: [.O],
     blendInto: [.A, .E, .O],
+    blendFinal: [.B, .C, .D, .F, .G, .L, .M, .N, .P, .R, .S, .T, .X],
     canPlural: true,
     endBias: 0,
     verifyEnd: { (phonemes: PhoneticElementArray) in
@@ -84,12 +88,14 @@ let I = Vowel( id: .I,
 let O = Vowel( id: .O,
     blendStart: [.A, .O, .I, .U],
     blendInto: [.A, .E, .O, .I, .U],
+    blendFinal: [.B, .C, .D, .G, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
     canPlural: true,
     endBias: 1 )
 
 let U = Vowel( id: .U,
     blendStart: [],
     blendInto: [.I],
+    blendFinal: [.B, .D, .G, .M, .N, .P, .R, .S, .T, .X, .Y],
     canPlural: true,
     endBias: 0,
     verifyEnd: { (phonemes: PhoneticElementArray) in

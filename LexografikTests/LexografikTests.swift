@@ -331,8 +331,8 @@ class LexografikTests: XCTestCase {
         
         storm.gatherWords(4)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "VIEW")))
-        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "RIEW")))
-        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "GIEW")))
+//        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "RIEW")))
+//        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "GIEW")))
     }
 
     func test_gRuffness() {   //2014Sep19
@@ -983,6 +983,42 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AUGER")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ARGUE")))
     }
+    
+    func test_mandatOry() {         // 30May2011
+        storm = WordStorm(outer: ["M", "A", "N", "D", "A", "T", "R", "Y"], center: "O")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MAYO")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TARO")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AORTA")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MAYOR")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "RAYON")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MORAY")))
+    
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DYNAMO")))
+   }
+    
+    func test_broomdiSh() {         // 04May2011
+        storm = WordStorm(outer: ["B", "R", "O", "O", "M", "D", "I", "H"], center: "S")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MOOS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SHOO")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BOOS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "RIBS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MOBS")))
+    }
+        
+    func test_Requiting() {         // 29Apr2015
+        storm = WordStorm(outer: ["E", "Q", "U", "I", "T", "I", "N", "G"], center: "R")
+        
+        storm.gatherWords(5)
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "RINQE")))
+    }
 }
+
 
 

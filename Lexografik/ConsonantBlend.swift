@@ -25,8 +25,18 @@ class ConsonantBlend: LexicalBlend {
             initialFollowers = { return [] }
         }
         
-        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] }
+        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+            return vowels + [.Y] }
         
+        if canPlural {
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return [.E, .S, .Y] }
+        }
+        else {
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return [.E, .Y] }
+        }
+
         if end {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in
                 return self.defaultVerifyEnd(phonemes)
@@ -42,7 +52,7 @@ class ConsonantBlend: LexicalBlend {
     
     
     init(first: Letter, second: Letter, start: Bool, end: Bool, canPlural: Bool, single: Bool,
-        followers: [Letter]) {
+         followers: [Letter], finFollowers: [Letter]) {
         
         singlePhoneme = single
         super.init(first: first, second: second, start: start, end: end)
@@ -55,6 +65,15 @@ class ConsonantBlend: LexicalBlend {
         }
         
         interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] + followers }
+        
+        if canPlural {
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return finFollowers + [.S] }
+        }
+        else {
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return finFollowers }
+        }
             
         if end {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in
@@ -69,33 +88,45 @@ class ConsonantBlend: LexicalBlend {
         verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return canPlural }
     }
     
-    init(first: Letter, second: Letter, start: Bool, verifyEnd: @escaping (PhoneticElementArray) -> Bool,
-        single: Bool, conFollowers: [Letter]) {
+    init(first: Letter, second: Letter, start: Bool,
+         verifyEnd: @escaping (PhoneticElementArray) -> Bool,
+         canPlural: Bool, single: Bool, conFollowers: [Letter], finFollowers: [Letter]) {
             
-            singlePhoneme = single
-            super.init(first: first, second: second, start: start, end: true)
+        singlePhoneme = single
+        super.init(first: first, second: second, start: start, end: true)
             
-            if start {
-                initialFollowers = { return vowels + [.Y] + conFollowers }
-            }
-            else {
-                initialFollowers = { return [] }
-            }
+        if start {
+            initialFollowers = { return vowels + [.Y] + conFollowers }
+        }
+        else {
+            initialFollowers = { return [] }
+        }
             
-            interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] + conFollowers }
+        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+            return vowels + [.Y] + conFollowers }
+        
+        if canPlural {
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return finFollowers + [.S] }
+        }
+        else {
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return finFollowers }
+        }
             
-            verifyEndOfWord = verifyEnd
+        verifyEndOfWord = verifyEnd
             
-            // If there's a conditional test for the end, then use it to verify pluralization
-            verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in
-                let testPhonemes = PhoneticElementArray(pea: phonemes)
-                testPhonemes.removeLastElement()
-                return self.verifyEndOfWord!(testPhonemes)
-            }
+        // If there's a conditional test for the end, then use it to verify pluralization
+        verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in
+            let testPhonemes = PhoneticElementArray(pea: phonemes)
+            testPhonemes.removeLastElement()
+            return self.verifyEndOfWord!(testPhonemes)
+        }
     }
     
+    // Only case for this initializer is GN
     init(first: Letter, second: Letter, start: Bool, verifyEnd: @escaping (PhoneticElementArray) -> Bool,
-         single: Bool, initVowels: [Letter]) {
+         canPlural: Bool, single: Bool, initVowels: [Letter]) {
         
         singlePhoneme = single
         super.init(first: first, second: second, start: start, end: true)
@@ -109,6 +140,13 @@ class ConsonantBlend: LexicalBlend {
         
         interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] }
         
+        if canPlural {
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [.S] }
+        }
+        else {
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [] }
+        }
+        
         verifyEndOfWord = verifyEnd
         
         // If there's a conditional test for the end, then use it to verify pluralization
@@ -119,8 +157,9 @@ class ConsonantBlend: LexicalBlend {
         }
     }
     
+    // This is for partial blends needed to create 3-letter superblends (TCH, SQU)
     init(first: Letter, second: Letter, start: Bool, end: Bool, canPlural: Bool, single: Bool,
-         onlyFollowers: [Letter]) {
+         onlyFollowers: [Letter], finFollowers: [Letter]) {
         
         singlePhoneme = single
         super.init(first: first, second: second, start: start, end: end)
@@ -134,12 +173,18 @@ class ConsonantBlend: LexicalBlend {
         
         interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return onlyFollowers }
         
+        if canPlural {
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return finFollowers + [.S] }
+        }
+        else {
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return finFollowers }
+        }
+        
         if end {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in
                 return self.defaultVerifyEnd(phonemes)
             }
         }
-                
         else {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return false }
         }
@@ -156,6 +201,7 @@ class ConsonantBlend: LexicalBlend {
         if start {
             initialFollowers = { return vowels + [.Y] }
             interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] }
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [] }
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return false }
             verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return false }
         }
@@ -163,6 +209,7 @@ class ConsonantBlend: LexicalBlend {
         else {
             initialFollowers = { return [] }
             interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] }
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [.Y] }
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return true }
             verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
         }
@@ -176,6 +223,7 @@ class ConsonantBlend: LexicalBlend {
         if start {
             initialFollowers = { return vowels + [.Y] }
             interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] }
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [] }
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return false }
             verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return false }
         }
@@ -183,6 +231,7 @@ class ConsonantBlend: LexicalBlend {
         else {
             initialFollowers = { return [] }
             interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] }
+            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [] }
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return true }
             verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
         }
@@ -238,7 +287,8 @@ class ConsonantBlend: LexicalBlend {
     }
 }
 
-let BL = ConsonantBlend( first: .B, second: .L, start: true, end: false, single: false)
+let BL = ConsonantBlend(first: .B, second: .L, start: true, end: false, single: false)
+
 let BR = ConsonantBlend( first: .B, second: .R, start: true, end: false, single: false)
 
 let CH = ConsonantBlend( first: .C, second: .H,
@@ -246,7 +296,8 @@ let CH = ConsonantBlend( first: .C, second: .H,
     end: true,
     canPlural: true,  // conditional?
     single: true,
-    followers: [.R] )
+    followers: [.R],
+    finFollowers: [.A, .E, .I, .O, .Y])
 
 let CHR = ConsonantBlend( first: .C, second: .H, third: .R, start: true)
 
@@ -255,16 +306,20 @@ let CK = ConsonantBlend( first: .C, second: .K,
     end: true,
     canPlural: true,
     single: true,
-    followers: [.L] )
+    followers: [.L],
+    finFollowers: [.Y])
 
 let CL = ConsonantBlend(first: .C, second: .L, start: true, end: false, single: false)
-let CR = ConsonantBlend(first: .C, second: .R, start: true, end: false, single: false)
+
+let CR = ConsonantBlend(first: .C, second: .R, start: true, end: false, canPlural: false,
+                        single: false, followers: [.Y], finFollowers: [.O, .Y])
 
 let CS = ConsonantBlend(first: .C, second: .S,
                         start: false, end: true,
                         canPlural: false,
                         single: true,
-                        followers: [.T])       // ECSTASY
+                        followers: [.T],
+                        finFollowers: [])       // ECSTASY
 
 let CT = ConsonantBlend(first: .C, second: .T, start: false, end: true, single: false)
 
@@ -272,7 +327,9 @@ let DG = ConsonantBlend(first: .D, second: .G,
                         start: false, end: false,
                         canPlural: false,
                         single: true,
-                        followers: [.E])
+                        followers: [.E, .Y],
+                        finFollowers: [.E, .Y])
+
 let DL = ConsonantBlend(first: .D, second: .L, start: false, end: false, single: false)
 let DR = ConsonantBlend(first: .D, second: .R, start: true, end: false, single: false)
 
@@ -291,8 +348,10 @@ let GH = ConsonantBlend(first: .G, second: .H,
             return false
         }
     },
+    canPlural: false,
     single: true,
-    conFollowers: [.T] )
+    conFollowers: [.T],
+    finFollowers: [])
 
 let GHT = ConsonantBlend(first: .G, second: .H, third: .T,
     start: false,
@@ -333,7 +392,7 @@ let GN = ConsonantBlend(first: .G, second: .N,
             return false
         }
     },
-    single: true,
+    canPlural: true, single: true,
     initVowels: [.A, .O, .U] )
 
 
@@ -356,8 +415,10 @@ let LB = ConsonantBlend(first: .L, second: .B,
             return false
         }
     },
+    canPlural: false,
     single: false,
-    conFollowers: [] )
+    conFollowers: [],
+    finFollowers: [.Y])
 
 let LC = ConsonantBlend( first: .L, second: .C,
     start: false,
@@ -372,8 +433,10 @@ let LC = ConsonantBlend( first: .L, second: .C,
             return false
         }
     },
+    canPlural: false,
     single: false,
-    conFollowers: [] )
+    conFollowers: [],
+    finFollowers: [.H])
 
 let LCH = ConsonantBlend(first: .L, second: .C, third: .H, start: false)
 
@@ -393,8 +456,10 @@ let LD = ConsonantBlend( first: .L, second: .D,
             return false
         }
     },
+    canPlural: false,
     single: false,
-    conFollowers: [] )
+    conFollowers: [],
+    finFollowers: [.Y])
 
 let LF = ConsonantBlend(first: .L, second: .F, start: false, end: true, single: false)
 let LG = ConsonantBlend(first: .L, second: .G, start: false, end: false, single: false)
@@ -412,14 +477,16 @@ let MB = ConsonantBlend( first: .M, second: .B,
     end: true,
     canPlural: true,
     single: false,
-    followers: [.L] )
+    followers: [.L],
+    finFollowers: [.Y])
 
 let MP = ConsonantBlend( first: .M, second: .P,
     start: false,
     end: true,
     canPlural: true,
     single: false,
-    followers: [.L] )
+    followers: [.L],
+    finFollowers: [.Y])
 
 let MPT = ConsonantBlend(first: .M, second: .P, third: .T, start: false)
 
@@ -437,11 +504,15 @@ let NC = ConsonantBlend(first: .N, second: .C, start: false,
                                 return false
                             }
                         },
-                        single: false, conFollowers: [.H])
+                        canPlural: true, single: false,
+                        conFollowers: [.H], finFollowers: [.H, .Y])
 
 let NCH = ConsonantBlend(first: .N, second: .C, third: .H, start: false)
 
-let ND = ConsonantBlend(first: .N, second: .D, start: false, end: true, canPlural: true, single: false, followers: [.L])
+let ND = ConsonantBlend(first: .N, second: .D, start: false, end: true, canPlural: true,
+                        single: false,
+                        followers: [.L],
+                        finFollowers: [.Y])
 
 let NG = ConsonantBlend(first: .N, second: .G, start: false,
                         verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
@@ -456,11 +527,29 @@ let NG = ConsonantBlend(first: .N, second: .G, start: false,
                                 return true
                             }
                         },
-                        single: true, conFollowers: [.L])
+                        canPlural: false, single: true,
+                        conFollowers: [.L], finFollowers: [.Y])
 
-let NK = ConsonantBlend(first: .N, second: .K, start: false, end: true, canPlural: true, single: false, followers: [.L])
+let NK = ConsonantBlend(first: .N, second: .K, start: false, end: true, canPlural: true,
+                        single: false,
+                        followers: [.L],
+                        finFollowers: [.Y])
 
-let NS = ConsonantBlend(first: .N, second: .S, start: false, end: true, single: false)
+// not sure how common this blend is in English but possibly MANQUE?
+let NQ = ConsonantBlend(first: .N, second: .Q,
+                        start: false,
+                        end: false,
+                        canPlural: false,
+                        single: false,
+                        onlyFollowers: [.U],  // only exists to get to NQU
+                        finFollowers: [])
+
+let NQU = ConsonantBlend(first: .N, second: .Q, third: .U, start: false)
+
+let NS = ConsonantBlend(first: .N, second: .S, start: false, end: true, canPlural: false,
+                        single: false,
+                        followers: [.L], // may need to add letters that blend with S like C for INSCRIBE?
+                        finFollowers: [.E])
 
 let NT = ConsonantBlend(first: .N, second: .T,
     start: false,
@@ -480,24 +569,31 @@ let NT = ConsonantBlend(first: .N, second: .T,
             return false
         }
     },
+    canPlural: false,
     single: false,
-    conFollowers: [.H] )
+    conFollowers: [.H],
+    finFollowers: [.H, .I, .O, .Y])
 
 let NTH = ConsonantBlend(first: .N, second: .T, third: .H, start: false)
 let NZ = ConsonantBlend(first: .N, second: .Z, start: false, end: false, single: false)
 
-let PH = ConsonantBlend(first: .P, second: .H, start: true, end: true, canPlural: true, single: true, followers: [.R])
+let PH = ConsonantBlend(first: .P, second: .H, start: true, end: true, canPlural: true,
+                        single: true, followers: [.R], finFollowers: [.Y])
+
 let PHR = ConsonantBlend(first: .P, second: .H, third: .R, start: true)
 let PL = ConsonantBlend(first: .P, second: .L, start: true, end: false, single: false)
 let PR = ConsonantBlend(first: .P, second: .R, start: true, end: false, single: false)
-let PS = ConsonantBlend(first: .P, second: .S, start: true, end: true, canPlural: false, single: false, onlyFollowers: [.Y])
+let PS = ConsonantBlend(first: .P, second: .S, start: true, end: true, canPlural: false,
+                        single: false, onlyFollowers: [.Y], finFollowers: [.Y])
 
-let QU = ConsonantBlend(first: .Q, second: .U, start: true, end: false, single: true)
+let QU = ConsonantBlend(first: .Q, second: .U, start: true, end: false, canPlural: false,
+                        single: true, followers: [], finFollowers: [.E])
 
-let RB = ConsonantBlend(first: .R, second: .B, start: false, end: true, canPlural: true, single: false, followers: [.L])
+let RB = ConsonantBlend(first: .R, second: .B, start: false, end: true, canPlural: true,
+                        single: false, followers: [.L], finFollowers: [.O, .Y])  // TURBO
 
 let RC = ConsonantBlend(first: .R, second: .C, start: false, end: false, canPlural: true,
-                        single: false, followers: [.H])
+                        single: false, followers: [.H], finFollowers: [.O, .Y])    // ARCO
 
 let RCH = ConsonantBlend(first: .R, second: .C, third: .H, start: false)
 
@@ -518,11 +614,13 @@ let RD = ConsonantBlend( first: .R, second: .D,
             return true
         }
     },
-    
+    canPlural: true,
     single: false,
-    conFollowers: [.L] )
+    conFollowers: [.L],
+    finFollowers: [.Y])
 
-let RF = ConsonantBlend(first: .R, second: .F, start: false, end: true, canPlural: true, single: false, followers: [.L])
+let RF = ConsonantBlend(first: .R, second: .F, start: false, end: true, canPlural: true,
+                        single: false, followers: [.L], finFollowers: [.Y])
 
 let RG = ConsonantBlend(first: .R, second: .G, start: false,
                         verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
@@ -542,11 +640,14 @@ let RG = ConsonantBlend(first: .R, second: .G, start: false,
                                 return true
                             }
                         },
-                        single: false, conFollowers: [.L])
+                        canPlural: true, single: false,
+                        conFollowers: [.L], finFollowers: [.E, .I, .O, .Y])
 
-let RH = ConsonantBlend(first: .R, second: .H, start: true, end: false, canPlural: false, single: true, followers: [])
+let RH = ConsonantBlend(first: .R, second: .H, start: true, end: false, canPlural: false,
+                        single: true, followers: [.Y], finFollowers: [])
 
-let RK = ConsonantBlend(first: .R, second: .K, start: false, end: true, canPlural: true, single: false, followers: [.L])
+let RK = ConsonantBlend(first: .R, second: .K, start: false, end: true, canPlural: true,
+                        single: false, followers: [.L], finFollowers: [.Y])
 
 let RL = ConsonantBlend(first: .R, second: .L,
                         start: false, 
@@ -566,23 +667,30 @@ let RL = ConsonantBlend(first: .R, second: .L,
                             else {
                                 return false
                             }
-    },
-                        
-    single: false,
-    conFollowers: [] )
+                        },
+                        canPlural: false, single: false, conFollowers: [], finFollowers: [.Y])
 
 let RM = ConsonantBlend(first: .R, second: .M, start: false, end: true, single: false)
 
 let RN = ConsonantBlend(first: .R, second: .N, start: false, end: true, single: false)
 
 let RP = ConsonantBlend(first: .R, second: .P, start: false, end: true, single: false)
-let RS = ConsonantBlend(first: .R, second: .S, start: false, end: true, canPlural: false, single: false, followers: [.H, .T])
+
+let RS = ConsonantBlend(first: .R, second: .S, start: false, end: true, canPlural: false,
+                        single: false, followers: [.H, .T], finFollowers: [.E, .H, .T, .Y])
+
 let RSH = ConsonantBlend(first: .R, second: .S, third: .H, start: false)
 let RST = ConsonantBlend(first: .R, second: .S, third: .T, start: false)
 
-let RT = ConsonantBlend(first: .R, second: .T, start: false, end: true, canPlural: true, single: false, followers: [.L])
+let RT = ConsonantBlend(first: .R, second: .T, start: false, end: true, canPlural: true,
+                        single: false,
+                        followers: [.H, .L],
+                        finFollowers: [.A, .H, .Y])      // AORTA
+
 let RTH = ConsonantBlend(first: .R, second: .T, third: .H, start: false)
+
 let RV = ConsonantBlend(first: .R, second: .V, start: false, end: false, single: false)
+
 let RZ = ConsonantBlend(first: .R, second: .Z, start: false, end: false, single: false)
 
 let SC = ConsonantBlend( first: .S, second: .C,
@@ -599,24 +707,21 @@ let SC = ConsonantBlend( first: .S, second: .C,
             return false
         }
     },
-    single: false,
-    conFollowers: [.H, .R] )
+    canPlural: true, single: false,
+    conFollowers: [.H, .R],
+    finFollowers: [.O])        // DISCO
 
 let SCH = ConsonantBlend(first: .S, second: .C, third: .H, start: true)
 let SCR = ConsonantBlend(first: .S, second: .C, third: .R, start: true)
 
-let SH = ConsonantBlend( first: .S, second: .H,
-    start: true,
-    end: true,
-    canPlural: false,
-    single: true,
-    followers: [.R] )
+let SH = ConsonantBlend(first: .S, second: .H, start: true, end: true, canPlural: false,
+                        single: true, followers: [.R], finFollowers: [.I, .Y])
 
 let SHR = ConsonantBlend(first: .S, second: .H, third: .R, start: true)
 let SK = ConsonantBlend(first: .S, second: .K, start: true, end: true, single: false)
 let SL = ConsonantBlend(first: .S, second: .L, start: true, end: false, single: false)
 
-let SM = ConsonantBlend( first: .S, second: .M,
+let SM = ConsonantBlend(first: .S, second: .M,
     start: true,
     verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
         let lastElement = phonemes.lastElement()
@@ -630,11 +735,16 @@ let SM = ConsonantBlend( first: .S, second: .M,
             return false
         }
     },
+    canPlural: true,
     single: false,
-    conFollowers: [] )
+    conFollowers: [],
+    finFollowers: [])
 
 let SN = ConsonantBlend(first: .S, second: .N, start: true, end: false, single: false)
-let SP = ConsonantBlend(first: .S, second: .P, start: true, end: true, canPlural: true, single: false, followers: [.L, .H, .R])
+
+let SP = ConsonantBlend(first: .S, second: .P, start: true, end: true, canPlural: true,
+                        single: false, followers: [.L, .H, .R], finFollowers: [.Y])
+
 let SPH = ConsonantBlend(first: .S, second: .P, third: .H, start: true)
 let SPL = ConsonantBlend(first: .S, second: .P, third: .L, start: true)
 let SPR = ConsonantBlend(first: .S, second: .P, third: .R, start: true)
@@ -644,15 +754,18 @@ let SQ = ConsonantBlend(first: .S, second: .Q,
     end: false,
     canPlural: false,
     single: false,
-    onlyFollowers: [.U] ) // only exists to get to SQU
+    onlyFollowers: [.U],  // only exists to get to SQU
+    finFollowers: [])
 
 let SQU = ConsonantBlend(first: .S, second: .Q, third: .U, start: true)
 
-let ST = ConsonantBlend( first: .S, second: .T,
+let ST = ConsonantBlend(first: .S, second: .T,
     start: true,
     verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in return true },  // allow all cases
+    canPlural: true,
     single: false,
-    conFollowers: [.L, .R] )
+    conFollowers: [.L, .R],
+    finFollowers: [.E, .Y])
 
 let STR = ConsonantBlend(first: .S, second: .T, third: .R, start: true)
 let SW = ConsonantBlend(first: .S, second: .W, start: true, end: false, single: false)
@@ -662,10 +775,14 @@ let TC = ConsonantBlend(first: .T, second: .C,
                         end: false,
                         canPlural: false,
                         single: false,
-                        onlyFollowers: [.H]) // wish this one didn't have to be here but need it to get to TCH
+                        onlyFollowers: [.H],  //need it to get to TCH
+                        finFollowers: [.H])
 
 let TCH = ConsonantBlend(first: .T, second: .C, third: .H, start: false)
-let TH = ConsonantBlend(first: .T, second: .H, start: true, end: true, canPlural: true, single: true, followers: [.R])
+
+let TH = ConsonantBlend(first: .T, second: .H, start: true, end: true, canPlural: true,
+                        single: true, followers: [.R], finFollowers: [.E, .I, .Y])
+
 let THR = ConsonantBlend(first: .T, second: .H, third: .R, start: true)
 let TL = ConsonantBlend(first: .S, second: .L, start: false, end: false, single: false)
 let TR = ConsonantBlend(first: .T, second: .R, start: true, end: false, single: false)
@@ -676,12 +793,24 @@ let XT = ConsonantBlend(first: .X, second: .T, start: false, end: true, single: 
 let WH = ConsonantBlend(first: .W, second: .H, start: true, end: false, single: true)
 let WR = ConsonantBlend(first: .W, second: .R, start: true, end: false, single: false)
 
-let BB = ConsonantBlend(first: .B, second: .B, start: false, end: false, canPlural: false, single: true, followers: [.L])
+let BB = ConsonantBlend(first: .B, second: .B, start: false, end: false, canPlural: false,
+                        single: true, followers: [.L], finFollowers: [.Y])
+
 let CC = ConsonantBlend(first: .C, second: .C, start: false, end: false, single: true)
-let DD = ConsonantBlend(first: .D, second: .D, start: false, end: false, canPlural: false, single: true, followers: [.L])
-let FF = ConsonantBlend(first: .F, second: .F, start: false, end: true, canPlural: true, single: true, followers: [.L])
-let GG = ConsonantBlend(first: .G, second: .G, start: false, end: false, canPlural: true, single: true, followers: [.L])
-let KK = ConsonantBlend(first: .K, second: .K, start: false, end: false, canPlural: false, single: true, followers: [.L])
+
+let DD = ConsonantBlend(first: .D, second: .D, start: false, end: false, canPlural: false,
+                        single: true, followers: [.L], finFollowers: [.Y])
+
+let FF = ConsonantBlend(first: .F, second: .F, start: false, end: true, canPlural: true,
+                        single: true, followers: [.L], finFollowers: [.Y])
+
+let GG = ConsonantBlend(first: .G, second: .G, start: false, end: false, canPlural: true,
+                        single: true, followers: [.L], finFollowers: [.Y])
+
+// Does this one really exist?
+let KK = ConsonantBlend(first: .K, second: .K, start: false, end: false, canPlural: false,
+                        single: true, followers: [.L], finFollowers: [.Y])
+
 let LL = ConsonantBlend(first: .L, second: .L, start: false, end: true, single: true)
 let MM = ConsonantBlend(first: .M, second: .M, start: false, end: false, single: true)
 
@@ -700,11 +829,13 @@ let NN = ConsonantBlend(first: .N, second: .N, start: false,
                                 return false
                             }
                         },
-                        single: true,
-                        conFollowers: [] )
+                        canPlural: true, single: true,
+                        conFollowers: [],
+                        finFollowers: [.Y] )
 
 
-let PP = ConsonantBlend(first: .P, second: .P, start: false, end: false, canPlural: true, single: true, followers: [.L])
+let PP = ConsonantBlend(first: .P, second: .P, start: false, end: false, canPlural: true,
+                        single: true, followers: [.L], finFollowers: [.Y])
 
 // Only word with this combination is BURR or PURR
 let RR = ConsonantBlend(first: .R, second: .R,
@@ -721,8 +852,8 @@ let RR = ConsonantBlend(first: .R, second: .R,
             return false
         }
     },
-    single: true,
-    conFollowers: [] )
+    canPlural: true, single: true,
+    conFollowers: [], finFollowers: [.Y])
 
 let SS = ConsonantBlend(first: .S, second: .S,
                         start: false,
@@ -743,8 +874,8 @@ let SS = ConsonantBlend(first: .S, second: .S,
                                 return true
                             }
                         },
-                        single: true,
-                        conFollowers: [.L])
+                        canPlural: true, single: true,
+                        conFollowers: [.L], finFollowers: [.Y])
 
 let TT = ConsonantBlend(first: .T, second: .T,
                         start: false,
@@ -775,17 +906,20 @@ let TT = ConsonantBlend(first: .T, second: .T,
                                 return false
                             }
                         },
-                        single: true, conFollowers: [.L])
+                        canPlural: true, single: true,
+                        conFollowers: [.L], finFollowers: [.Y])
 
 let VV = ConsonantBlend(first: .V, second: .V, start: false, end: false, single: true)
-let ZZ = ConsonantBlend(first: .Z, second: .Z, start: false, end: true, canPlural: false, single: true, followers: [.L])
+
+let ZZ = ConsonantBlend(first: .Z, second: .Z, start: false, end: true, canPlural: false,
+                        single: true, followers: [.L], finFollowers: [.Y])
 
 let consonantBlendMap = ["BL":BL, "BR":BR, "CH":CH, "CHR":CHR, "CK":CK, "CL":CL, "CR":CR, "CS":CS, "CT":CT,
     "DG":DG, "DL":DL, "DR":DR, "FL":FL, "FR":FR, "GH":GH, "GHT":GHT, "GN":GN, "GL":GL, "GR":GR,
     "KL":KL, "KN":KN, "KR":KR, "LB":LB, "LC":LC, "LCH":LCH, "LD":LD, "LF":LF, "LG":LG, "LK":LK, "LM":LM,
     "LP":LP, "LS":LS, "LSH":LSH, "LT":LT, "LTH":LTH, "LV":LV, "MB":MB, "MP":MP, "MPT":MPT,
-    "NC":NC, "NCH":NCH, "ND":ND, "NG":NG, "NK":NK, "NS":NS, "NT":NT, "NTH":NTH, "NZ":NZ,
-    "PH":PH, "PHR":PHR, "PL":PL, "PR":PR, "PS":PS,
+    "NC":NC, "NCH":NCH, "ND":ND, "NG":NG, "NK":NK, "NQ":NQ, "NQU":NQU, "NS":NS, "NT":NT,
+    "NTH":NTH, "NZ":NZ, "PH":PH, "PHR":PHR, "PL":PL, "PR":PR, "PS":PS,
     "QU":QU, "RB":RB, "RC":RC, "RCH":RCH, "RD":RD, "RF":RF, "RG":RG, "RH":RH, "RK":RK, "RL":RL,
     "RM":RM, "RN":RN, "RP":RP, "RS":RS, "RSH":RSH, "RST":RST, "RT":RT, "RTH":RTH, "RV":RV, "RZ":RZ,
     "SC":SC, "SCH":SCH, "SCR":SCR, "SH":SH, "SHR":SHR, "SK":SK, "SL":SL, "SM":SM, "SN":SN, "SP":SP,
