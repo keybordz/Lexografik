@@ -14,7 +14,8 @@ class DiphthongBlend: LexicalBlend {
          interFollowers: [Letter], finFollowers: [Letter]) {
         
         singlePhoneme = true
-        super.init(first: vowel, second: consonant, start: start, end: end)
+        super.init(first: vowel, second: consonant, start: start, end: end,
+                   defFirst: [], defMiddle: interFollowers, defLast: finFollowers)
         
         initialFollowers = { return [] }
         interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
@@ -27,7 +28,8 @@ class DiphthongBlend: LexicalBlend {
          initFollowers: [Letter], interFollowers: [Letter], finFollowers: [Letter]) {
         
         singlePhoneme = true
-        super.init(first: vowel, second: consonant, start: start, end: end)
+        super.init(first: vowel, second: consonant, start: start, end: end,
+                   defFirst: initFollowers, defMiddle: interFollowers, defLast: finFollowers)
         
         initialFollowers = { return initFollowers }
         interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }

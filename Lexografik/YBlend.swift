@@ -11,6 +11,10 @@ import Foundation
 class YBlend: ConsonantBlend {
     init(first: Letter, initFollowers: [Letter], interFollowers: [Letter], finFollowers: [Letter]) {
         super.init(first: first, second: .Y, start: true, end: true, single: true)
+        
+        defaultFirst = initFollowers
+        defaultMiddle = interFollowers
+        defaultLast = finFollowers
         initialFollowers = { return initFollowers }
         interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
         finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }

@@ -351,7 +351,8 @@ class LetterArray: Equatable {
                 sylState = .articulateVowel
             }
             
-            expecting = lexSuffix.initialFollowers!()
+            // expecting = lexSuffix.initialFollowers!()
+            expecting = lexSuffix.nextLetters(pea:phonemes, nRemaining: remainingLetters)
             if expecting.isEmpty {
                 return false
             }
@@ -482,9 +483,10 @@ class LetterArray: Equatable {
                     let lexLast = consonantMap[last!]! as Consonant
                         
                     // Letters blend phonetically but don't form a unit (usually N blends, also CST in ECSTASY)
+                    // This is a bit of cheat to get around having filterStops turned on by default
                     if !endOfWord &&
                            (lastElement! is Consonant || lastElement! is ConsonantBlend) &&
-                           lexLast.blendInto.contains(suffix) &&
+                           lexLast.defaultMiddle.contains(suffix) &&
                            (sylState != .articulateStart) {
                         sylState = .articulateStart
                         phonemes.appendElement(lexSuffix!)
@@ -524,16 +526,17 @@ class LetterArray: Equatable {
                     
                 else {
                     
-                    if sylState == .articulateStart {
-                        expecting = conBlend!.initialFollowers!()
-                    }
-                    else if remainingLetters == 2 {
-                        expecting = conBlend!.finalFollowers!(phonemes)
-                    }
-                    else {
-                        expecting = conBlend!.interiorFollowers!(phonemes)
-                    }
+//                    if sylState == .articulateStart {
+//                        expecting = conBlend!.initialFollowers!()
+//                    }
+//                    else if remainingLetters == 2 {
+//                        expecting = conBlend!.finalFollowers!(phonemes)
+//                    }
+//                    else {
+//                        expecting = conBlend!.interiorFollowers!(phonemes)
+//                    }
                     
+                    expecting = conBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
                     if expecting.isEmpty {
                         return false
                     }
@@ -585,14 +588,18 @@ class LetterArray: Equatable {
                         }
                         
                     }
-                    else if numLetters() == 1 {
-                        expecting = dipBlend!.initialFollowers!()
-                    }
-                    else if remainingLetters == 2 {
-                        expecting = dipBlend!.finalFollowers!(phonemes)
-                    }
+//                    else if numLetters() == 1 {
+//                        expecting = dipBlend!.initialFollowers!()
+//                    }
+//                    else if remainingLetters == 2 {
+//                        expecting = dipBlend!.finalFollowers!(phonemes)
+//                    }
+//                    else {
+//                        expecting = dipBlend!.interiorFollowers!(phonemes)
+//                    }
+                    
                     else {
-                        expecting = dipBlend!.interiorFollowers!(phonemes)
+                        expecting = dipBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
                     }
                     
                     if expecting.isEmpty {
@@ -657,15 +664,17 @@ class LetterArray: Equatable {
                         let cKey = "\(lastElement!.id)U"
                         let conBlend = consonantBlendMap[cKey]
                         
-                        if sylState == .articulateStart {
-                            expecting = conBlend!.initialFollowers!()
-                        }
-                        else if remainingLetters == 2 {
-                            expecting = conBlend!.finalFollowers!(phonemes)
-                        }
-                        else {
-                            expecting = conBlend!.interiorFollowers!(phonemes)
-                        }
+//                        if sylState == .articulateStart {
+//                            expecting = conBlend!.initialFollowers!()
+//                        }
+//                        else if remainingLetters == 2 {
+//                            expecting = conBlend!.finalFollowers!(phonemes)
+//                        }
+//                        else {
+//                            expecting = conBlend!.interiorFollowers!(phonemes)
+//                        }
+                        
+                        expecting = conBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
                         nextBias = .expectSubset
                         phonemes.replaceLastElement(conBlend!)
                     }
@@ -736,16 +745,20 @@ class LetterArray: Equatable {
                     }
                 }
                 
-                else if numLetters() == 1 {
-                    expecting = vowelBlend!.initialFollowers!()
-                }
-                    
-                else if remainingLetters == 2 {
-                    expecting = vowelBlend!.finalFollowers!(phonemes)
-                }
-                    
+//                else if numLetters() == 1 {
+//                    expecting = vowelBlend!.initialFollowers!()
+//                }
+//
+//                else if remainingLetters == 2 {
+//                    expecting = vowelBlend!.finalFollowers!(phonemes)
+//                }
+//
+//                else {
+//                    expecting = vowelBlend!.interiorFollowers!(phonemes)
+//                }
+                
                 else {
-                    expecting = vowelBlend!.interiorFollowers!(phonemes)
+                    expecting = vowelBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
                 }
                 
                 if expecting.isEmpty {

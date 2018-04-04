@@ -8,17 +8,73 @@
 
 import Foundation
 
+enum PositionIndicator: Int {
+    case positionFIRST = 0
+    case positionMIDDLE = 1
+    case positionLAST = 2
+}
+
 class PhoneticElement {
     var id: String = ""
     var numLetters: Int = 0
+    var defaultFirst: [Letter]
+    var defaultMiddle: [Letter]
+    var defaultLast: [Letter]
     var initialFollowers: (() -> [Letter])?
     var interiorFollowers: ((PhoneticElementArray) -> [Letter])?
     var finalFollowers: ((PhoneticElementArray) -> [Letter])?
-    var generateFollowers: ((PhoneticElementArray, Int) -> [PhoneticElement])?
+    
+    var instNextLetters: ((PhoneticElementArray, PositionIndicator) -> [Letter])?
+    
+    func nextLetters(pea: PhoneticElementArray, nRemaining: Int) -> [Letter] {
+        var nextLtrs: [Letter]
+        var positionIndicator: PositionIndicator
+        
+        if nRemaining == 2 {
+            positionIndicator = .positionLAST
+        }
+        else if pea.elements.count == 0 {
+            positionIndicator = .positionFIRST
+        }
+        else if pea.elements.count > 1 {
+            positionIndicator = .positionMIDDLE
+        }
+        else {
+            let firstIdLetter = self.id[self.id.startIndex]
+            let firstWordLetter = pea.elements[0].id[pea.elements[0].id.startIndex]
+            if firstIdLetter == firstWordLetter {
+                positionIndicator = PositionIndicator.positionFIRST
+            }
+            else {
+                positionIndicator = PositionIndicator.positionMIDDLE
+            }
+        }
+
+        switch positionIndicator {
+        case .positionFIRST:
+            nextLtrs = self.defaultFirst
+        case .positionLAST:
+            nextLtrs = self.defaultLast
+        case .positionMIDDLE:
+            nextLtrs =  self.defaultMiddle
+        }
+        
+        if instNextLetters != nil {
+            nextLtrs += self.instNextLetters!(pea, positionIndicator)
+        }
+        
+        return nextLtrs
+    }
     
     // these can go away
     var verifyEndOfWord: ((PhoneticElementArray) -> Bool)?
     var verifyPlural: ((PhoneticElementArray) -> Bool)?
+    
+    init(defFirst: [Letter], defMiddle: [Letter], defLast: [Letter]) {
+        self.defaultFirst = defFirst
+        self.defaultMiddle = defMiddle
+        self.defaultLast = defLast
+    }
 }
 
 class PhoneticElementArray {

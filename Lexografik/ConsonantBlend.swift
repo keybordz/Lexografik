@@ -13,36 +13,41 @@ class ConsonantBlend: LexicalBlend {
     
     // Generic initializer, no restrictions on followers or ending condition
     init(first: Letter, second: Letter, start: Bool, end: Bool, single: Bool) {
+        var defFirst: [Letter]
+        var defMiddle: [Letter]
+        var defLast: [Letter]
+        let canPlural: Bool = (end && second != .S)
         
         singlePhoneme = single
-        super.init(first: first, second: second, start: start, end: end)
-        let canPlural = end && second != .S
         
         if start {
-            initialFollowers = { return vowels + [.Y] }
+            defFirst = vowels + [.Y]
         }
         else {
-            initialFollowers = { return [] }
+            defFirst = []
         }
         
-        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
-            return vowels + [.Y] }
-        
+        defMiddle = vowels + [.Y]
+
         if canPlural {
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
-                return [.E, .S, .Y] }
+            defLast = [.E, .S, .Y]
         }
         else {
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
-                return [.E, .Y] }
+            defLast = [.E, .Y]
         }
+
+        super.init(first: first, second: second, start: start, end: end,
+                   defFirst: defFirst, defMiddle: defMiddle, defLast: defLast)
+        
+        initialFollowers = { return defFirst }
+        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defMiddle }
+        finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defLast }
 
         if end {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in
                 return self.defaultVerifyEnd(phonemes)
             }
         }
-            
         else {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return false }
         }
@@ -53,34 +58,40 @@ class ConsonantBlend: LexicalBlend {
     
     init(first: Letter, second: Letter, start: Bool, end: Bool, canPlural: Bool, single: Bool,
          followers: [Letter], finFollowers: [Letter]) {
+        var defFirst: [Letter]
+        var defMiddle: [Letter]
+        var defLast: [Letter]
         
         singlePhoneme = single
-        super.init(first: first, second: second, start: start, end: end)
-        
+
         if start {
-            initialFollowers = { return vowels + [.Y] + followers }
+            defFirst = vowels + [.Y] + followers
         }
         else {
-            initialFollowers = { return [] }
+            defFirst = []
         }
         
-        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] + followers }
+        defMiddle = vowels + [.Y] + followers
         
         if canPlural {
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
-                return finFollowers + [.S] }
+            defLast = finFollowers + [.S]
         }
         else {
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
-                return finFollowers }
+            defLast = finFollowers
         }
             
+        super.init(first: first, second: second, start: start, end: end,
+                   defFirst: defFirst, defMiddle: defMiddle, defLast: defLast)
+        
+        initialFollowers = { return defFirst }
+        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defMiddle }
+        finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defLast }
+
         if end {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in
                 return self.defaultVerifyEnd(phonemes)
             }
         }
-            
         else {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return false }
         }
@@ -91,29 +102,34 @@ class ConsonantBlend: LexicalBlend {
     init(first: Letter, second: Letter, start: Bool,
          verifyEnd: @escaping (PhoneticElementArray) -> Bool,
          canPlural: Bool, single: Bool, conFollowers: [Letter], finFollowers: [Letter]) {
+        var defFirst: [Letter]
+        var defMiddle: [Letter]
+        var defLast: [Letter]
             
         singlePhoneme = single
-        super.init(first: first, second: second, start: start, end: true)
-            
+
         if start {
-            initialFollowers = { return vowels + [.Y] + conFollowers }
+            defFirst = vowels + [.Y] + conFollowers
         }
         else {
-            initialFollowers = { return [] }
+            defFirst = []
         }
             
-        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
-            return vowels + [.Y] + conFollowers }
+        defMiddle = vowels + [.Y] + conFollowers
         
         if canPlural {
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
-                return finFollowers + [.S] }
+            defLast = finFollowers + [.S]
         }
         else {
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
-                return finFollowers }
+            defLast = finFollowers
         }
-            
+        
+        super.init(first: first, second: second, start: start, end: true,
+                   defFirst: defFirst, defMiddle: defMiddle, defLast: defLast)
+        
+        initialFollowers = { return defFirst }
+        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defMiddle }
+        finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defLast }
         verifyEndOfWord = verifyEnd
             
         // If there's a conditional test for the end, then use it to verify pluralization
@@ -127,26 +143,34 @@ class ConsonantBlend: LexicalBlend {
     // Only case for this initializer is GN
     init(first: Letter, second: Letter, start: Bool, verifyEnd: @escaping (PhoneticElementArray) -> Bool,
          canPlural: Bool, single: Bool, initVowels: [Letter]) {
+        var defFirst: [Letter]
+        var defMiddle: [Letter]
+        var defLast: [Letter]
         
         singlePhoneme = single
-        super.init(first: first, second: second, start: start, end: true)
         
         if start {
-            initialFollowers = { return initVowels }
+            defFirst =  initVowels
         }
         else {
-            initialFollowers = { return [] }
+            defFirst = []
         }
         
-        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] }
+        defMiddle = vowels + [.Y]
         
         if canPlural {
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [.S] }
+            defLast = [.S]
         }
         else {
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [] }
+            defLast = []
         }
         
+        super.init(first: first, second: second, start: start, end: true,
+                   defFirst: defFirst, defMiddle: defMiddle, defLast: defLast)
+        
+        initialFollowers = { return defFirst }
+        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defMiddle }
+        finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defLast }
         verifyEndOfWord = verifyEnd
         
         // If there's a conditional test for the end, then use it to verify pluralization
@@ -160,25 +184,34 @@ class ConsonantBlend: LexicalBlend {
     // This is for partial blends needed to create 3-letter superblends (TCH, SQU)
     init(first: Letter, second: Letter, start: Bool, end: Bool, canPlural: Bool, single: Bool,
          onlyFollowers: [Letter], finFollowers: [Letter]) {
+        var defFirst: [Letter]
+        var defMiddle: [Letter]
+        var defLast: [Letter]
         
         singlePhoneme = single
-        super.init(first: first, second: second, start: start, end: end)
         
         if start {
-            initialFollowers = { return onlyFollowers }
+            defFirst = onlyFollowers
         }
         else {
-            initialFollowers = { return [] }
+            defFirst = []
         }
         
-        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return onlyFollowers }
+        defMiddle = onlyFollowers
         
         if canPlural {
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return finFollowers + [.S] }
+            defLast = finFollowers + [.S]
         }
         else {
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return finFollowers }
+            defLast = finFollowers
         }
+        
+        super.init(first: first, second: second, start: start, end: end,
+                   defFirst: defFirst, defMiddle: defMiddle, defLast: defLast)
+        
+        initialFollowers = { return defFirst }
+        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defMiddle }
+        finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defLast }
         
         if end {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in
@@ -194,44 +227,69 @@ class ConsonantBlend: LexicalBlend {
     
     // Initializer for triple consonant blends
     init(first: Letter, second: Letter, third: Letter, start: Bool) {
+        var defFirst: [Letter]
+        var defMiddle: [Letter]
+        var defLast: [Letter]
         
         singlePhoneme = false
-        super.init(first: first, second: second, third: third, start: start, end: !start)
+       
+        if start {
+            defFirst = vowels + [.Y]
+            defMiddle = vowels + [.Y]
+            defLast = []
+        }
+        else {
+            defFirst = []
+            defMiddle = vowels + [.Y]
+            defLast = [.Y]
+        }
+        
+        super.init(first: first, second: second, third: third, start: start, end: !start,
+                   defFirst: defFirst, defMiddle: defMiddle, defLast: defLast)
+        
+        initialFollowers = { return defFirst }
+        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defMiddle }
+        finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defLast }
         
         if start {
-            initialFollowers = { return vowels + [.Y] }
-            interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] }
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [] }
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return false }
             verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return false }
         }
-            
         else {
-            initialFollowers = { return [] }
-            interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] }
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [.Y] }
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return true }
             verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
         }
     }
 
     init(first: Letter, second: Letter, third: Letter, start: Bool, verifyEnd: (PhoneticElementArray) -> Bool) {
+        var defFirst: [Letter]
+        var defMiddle: [Letter]
+        var defLast: [Letter]
         
         singlePhoneme = false
-        super.init(first: first, second: second, third: third, start: start, end: !start)
         
         if start {
-            initialFollowers = { return vowels + [.Y] }
-            interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] }
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [] }
+            defFirst = vowels + [.Y]
+            defMiddle = vowels + [.Y]
+            defLast = []
+        }
+        else {
+            defFirst = []
+            defMiddle = vowels + [.Y]
+            defLast = [] 
+        }
+        
+        super.init(first: first, second: second, third: third, start: start, end: !start,
+                   defFirst: defFirst, defMiddle: defMiddle, defLast: defLast)
+        
+        initialFollowers = { return defFirst }
+        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defMiddle }
+        finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return defLast }
+        if start {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return false }
             verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return false }
         }
-            
         else {
-            initialFollowers = { return [] }
-            interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return vowels + [.Y] }
-            finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [] }
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return true }
             verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
         }

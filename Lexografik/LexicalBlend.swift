@@ -14,22 +14,24 @@ class LexicalBlend: PhoneticElement {
     let thirdLetter: Letter?
     let canEnd: Bool
 
-    init(first: Letter, second: Letter, start: Bool, end: Bool) {
+    init(first: Letter, second: Letter, start: Bool, end: Bool,
+         defFirst: [Letter], defMiddle: [Letter], defLast: [Letter]) {
         firstLetter = first
         secondLetter = second
         thirdLetter = nil
         canEnd = end
-        super.init()
+        super.init(defFirst: defFirst, defMiddle: defMiddle, defLast: defLast)
         id = "\(first.rawValue)\(second.rawValue)"
         numLetters = 2
     }
     
-    init(first: Letter, second: Letter, third: Letter, start: Bool, end: Bool) {
+    init(first: Letter, second: Letter, third: Letter, start: Bool, end: Bool,
+         defFirst: [Letter], defMiddle: [Letter], defLast: [Letter]) {
         firstLetter = first
         secondLetter = second
         thirdLetter = third
         canEnd = end
-        super.init()
+        super.init(defFirst: defFirst, defMiddle: defMiddle, defLast: defLast)
         id = "\(first.rawValue)\(second.rawValue)\(third.rawValue)"
         numLetters = 3
     }

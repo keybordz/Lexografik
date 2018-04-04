@@ -331,8 +331,8 @@ class LexografikTests: XCTestCase {
         
         storm.gatherWords(4)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "VIEW")))
-//        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "RIEW")))
-//        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "GIEW")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "RIEW")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "GIEW")))
     }
 
     func test_gRuffness() {   //2014Sep19
@@ -680,6 +680,13 @@ class LexografikTests: XCTestCase {
         storm.gatherWords(4)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "EPIC")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "STEP")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PIED")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PIECE")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PIECES")))
     }
 
     func test_academIes() {  // 01Sep2013
@@ -938,6 +945,11 @@ class LexografikTests: XCTestCase {
         
         storm.gatherWords(4)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MITT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TIER")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TIES")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TIERS")))
     }
     
     func test_Terminals() {

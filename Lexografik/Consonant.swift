@@ -18,7 +18,10 @@ class Consonant: LexicalLetter {
         
         self.dipthong = dipthong
         self.liquidBlend = liquidBlend
-        super.init(id: id, blendStart: blendStart, blendInto: blendInto, blendFinal: blendFinal,
+        super.init(id: id,
+                   blendStart: blendStart + vowels + [.Y],
+                   blendInto: blendInto + vowels,
+                   blendFinal: blendFinal,
                    canPlural: canPlural, endBias: endBias)
         
         self.initialFollowers = { return blendStart + vowels + [.Y] }
@@ -51,9 +54,35 @@ class Consonant: LexicalLetter {
          interior: ((PhoneticElementArray) -> [Letter])?,
          verifyEnd: ((PhoneticElementArray) -> Bool)?) {
         
+        var initFollowers, intFollowers, finFollowers: [Letter]
+        
         self.dipthong = dipthong
         self.liquidBlend = liquidBlend
-        super.init(id: id, blendStart: blendStart, blendInto: blendInto, blendFinal: [],
+        if initial == nil {
+            initFollowers = blendStart + vowels + [.Y]
+        }
+        else {
+            initFollowers = blendStart
+        }
+        
+        if interior == nil {
+            intFollowers = blendInto + vowels + [.Y]
+        }
+        else {
+            intFollowers = blendInto
+        }
+        
+        if canPlural {
+            finFollowers = blendFinal + [.S]
+        }
+        else {
+            finFollowers = blendFinal
+        }
+        
+        super.init(id: id,
+                   blendStart: initFollowers,
+                   blendInto: intFollowers,
+                   blendFinal: finFollowers,
                    canPlural: canPlural, endBias: endBias)
         
         if initial == nil {
@@ -71,14 +100,8 @@ class Consonant: LexicalLetter {
             self.interiorFollowers = interior
         }
         
-        if canPlural {
-            self.finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
-                return blendFinal + [.S] }
-        }
-        else {
-            self.finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
-                return blendFinal }
-        }
+        self.finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in
+                return finFollowers }
         
         if verifyEnd == nil {
             if endBias == 0 {
@@ -375,7 +398,7 @@ let P = Consonant( id: .P,
 } )
 
 let Q = Consonant( id: .Q,
-    blendStart: [],
+    blendStart: [.U],
     blendInto: [],
     blendFinal: [],
     canPlural: false,
@@ -468,7 +491,7 @@ let X = Consonant( id: .X,
     dipthong: false,
     liquidBlend: true,
     initial: { return [] },
-    interior: { (phonemes:PhoneticElementArray) -> [Letter] in return [.A, .C, .E, .I, .P, .T] },
+    interior: { (phonemes:PhoneticElementArray) -> [Letter] in return [.A, .C, .E, .I, .O, .P, .T] },
     verifyEnd: nil )
 
 let Y = Consonant( id: .Y,

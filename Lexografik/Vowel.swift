@@ -12,7 +12,11 @@ class Vowel: LexicalLetter {
     
     override init(id: Letter, blendStart: [Letter], blendInto: [Letter], blendFinal: [Letter], canPlural: Bool, endBias: Int) {
         
-        super.init(id: id, blendStart: blendStart, blendInto: blendInto, blendFinal: blendFinal, canPlural: canPlural, endBias: endBias)
+        super.init(id: id,
+                   blendStart: blendStart + consonants,
+                   blendInto: blendInto + consonants,
+                   blendFinal: blendInto + blendFinal,
+                   canPlural: canPlural, endBias: endBias)
         
         self.initialFollowers = { return blendStart + consonants }
         self.interiorFollowers = { (phonemes:PhoneticElementArray) in return blendInto + consonants }
@@ -41,7 +45,11 @@ class Vowel: LexicalLetter {
     init(id: Letter, blendStart: [Letter], blendInto: [Letter], blendFinal: [Letter], canPlural: Bool, endBias: Int,
         verifyEnd: @escaping (PhoneticElementArray) -> Bool) {
         
-        super.init(id: id, blendStart: blendStart, blendInto: blendInto, blendFinal: blendFinal, canPlural: canPlural, endBias: endBias)
+        super.init(id: id,
+                   blendStart: blendStart + consonants,
+                   blendInto: blendInto + consonants,
+                   blendFinal: blendFinal,
+                   canPlural: canPlural, endBias: endBias)
         
         self.initialFollowers = { return blendStart + consonants }
         self.interiorFollowers = { (phonemes:PhoneticElementArray) in return blendInto + consonants }
