@@ -179,9 +179,12 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3FB-pP-sWO">
-                                <rect key="frame" x="274" y="625" width="85" height="34"/>
+                            <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3FB-pP-sWO">
+                                <rect key="frame" x="282" y="625" width="77" height="34"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="77" id="dkI-8P-Fob"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Clear All">
                                     <color key="titleColor" red="1" green="0.32236842110000002" blue="0.30263157889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -287,7 +290,7 @@
                                 </connections>
                             </textField>
                             <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MsA-oK-a1T">
-                                <rect key="frame" x="135" y="625" width="91" height="34"/>
+                                <rect key="frame" x="142" y="625" width="91" height="34"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Clear Mask">
@@ -305,11 +308,12 @@
                         <color key="backgroundColor" red="0.29803921570000003" green="0.68235294120000001" blue="0.65098039220000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="3FB-pP-sWO" secondAttribute="bottom" constant="8" id="1FE-U1-noY"/>
+                            <constraint firstAttribute="trailing" secondItem="3FB-pP-sWO" secondAttribute="trailing" constant="16" id="46t-Ys-TnZ"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="RW2-0l-vYQ" secondAttribute="bottom" constant="8" id="JA8-pa-PIl"/>
-                            <constraint firstItem="MsA-oK-a1T" firstAttribute="leading" secondItem="RW2-0l-vYQ" secondAttribute="trailing" constant="44" id="rO9-wl-okx"/>
+                            <constraint firstItem="MsA-oK-a1T" firstAttribute="leading" secondItem="RW2-0l-vYQ" secondAttribute="trailing" constant="51" id="rO9-wl-okx"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="MsA-oK-a1T" secondAttribute="bottom" constant="8" id="tMn-LU-ccQ"/>
                             <constraint firstItem="RW2-0l-vYQ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="wDK-TV-n6I"/>
-                            <constraint firstItem="3FB-pP-sWO" firstAttribute="leading" secondItem="MsA-oK-a1T" secondAttribute="trailing" constant="48" id="xsD-ia-igP"/>
+                            <constraint firstItem="3FB-pP-sWO" firstAttribute="leading" secondItem="MsA-oK-a1T" secondAttribute="trailing" constant="49" id="y6p-SK-a0R"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Lexografik" id="rsB-VH-bCG"/>
@@ -357,21 +361,21 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="26.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WORD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s3k-uD-sNM" userLabel="Word Field 1">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WORD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="s3k-uD-sNM" userLabel="Word Field 1">
                                             <rect key="frame" x="10" y="4" width="100" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WORD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fY0-ts-KiW" userLabel="Word Field 3">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WORD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="fY0-ts-KiW" userLabel="Word Field 3">
                                             <rect key="frame" x="250" y="4" width="100" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WORD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aik-9h-gc1" userLabel="Word Field 2">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WORD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Aik-9h-gc1" userLabel="Word Field 2">
                                             <rect key="frame" x="130" y="4" width="100" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>

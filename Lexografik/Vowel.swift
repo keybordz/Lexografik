@@ -13,14 +13,14 @@ class Vowel: LexicalLetter {
     override init(id: Letter, blendStart: [Letter], blendInto: [Letter], blendFinal: [Letter], canPlural: Bool, endBias: Int) {
         
         super.init(id: id,
-                   blendStart: blendStart + consonants,
-                   blendInto: blendInto + consonants,
+                   blendStart: blendStart + allConsonants,
+                   blendInto: blendInto + allConsonants,
                    blendFinal: blendInto + blendFinal,
                    canPlural: canPlural, endBias: endBias)
         
-        self.initialFollowers = { return blendStart + consonants }
-        self.interiorFollowers = { (phonemes:PhoneticElementArray) in return blendInto + consonants }
-        self.finalFollowers = { (phonemes:PhoneticElementArray) in return blendInto + blendFinal }
+//        self.initialFollowers = { return blendStart + consonants }
+//        self.interiorFollowers = { (phonemes:PhoneticElementArray) in return blendInto + consonants }
+//        self.finalFollowers = { (phonemes:PhoneticElementArray) in return blendInto + blendFinal }
     
         self.verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in
             let lastElement = phonemes.lastElement()
@@ -43,17 +43,20 @@ class Vowel: LexicalLetter {
     }
     
     init(id: Letter, blendStart: [Letter], blendInto: [Letter], blendFinal: [Letter], canPlural: Bool, endBias: Int,
-        verifyEnd: @escaping (PhoneticElementArray) -> Bool) {
+        verifyEnd: ((PhoneticElementArray) -> Bool)?) {
         
         super.init(id: id,
-                   blendStart: blendStart + consonants,
-                   blendInto: blendInto + consonants,
+                   blendStart: blendStart + allConsonants,
+                   blendInto: blendInto + allConsonants,
                    blendFinal: blendFinal,
                    canPlural: canPlural, endBias: endBias)
         
-        self.initialFollowers = { return blendStart + consonants }
-        self.interiorFollowers = { (phonemes:PhoneticElementArray) in return blendInto + consonants }
-        self.verifyEndOfWord = verifyEnd
+        if verifyEnd == nil {
+            self.verifyEndOfWord = { (elements:PhoneticElementArray) -> Bool in return true }
+        }
+        else {
+            self.verifyEndOfWord = verifyEnd
+        }
         self.verifyPlural = { (elements:PhoneticElementArray) -> Bool in return true }
     }
 
@@ -80,18 +83,18 @@ let I = Vowel( id: .I,
     blendFinal: [.B, .C, .D, .F, .G, .L, .M, .N, .P, .R, .S, .T, .X],
     canPlural: true,
     endBias: 0,
-    verifyEnd: { (phonemes: PhoneticElementArray) in
-        let finalIWords = ["ANT", "CORG", "DEL", "FOC", "GNOCCH", "LOC", "RAK",
-                           "SAFAR", "SALAM", "SAR", "SUSH", "TOR", "WAD", "YOG", "LATH"]
-        
-        for word in finalIWords {
-            if phonemes.matchesString(word, matchFull: true) {
-                return true
-            }
-        }
-
-        return false
-} )
+    verifyEnd: nil )
+//    verifyEnd: { (phonemes: PhoneticElementArray) in
+//        let finalIWords = ["ANTI", "GNOCCH", "LATH", "SUSHI"]
+//
+//        for word in finalIWords {
+//            if phonemes.matchesString(word, matchFull: true) {
+//                return true
+//            }
+//        }
+//
+//        return false
+//    } )
 
 let O = Vowel( id: .O,
     blendStart: [.A, .O, .I, .U],
@@ -102,20 +105,21 @@ let O = Vowel( id: .O,
 
 let U = Vowel( id: .U,
     blendStart: [],
-    blendInto: [.I],
-    blendFinal: [.B, .D, .G, .M, .N, .P, .R, .S, .T, .X, .Y],
+    blendInto: [.A, .E, .I, .O],    // blends into U only for VACUUM
+    blendFinal: [.B, .D, .E, .G, .M, .N, .P, .R, .S, .T, .X, .Y],
     canPlural: true,
     endBias: 0,
-    verifyEnd: { (phonemes: PhoneticElementArray) in
-        let finalUWords = ["SNAF", "TOF", "THR"]
-        
-        for word in finalUWords {
-            if phonemes.matchesString(word, matchFull: true) {
-                return true
-            }
-        }
-        
-        return false
-} )
+    verifyEnd: nil)
+//    verifyEnd: { (phonemes: PhoneticElementArray) in
+//        let finalUWords = ["SNAF", "TOF", "THR"]
+//
+//        for word in finalUWords {
+//            if phonemes.matchesString(word, matchFull: true) {
+//                return true
+//            }
+//        }
+//
+//        return false
+//} )
 
 let vowelMap: [Letter:Vowel] = [.A:A, .E:E, .I:I, .O:O, .U:U]

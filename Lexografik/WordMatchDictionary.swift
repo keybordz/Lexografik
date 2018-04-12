@@ -25,7 +25,7 @@ let wordMatchDictionary: [String:[String]] = [
     "IDE": ["IDEA", "IDEAS", "IDES"],
     "IDL": ["IDLE", "IDLED", "IDLER", "IDLERS", "IDLES", "IDLING", "IDLINGS", "IDLY"],
     "IDO": ["IDOL", "IDOLATRY", "IDOLS"],
-    "IMA": ["IMAGE", "IMAGED", "IMAGES", "IMAGING", "IMAGINE", "IMAGINED", "IMAGINES", "IMAGINING"],
+    "IMA": ["IMAGE", "IMAGED", "IMAGES", "IMAGING", "IMAGINE", "IMAGINED", "IMAGINES", "IMAGINING", "IMAGO", "IMAGOS"],
     "ION": ["IONIC", "IONICAL", "IONS"],
     "IOT": ["IOTA", "IOTAS"],
     "ISL": ["ISLAM", "ISLAMIC", "ISLE", "ISLES", "ISLET", "ISLETS"],
@@ -38,7 +38,7 @@ let wordMatchDictionary: [String:[String]] = [
     "VYI": ["VYING", "VYINGS"],
     "YAN": ["YANG", "YANGS", "YANK", "YANKED", "YANKER", "YANKERS", "YANKING", "YANKS"],
     "YAR": ["YARD", "YARDS", "YARN", "YARNS"],
-    "YEA": ["YEAR", "YEARLY", "YEARN", "YEARS", "YEARNS", "YEARNED", "YEARNING"],
+    "YEA": ["YEAH", "YEAS", "YEAR", "YEARLY", "YEARN", "YEARS", "YEARNS", "YEARNED", "YEARNING"],
     "YEL": ["YELL", "YELLS", "YELLED", "YELLING", "YELLOW", "YELLOWS"],
     "YIN": ["YING", "YINGS"],
     "YOG": ["YOGA", "YOGI", "YOGIS"]

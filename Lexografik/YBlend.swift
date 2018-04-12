@@ -15,9 +15,9 @@ class YBlend: ConsonantBlend {
         defaultFirst = initFollowers
         defaultMiddle = interFollowers
         defaultLast = finFollowers
-        initialFollowers = { return initFollowers }
-        interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
-        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
+//        initialFollowers = { return initFollowers }
+//        interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
+//        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
     }
 }
 
@@ -27,10 +27,10 @@ let BY = YBlend(first: .B,
                 interFollowers: [.E, .T],
                 finFollowers: [])
 
-// CYCLE, CYST, CYPHER
+// CYANIDE, CYBER, CYCLE, CYGNET, CYPHER, CYST
 let CY = YBlend(first: .C,
-                initFollowers: [.A, .C, .P, .S],
-                interFollowers: [.T],
+                initFollowers: [.A, .B, .C, .G, .P, .S],
+                interFollowers: [.T],       // for SCYTHE
                 finFollowers: [])
 
 // DYES, DYSTOPIA, DYNOMITE
@@ -44,16 +44,16 @@ let FY = YBlend(first: .F,
                 interFollowers: [],
                 finFollowers: [])
 
-// GYROSCOPE, GYPSY
+// GYROSCOPE, GYPSY, GYNECOLOGY
 let GY = YBlend(first: .G,
-                initFollowers: [.P, .R],
+                initFollowers: [.N, .P, .R],
                 interFollowers: [],
                 finFollowers: [])
 
 // HYACINTH, HYENA
 let HY = YBlend(first: .H,
-                initFollowers: [.A, .E],
-                interFollowers: [],
+                initFollowers: [.A, .E, .M, .S],     // HYMEN, HYSSOP
+                interFollowers: [.M, .T],            // RHYME, RHYTHM
                 finFollowers: [])
 
 let KY = YBlend(first: .K,
@@ -91,16 +91,16 @@ let RY = YBlend(first: .R,
                 interFollowers: [],
                 finFollowers: [])
 
-// SYCOPHANT, SYLLABUS, SYMBOL, SYNERGY, SYSTEM
+// SYCOPHANT, SYLLABUS, SYMBOL, SYNERGY, SYPHILIS, SYSTEM
 let SY = YBlend(first: .S,
-                initFollowers: [.C, .L, .M, .N, .S],
+                initFollowers: [.C, .L, .M, .N, .P, .S],
                 interFollowers: [],
                 finFollowers: [])
 
 let TY = YBlend(first: .T,
                 initFollowers: [.I, .R],
                 interFollowers: [],
-                finFollowers: [])
+                finFollowers: [.E])
 
 // VYING
 let VY = YBlend(first: .V,
@@ -113,8 +113,9 @@ let WY = YBlend(first: .W,
                 interFollowers: [],
                 finFollowers: [])
 
+// ZYGOTE
 let ZY = YBlend(first: .W,
-                initFollowers: [],
+                initFollowers: [.G],
                 interFollowers: [],
                 finFollowers: [])
 

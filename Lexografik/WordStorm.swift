@@ -54,6 +54,38 @@ class WordStorm {
         }
     }
     
+    init(outer: [String], center: String, filterStops: Bool) {
+        var outerLetters: [Letter] = []
+        
+        if let cLetter = Letter(rawValue: center) {
+            self.center = cLetter
+            self.full = LetterArray(initLetters: [self.center])
+        }
+        else {
+            self.center = .A
+            self.full = LetterArray(initLetters: [])
+        }
+        
+        for letter in outer {
+            if let eLetter = Letter(rawValue: letter) {
+                outerLetters.append(eLetter)
+            }
+        }
+        
+        self.outer = LetterArray(initLetters: outerLetters)
+        self.mask = nil;
+        self.filterStops = filterStops
+        self.full.appendLetters(self.outer.letters)
+        self.full.sortLetters()
+        for letter in full.letters {
+            if unique.index(of: letter) == nil {
+                unique.append(letter)
+                sectionIndices[letter.rawValue] = 0
+                sectionTotals[letter.rawValue] = 0
+            }
+        }
+    }
+    
     init(outer: [String], center: String, mask: [String]) {
         var outerLetters: [Letter] = []
         var maskLetters: [Letter] = []
@@ -91,7 +123,7 @@ class WordStorm {
             }
         }
     }
-    
+
     init(outer: [Letter], center: Letter) {
         self.outer = LetterArray(initLetters: outer)
         self.center = center

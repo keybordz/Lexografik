@@ -89,5 +89,5 @@ enum Letter: String {
     }
 }
 
-let vowels: [Letter] = [.A, .E, .I, .O, .U]
-let consonants: [Letter] = [.B, .C, .D, .E, .F, .G, .H, .J, .K, .L, .M, .N, .P, .Q, .R, .S, .T, .V, .W, .X, .Y, .Z]
+let allVowels: [Letter] = [.A, .E, .I, .O, .U]
+let allConsonants: [Letter] = [.B, .C, .D, .E, .F, .G, .H, .J, .K, .L, .M, .N, .P, .Q, .R, .S, .T, .V, .W, .X, .Y, .Z]

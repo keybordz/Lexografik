@@ -20,9 +20,6 @@ class PhoneticElement {
     var defaultFirst: [Letter]
     var defaultMiddle: [Letter]
     var defaultLast: [Letter]
-    var initialFollowers: (() -> [Letter])?
-    var interiorFollowers: ((PhoneticElementArray) -> [Letter])?
-    var finalFollowers: ((PhoneticElementArray) -> [Letter])?
     
     var instNextLetters: ((PhoneticElementArray, PositionIndicator) -> [Letter])?
     
@@ -43,10 +40,10 @@ class PhoneticElement {
             let firstIdLetter = self.id[self.id.startIndex]
             let firstWordLetter = pea.elements[0].id[pea.elements[0].id.startIndex]
             if firstIdLetter == firstWordLetter {
-                positionIndicator = PositionIndicator.positionFIRST
+                positionIndicator = .positionFIRST
             }
             else {
-                positionIndicator = PositionIndicator.positionMIDDLE
+                positionIndicator = .positionMIDDLE
             }
         }
 

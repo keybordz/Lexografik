@@ -213,7 +213,7 @@ class LetterArray: Equatable {
         case .A:
             switch second {
             case .B: return [.A, .B, .D, .E, .I, .L, .N, .O, .R, .U, .Y]
-            case .C: return [.A, .C, .E, .H, .I, .O, .R, .T, .U]
+            case .C: return [.A, .C, .E, .H, .I, .M, .N, .O, .R, .T, .U]
             case .D: return [.A, .B, .D, .E, .I, .J, .O, .R, .U]
             case .F: return [.A, .E, .F, .I, .L, .O, .R, .U]
             case .G: return [.A, .E, .G, .L, .I, .O, .R, .U]
@@ -312,12 +312,12 @@ class LetterArray: Equatable {
             case .C: return []
             case .D: return [.D]
             case .F: return []
-            case .G: return []
+            case .G: return [.L]
             case .H: return []
             case .J: return []
             case .K: return []
-            case .L: return [.C, .T]
-            case .M: return []
+            case .L: return [.C, .N, .T]
+            case .M: return [.B]
             case .N: return [.A, .B, .C, .D, .E, .F, .G, .H, .I, .K, .L, .M, .N, .O, .P, .R, .S, .T, .U, .V, .W, .Y, .Z]
             case .P: return [.A, .B, .C, .D, .E, .H, .I, .L, .O, .P, .R, .S, .T, .U]
             case .Q: return []
@@ -366,15 +366,15 @@ class LetterArray: Equatable {
             lastElement = phonemes.lastElement()
             
             // Check if there is a predefined set of words for the combined prefix
-            if numLetters() < 3 && exactMatches == [] {
-                let mKey = "\(phonemes.stringRep())\(suffix.rawValue)"
-                if let matches = wordMatchDictionary[mKey] {
-                    exactMatches = matches
-                    nextBias = .expectSequence
-                    phonemes.appendElement(lexSuffix)
-                    return true
-                }
-            }
+//            if numLetters() < 3 && exactMatches == [] {
+//                let mKey = "\(phonemes.stringRep())\(suffix.rawValue)"
+//                if let matches = wordMatchDictionary[mKey] {
+//                    exactMatches = matches
+//                    nextBias = .expectSequence
+//                    phonemes.appendElement(lexSuffix)
+//                    return true
+//                }
+//            }
         }
         
         // Matching exact sequence of letters
@@ -410,7 +410,7 @@ class LetterArray: Equatable {
             }
                 
             // make an exception for final S plurals if allowable
-            else if !endOfWord || suffix != .S {             // what about final Y's
+            else { // } if !endOfWord || suffix != .S {
                 return false
             }
         }
@@ -427,14 +427,14 @@ class LetterArray: Equatable {
                 
                 // If this is a final S (but not an SS blend), first make sure the last phoneme can take a final S
                 // Then make sure it can end the word as it currently stands
-                if endOfWord && suffix == .S && lastElement!.id != "S" {          
+                if endOfWord && suffix == .S && lastElement!.id != "S" {
                     
                     if phonemes.elements.count > 2 {
-                    
+
                         // Have to copy the current phones then remove the last one
                         let phonemesCopy = PhoneticElementArray(pea: phonemes)
                         phonemesCopy.removeLastElement()
-                    
+
                         if lastElement!.verifyEndOfWord!(phonemesCopy) {
                             return lastElement!.verifyPlural!(phonemes)
                         }
@@ -446,7 +446,7 @@ class LetterArray: Equatable {
                         return lastElement!.verifyPlural!(phonemes)
                     }
                 }
-                    
+                
                 // Assume all final Y's are ok for now - this speeds execution but is it necessary
                 // now with the Y Blends?  Only for final Y's following consonant blends
                 else if endOfWord && suffix == .Y {
@@ -455,9 +455,21 @@ class LetterArray: Equatable {
                     return true
                 }
                     
-                // What to do with consonants after interior Y
-                else if lastElement is YBlend {
+                // This is for single consonants that follow an interior Y (treat just like following a vowel)
+                else if lastElement!.id == "Y" {
+                    
+                    if endOfWord {
+                        phonemes.appendElement(lexSuffix!)
+                        sylState = .articulateStop
+                        return true
+                    }
+                    
+                    expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                    if expecting.isEmpty {
+                        return false
+                    }
                     sylState = .articulateStop
+                    nextBias = .expectSubset
                     phonemes.appendElement(lexSuffix!)
                     return true
                 }
@@ -470,11 +482,13 @@ class LetterArray: Equatable {
                 }
                 
                 // Try to match connected consonants to a blend element
-                cKey = "\(lastElement!.id)\(suffix.rawValue)"
+                // With Y's, omly match the last letter, not the entire blend
                 if suffix == .Y {
+                    cKey = "\(last!.rawValue)Y"
                     conBlend = YBlendMap[cKey]
                 }
                 else {
+                    cKey = "\(lastElement!.id)\(suffix.rawValue)"
                     conBlend = consonantBlendMap[cKey]
                 }
                 
@@ -482,25 +496,33 @@ class LetterArray: Equatable {
                 if conBlend == nil {
                     let lexLast = consonantMap[last!]! as Consonant
                         
-                    // Letters blend phonetically but don't form a unit (usually N blends, also CST in ECSTASY)
-                    // This is a bit of cheat to get around having filterStops turned on by default
+                    // Letters blend phonetically but don't form a unit (ex. CST in ECSTASY)
                     if !endOfWord &&
                            (lastElement! is Consonant || lastElement! is ConsonantBlend) &&
                            lexLast.defaultMiddle.contains(suffix) &&
                            (sylState != .articulateStart) {
-                        sylState = .articulateStart
                         phonemes.appendElement(lexSuffix!)
+                        sylState = .articulateStart
+                        // expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                        nextBias = .expectVowel
                         return true
                     }
                         
                     // Check if liquid L can follow consonant blend
                     else if !endOfWord && suffix == .L && lexLast.liquidBlend {
                         phonemes.appendElement(lexSuffix!)
-                        
-                        // Now make sure no more consonants can follow
                         sylState = .articulateStart
+                        expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
                         nextBias = .expectSubset
-                        expecting = vowels + [.Y]
+                        return true
+                    }
+                     
+                    // Adding the new consonant is ok if filterStops is turned off
+                    else if !endOfWord && !filterStops {
+                        phonemes.appendElement(lexSuffix!)
+                        sylState = .articulateStart
+                        expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                        nextBias = .expectSubset
                         return true
                     }
                     
@@ -543,7 +565,17 @@ class LetterArray: Equatable {
                     
                     nextBias = .expectSubset
                     
-                    phonemes.replaceLastElement(conBlend!)
+                    // Here the added Y is acting as a vowel
+                    if suffix == .Y {
+                        phonemes.appendElement(lexSuffix!)
+                        sylState = .articulateVowel
+                    }
+                        
+                    else {
+                        phonemes.replaceLastElement(conBlend!)
+                        // sylState = .articulateStart
+                    }
+                    
                     return true
                 }
             }
@@ -569,7 +601,7 @@ class LetterArray: Equatable {
                 }
                     
                 // Special case for vowels followed by H, W, and Y
-                else if suffix.isDipthong() {
+                else if suffix.isDipthong() && lastElement! is Vowel {
                     let dKey = "\(last!.rawValue)\(suffix.rawValue)"
                     let dipBlend = diphthongBlendMap[dKey]
                     
@@ -586,17 +618,7 @@ class LetterArray: Equatable {
                         else {
                             return false
                         }
-                        
                     }
-//                    else if numLetters() == 1 {
-//                        expecting = dipBlend!.initialFollowers!()
-//                    }
-//                    else if remainingLetters == 2 {
-//                        expecting = dipBlend!.finalFollowers!(phonemes)
-//                    }
-//                    else {
-//                        expecting = dipBlend!.interiorFollowers!(phonemes)
-//                    }
                     
                     else {
                         expecting = dipBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
@@ -611,20 +633,11 @@ class LetterArray: Equatable {
                     return true
                 }
                     
-                else if endOfWord && suffix == .S {
-                    return lastElement!.verifyPlural!(phonemes)
-                }
-                
                 else if endOfWord {
                     return lexSuffix!.verifyEndOfWord!(phonemes)
                 }
                 
-                if remainingLetters == 2 {
-                    expecting = lexSuffix!.finalFollowers!(phonemes)
-                }
-                else {
-                    expecting = lexSuffix!.interiorFollowers!(phonemes)
-                }
+                expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
                 
                 // Reset state values
                 sylState = .articulateStop
@@ -660,9 +673,8 @@ class LetterArray: Equatable {
                 else {
                     
                     // Special case for QU
-                    if lastElement!.id == "Q" || lastElement!.id == "SQ" {
-                        let cKey = "\(lastElement!.id)U"
-                        let conBlend = consonantBlendMap[cKey]
+                    if suffix == .U && lastElement!.id.range(of: "Q") != nil {
+                        let conBlend = consonantBlendMap["\(lastElement!.id)U"]
                         
 //                        if sylState == .articulateStart {
 //                            expecting = conBlend!.initialFollowers!()
@@ -694,6 +706,7 @@ class LetterArray: Equatable {
                 var vowelBlend: VowelBlend?
                 
                 // Filter out vowels following QU
+                // --> This code really shouldn't be necessary
                 if lastElement!.id == "QU" || lastElement!.id == "SQU" {
                     if suffix == .U {
                         return false
@@ -735,7 +748,6 @@ class LetterArray: Equatable {
                 phonemes.removeLastElement()
                 
                 if endOfWord {
-                    
                     if vowelBlend!.verifyEndOfWord!(phonemes) {
                         phonemes.appendElement(vowelBlend!)
                         return true
@@ -744,18 +756,6 @@ class LetterArray: Equatable {
                         return false
                     }
                 }
-                
-//                else if numLetters() == 1 {
-//                    expecting = vowelBlend!.initialFollowers!()
-//                }
-//
-//                else if remainingLetters == 2 {
-//                    expecting = vowelBlend!.finalFollowers!(phonemes)
-//                }
-//
-//                else {
-//                    expecting = vowelBlend!.interiorFollowers!(phonemes)
-//                }
                 
                 else {
                     expecting = vowelBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)

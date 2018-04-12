@@ -17,9 +17,9 @@ class DiphthongBlend: LexicalBlend {
         super.init(first: vowel, second: consonant, start: start, end: end,
                    defFirst: [], defMiddle: interFollowers, defLast: finFollowers)
         
-        initialFollowers = { return [] }
-        interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
-        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
+//        initialFollowers = { return [] }
+//        interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
+//        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
         verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return end }
         verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
     }
@@ -31,9 +31,9 @@ class DiphthongBlend: LexicalBlend {
         super.init(first: vowel, second: consonant, start: start, end: end,
                    defFirst: initFollowers, defMiddle: interFollowers, defLast: finFollowers)
         
-        initialFollowers = { return initFollowers }
-        interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
-        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
+//        initialFollowers = { return initFollowers }
+//        interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
+//        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
         verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return end }
         verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
     }
