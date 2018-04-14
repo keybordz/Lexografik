@@ -204,4 +204,13 @@ class PhoneticElementArray {
         
         return true
     }
+    
+    func matchesSet(_ checkSet: [String]) -> Bool {
+        for item in checkSet {
+            if matchesString(item, matchFull: true) {
+                return true
+            }
+        }
+        return false
+    }
 }

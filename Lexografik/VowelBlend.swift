@@ -19,16 +19,6 @@ class VowelBlend: LexicalBlend {
         super.init(first: first, second: second, start: start, end: end,
                    defFirst: initFollowers, defMiddle: interFollowers, defLast: finFollowers)
         
-//        if start {
-//            initialFollowers = { return initFollowers }
-//        }
-//        else {
-//            initialFollowers = { return [] }
-//        }
-//
-//        interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
-//        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
-        
         if end {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return true }
         }
@@ -53,16 +43,6 @@ class VowelBlend: LexicalBlend {
         
         instNextLetters = nextLetters
 
-//        if start {
-//            initialFollowers = { return initFollowers }
-//        }
-//        else {
-//            initialFollowers = { return [] }
-//        }
-//
-//        interiorFollowers = generateFollowers
-//        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
-        
         if end {
             verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return true }
         }
@@ -81,16 +61,6 @@ class VowelBlend: LexicalBlend {
         glottalStop = glottal
         super.init(first: first, second: second, start: start, end: false,
                    defFirst: initFollowers, defMiddle: interFollowers, defLast: finFollowers)
-
-//        if start {
-//            initialFollowers = { return initFollowers }
-//        }
-//        else {
-//            initialFollowers = { return [] }
-//        }
-//
-//        interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
-//        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
         
         verifyEndOfWord = verifyEnd
         
@@ -110,9 +80,6 @@ class VowelBlend: LexicalBlend {
         super.init(first: first, second: second, third: third, start: false, end: false,
                    defFirst: [], defMiddle: allVowels, defLast: [])
 
-//        initialFollowers = { return [] }
-//        interiorFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [.T] }
-//        finalFollowers = { (phonemes:PhoneticElementArray) -> [Letter] in return [.S] }
         verifyEndOfWord = verifyEnd
         verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
     }
@@ -138,11 +105,11 @@ let AO = VowelBlend(first: .A, second: .O, start: true, end: false, glottal: tru
     initFollowers: [.R],
     intFollowers: [],
     
-    nextLetters: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) -> [Letter] in
+    nextLetters: { (phonemes: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         let lastElement = phonemes.lastElement()
         
         // GAOL
-        if posIndicator == .positionLAST && lastElement!.id == "G" {
+        if pos == .positionLAST && phonemes.matchesString("G", matchFull: true) {
             return [.L]
         }
         else {
@@ -150,7 +117,7 @@ let AO = VowelBlend(first: .A, second: .O, start: true, end: false, glottal: tru
         }
     },
     
-    finFollowers: [.S]
+    finFollowers: []
     ) 
 
 let AU = VowelBlend(first: .A, second: .U, start: true, end: false, glottal: false,

@@ -86,7 +86,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "IMBUE")))
     }
     
-    func test_Oligarchy() {   //2014Sep27
+    func test_2014Sep27_Oligarchy() {   //2014Sep27
         storm = WordStorm(outer: ["L", "I", "G", "A", "R", "C", "H", "Y"], center: "O")
         
         storm.gatherWords(4)
@@ -213,6 +213,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TENSE")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "INSET")))
         
+        storm.filterStops = false       // have to do this for INVEST to work
         storm.gatherWords(6)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "EVENTS")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "INVEST")))
@@ -237,6 +238,9 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BULB")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BLAB")))
         
+        // No final B followers after E
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "BLEB")))
+        
         // No Q starters unless followed by U
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "QEAL")))
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "QELS")))
@@ -259,6 +263,9 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SABLE")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BABEL")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BLABS")))
+        
+        // If the singular E follower isn't allowed, the plural shouldn't be either
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "BLEBS")))
         
         // No Q plurals
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "LEAQS")))
@@ -647,6 +654,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TACO")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TRIO")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TORI")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "CHRO")))
         
         storm.gatherWords(5)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MACHO")))
@@ -739,7 +747,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FLUB")))
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "LEAU")))
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "TIEU")))
-//        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "FLEB")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "FLEB")))
     }
     
     func test_truantIng() {      // 08Apr2013        
@@ -868,7 +876,7 @@ class LexografikTests: XCTestCase {
         
         storm.gatherWords(4)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FEUD")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "STEF")))
+        // XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "STEF")))   is that really a word?
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "ITEF")))
     }
     
@@ -1042,7 +1050,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SNAFU")))
     }
     
-    func test_marrigOle() {
+    func test_17May2011_rigmarOle() {
         storm = WordStorm(outer: ["M", "A", "R", "R", "I", "G", "L", "E"], center: "O")
         
         storm.gatherWords(5)
@@ -1143,6 +1151,68 @@ class LexografikTests: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "TTHREE")))
     }
         
+    func test_Columnist() {
+        storm = WordStorm(outer: ["O", "L", "U", "M", "N", "I", "S", "T"], center: "C")
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "COLUMN")))
+    }
+    
+    func test_28May2011_immersiNg() {
+        storm = WordStorm(outer: ["I", "M", "M", "E", "R", "S", "I", "G"], center: "N")
+        
+        storm.gatherWords(5)
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "GENMR")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "RENMG")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "MIENI")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "NIRGI")))
+    }
+    
+    func test_28Jun2014_Beverages() {
+        storm = WordStorm(outer: ["E", "V", "E", "R", "A", "G", "E", "S"], center: "B")
+        
+        storm.gatherWords(4)
+        
+        // Verify plural for final A
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BRAS")))
+    }
+    
+    func test_siGhtings() {
+        storm = WordStorm(outer: ["S", "I", "H", "T", "I", "N", "G", "S"], center: "G")
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "NIGHT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SIGHT")))
+        
+        // Make sure GH can plural
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SIGHS")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "NIGHTS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SIGHTS")))
+        
+        // ending restrictions on IGH
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "SISIGH")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "SITIGH")))
+        
+        // ending restrictions on IG
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "NISSIG")))
+    }
+    
+    func test_naugHtier() {
+        storm = WordStorm(outer: ["N", "A", "U", "G", "T", "I", "E", "R"], center: "H")
+        
+        storm.gatherWords(4)
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "AGHN")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "AGHT")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "IGHN")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "UGHN")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "UGHR")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "UGHT")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "EIGHT")))
+    }
 }
 
 

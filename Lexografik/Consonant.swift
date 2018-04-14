@@ -10,6 +10,7 @@ import Foundation
 
 class Consonant: LexicalLetter {
 
+    let blendInto: [Letter]
     let hardStops: [Letter]
     let allowedVowels: [Letter]
     let blendsWithY: Bool
@@ -40,6 +41,7 @@ class Consonant: LexicalLetter {
             defLast += [.Y]
         }
 
+        self.blendInto = blendInto
         self.hardStops = hardStops
         self.allowedVowels = allowedVowels
         self.blendsWithY = blendsWithY
@@ -197,7 +199,7 @@ let C = Consonant( id: .C,
 let D = Consonant( id: .D,
     blendStart: [.R],
     blendInto: [.D, .J],
-    defFinal: [.A, .E, .I, .O],         // final I only for WADI
+    defFinal: [.A, .E, .O],
     hardStops: [.B, .H, .N],            // CARDBOARD, BLOODHOUND, GOODNESS
     allowedVowels: allVowels,
     blendsWithY: true,
@@ -231,7 +233,8 @@ let F = Consonant( id: .F,
     dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
         
         // Allow final U for SNAFU, TOFU
-        if posIndicator == .positionLAST && (phonemes.matchesString("SNA", matchFull: true) || phonemes.matchesString("TO", matchFull: true)) {
+        if posIndicator == .positionLAST &&
+            (phonemes.matchesString("SNA", matchFull: true) || phonemes.matchesString("TO", matchFull: true)) {
             return [.U]
         }
         else {
@@ -279,10 +282,10 @@ let G = Consonant( id: .G,
     dipthong: false,
     liquidBlend: true,
     endBias: 2,
-    dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
+    dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
         
-        // Allow final I for CORGI, YOGI
-        if posIndicator == .positionLAST && (phonemes.matchesString("COR", matchFull: true) || phonemes.matchesString("YO", matchFull: true)) {
+        // Allow final I for YOGI
+        if pos == .positionLAST && phonemes.matchesString("YO", matchFull: true) {
             return [.I]
         }
         else {
@@ -383,39 +386,39 @@ let K = Consonant( id: .K,
             return []
         }
     },
-        
-    verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
-        
-        let lastElement = phonemes.lastElement()
-        let finalKWords = ["TRE", "AMO"]    // Only valid 4-letter works ending in vowel-K
-        
-        if lastElement is Vowel {
-            
-            // Need to allow words like TREK and AMOK
-            if phonemes.numLetters() == 3 && lastElement! is Vowel {
-                for word in finalKWords {
-                    if phonemes.matchesString(word, matchFull: true) {
-                        return true
-                    }
-                }
-                return false
-            }
-                    
-            
-            else {
-                return false
-            }
-        }
-            
-        else {
-            return true
-        }
-    } )
+    verifyEnd: nil)
+//    verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
+//        
+//        let lastElement = phonemes.lastElement()
+//        let finalKWords = ["TRE", "AMO"]    // Only valid 4-letter works ending in vowel-K
+//        
+//        if lastElement is Vowel {
+//            
+//            // Need to allow words like TREK and AMOK
+//            if phonemes.numLetters() == 3 && lastElement! is Vowel {
+//                for word in finalKWords {
+//                    if phonemes.matchesString(word, matchFull: true) {
+//                        return true
+//                    }
+//                }
+//                return false
+//            }
+//                    
+//            
+//            else {
+//                return false
+//            }
+//        }
+//            
+//        else {
+//            return true
+//        }
+//    } )
 
 let L = Consonant( id: .L,
     blendStart: [.L],                   // only for LLAMA
     blendInto: [.B, .C, .D, .F, .G, .K, .L, .M, .P, .S, .T, .V],
-    defFinal: [.A, .B, .D, .E, .I, .L, .M, .O, .P, .T],
+    defFinal: [.A, .B, .D, .E, .L, .M, .O, .P, .T],
     hardStops: [.N],                    // ULNA
     allowedVowels: allVowels,
     blendsWithY: true,
@@ -446,13 +449,18 @@ let M = Consonant( id: .M,
     dipthong: false,
     liquidBlend: false,
     endBias: 2,
-    dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
+    dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
         
         // Allow final I for SALAMI & SWAMI
-        if posIndicator == .positionLAST && (phonemes.matchesString("SALA", matchFull: true) ||
-            phonemes.matchesString("SWA", matchFull: true)) {
+        if pos == .positionLAST && (phonemes.matchesString("SALA", matchFull: true) || phonemes.matchesString("SWA", matchFull: true)) {
             return [.I]
         }
+          
+        // Allow N follower for COLUMN
+        else if pos == .positionLAST && phonemes.matchesString("COLU", matchFull: true) {
+            return [.N]
+        }
+            
         else {
             return []
         }
@@ -461,9 +469,9 @@ let M = Consonant( id: .M,
 
 let N = Consonant( id: .N,
     blendStart: [.Y],
-    blendInto: [.C, .D, .F, .G, .K, .M, .N, .S, .T, .V, .Z],
-    defFinal: [.A, .C, .D, .E, .G, .I, .K, .N, .O, .T],    // A is for MYNA, HYENA
-    hardStops: [.F, .L, .P, .V],                           // INFER, INLET, INPUT, INVITE
+    blendInto: [.C, .D, .G, .K, .N, .S, .T],
+    defFinal: [.A, .C, .D, .E, .G, .K, .N, .O, .T],    // A is for MYNA, HYENA
+    hardStops: [.F, .L, .M, .P, .V, .Z],                           // INFER, INLET, INPUT, INVITE
     allowedVowels: allVowels,
     blendsWithY: true,
     canPlural: true,
@@ -537,33 +545,34 @@ let R = Consonant( id: .R,
             return []
         }
     },
-    
-    verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
-        
-        let lastElement = phonemes.lastElement()
-        let finalIRWords = ["EMI", "STI", "NADI"]
-        
-        // No consonant-I-R endings except for STIR, NADIR, EMIR -- any others?
-        if lastElement is Vowel && lastElement!.id == "I" {
-            
-            if phonemes.numLetters() < 5 {
-                for word in finalIRWords {
-                    if phonemes.matchesString(word, matchFull: true) {
-                        return true
-                    }
-                }
-                return false
-            }
-                
-            else {
-                return false
-            }
-        }
-        
-        else {
-            return true
-        }
-    } )
+    verifyEnd: nil)
+
+//    verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
+//
+//        let lastElement = phonemes.lastElement()
+//        let finalIRWords = ["EMI", "STI", "NADI"]
+//
+//        // No consonant-I-R endings except for STIR, NADIR, EMIR -- any others?
+//        if lastElement is Vowel && lastElement!.id == "I" {
+//
+//            if phonemes.numLetters() < 5 {
+//                for word in finalIRWords {
+//                    if phonemes.matchesString(word, matchFull: true) {
+//                        return true
+//                    }
+//                }
+//                return false
+//            }
+//
+//            else {
+//                return false
+//            }
+//        }
+//
+//        else {
+//            return true
+//        }
+//    } )
 
 let S = Consonant(id: .S,
     blendStart: [.C, .H, .K, .L, .M, .N, .P, .Q, .T, .W],
@@ -633,7 +642,7 @@ let W = Consonant( id: .W,
 let X = Consonant( id: .X,
     blendStart: [],
     blendInto: [.A, .C, .E, .I, .O, .P, .T, .U, .Y],  // EXACT, EXCEL, EXECUTE, EXIST, TAXONOMY, EXPEL, EXTOL, EXUDE, OXYMORON
-    defFinal: [.T],         // final T only for NEXT (or SEXT?)
+    defFinal: [],
     hardStops: [],
     allowedVowels: [],
     blendsWithY: true,
@@ -641,17 +650,23 @@ let X = Consonant( id: .X,
     dipthong: false,
     liquidBlend: true,
     endBias: 2,
-    dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
+    dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
         
         // Allow final I for TAXI
-        if posIndicator == .positionLAST && phonemes.matchesString("TA", matchFull: true)  {
+        if pos == .positionLAST && phonemes.matchesString("TA", matchFull: true)  {
             return [.I]
         }
+            
+        // Allow final T only for NEXT, SEXT
+        else if pos == .positionLAST && phonemes.matchesSet(["NE", "SE"]) {
+            return [.T]
+        }
+        
         else {
             return []
         }
-},
-    verifyEnd: nil )
+    },
+    verifyEnd: nil)
 
 let Y = Consonant( id: .Y,
     blendStart: [],

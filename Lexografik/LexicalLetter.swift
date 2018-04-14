@@ -9,16 +9,11 @@
 import Foundation
 
 class LexicalLetter: PhoneticElement {
-//    let blendStart: [Letter]
-//    let blendInto: [Letter]
-//    let blendFinal: [Letter]
+
     let canPlural: Bool
     let endBias: Int
     
     init(id: Letter, blendStart: [Letter], blendInto: [Letter], blendFinal: [Letter], canPlural: Bool, endBias: Int) {
-//        self.blendStart = blendStart
-//        self.blendInto = blendInto
-//        self.blendFinal = blendFinal
         self.canPlural = canPlural
         self.endBias = endBias
         super.init(defFirst: blendStart, defMiddle: blendInto, defLast: blendFinal)

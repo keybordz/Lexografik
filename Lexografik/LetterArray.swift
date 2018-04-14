@@ -495,11 +495,17 @@ class LetterArray: Equatable {
                 // All cases where consonants don't blend...hard stops, etc.
                 if conBlend == nil {
                     let lexLast = consonantMap[last!]! as Consonant
+                    
+                    // If it's not a blend at the end of the word, should be a special case like COLUMN
+                    if endOfWord {
+                        phonemes.appendElement(lexSuffix!)
+                        sylState = .articulateStop
+                        return true
+                    }
                         
                     // Letters blend phonetically but don't form a unit (ex. CST in ECSTASY)
-                    if !endOfWord &&
-                           (lastElement! is Consonant || lastElement! is ConsonantBlend) &&
-                           lexLast.defaultMiddle.contains(suffix) &&
+                    else if (lastElement! is Consonant || lastElement! is ConsonantBlend) &&
+                           lexLast.blendInto.contains(suffix) &&
                            (sylState != .articulateStart) {
                         phonemes.appendElement(lexSuffix!)
                         sylState = .articulateStart
@@ -509,7 +515,7 @@ class LetterArray: Equatable {
                     }
                         
                     // Check if liquid L can follow consonant blend
-                    else if !endOfWord && suffix == .L && lexLast.liquidBlend {
+                    else if suffix == .L && lexLast.liquidBlend {
                         phonemes.appendElement(lexSuffix!)
                         sylState = .articulateStart
                         expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
@@ -518,7 +524,7 @@ class LetterArray: Equatable {
                     }
                      
                     // Adding the new consonant is ok if filterStops is turned off
-                    else if !endOfWord && !filterStops {
+                    else if !filterStops {
                         phonemes.appendElement(lexSuffix!)
                         sylState = .articulateStart
                         expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
@@ -526,6 +532,7 @@ class LetterArray: Equatable {
                         return true
                     }
                     
+                    // Unlikely that we reach here
                     else {
                         return false
                     }
@@ -548,16 +555,11 @@ class LetterArray: Equatable {
                     
                 else {
                     
-//                    if sylState == .articulateStart {
-//                        expecting = conBlend!.initialFollowers!()
-//                    }
-//                    else if remainingLetters == 2 {
-//                        expecting = conBlend!.finalFollowers!(phonemes)
-//                    }
-//                    else {
-//                        expecting = conBlend!.interiorFollowers!(phonemes)
-//                    }
-                    
+                    // Have to remove the last phoneme so that instance-level followers for consonant blends will evaluate properly
+                    if suffix != .Y {
+                        phonemes.removeLastElement()
+                    }
+
                     expecting = conBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
                     if expecting.isEmpty {
                         return false
@@ -570,10 +572,8 @@ class LetterArray: Equatable {
                         phonemes.appendElement(lexSuffix!)
                         sylState = .articulateVowel
                     }
-                        
                     else {
-                        phonemes.replaceLastElement(conBlend!)
-                        // sylState = .articulateStart
+                        phonemes.appendElement(conBlend!)
                     }
                     
                     return true
@@ -675,17 +675,6 @@ class LetterArray: Equatable {
                     // Special case for QU
                     if suffix == .U && lastElement!.id.range(of: "Q") != nil {
                         let conBlend = consonantBlendMap["\(lastElement!.id)U"]
-                        
-//                        if sylState == .articulateStart {
-//                            expecting = conBlend!.initialFollowers!()
-//                        }
-//                        else if remainingLetters == 2 {
-//                            expecting = conBlend!.finalFollowers!(phonemes)
-//                        }
-//                        else {
-//                            expecting = conBlend!.interiorFollowers!(phonemes)
-//                        }
-                        
                         expecting = conBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
                         nextBias = .expectSubset
                         phonemes.replaceLastElement(conBlend!)
@@ -693,7 +682,8 @@ class LetterArray: Equatable {
                         
                     else {
                         sylState = .articulateVowel
-                        nextBias = .expectAny
+                        expecting = lexSuffix.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                        nextBias = .expectSubset
                         phonemes.appendElement(lexSuffix)
                     }
                     return true
