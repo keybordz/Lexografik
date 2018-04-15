@@ -476,7 +476,22 @@ class LetterArray: Equatable {
                 
                 // Consonant following vowel-diphthong pair like AH, OW, etc.
                 else if lastElement is DiphthongBlend {
+                    
+                    if endOfWord {
+                        sylState = .articulateStop
+                        phonemes.appendElement(lexSuffix!)
+                        return true
+                    }
+                    else {
+                        expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                    }
+                    
+                    if expecting.isEmpty {
+                        return false
+                    }
+                    
                     sylState = .articulateStop
+                    nextBias = .expectSubset
                     phonemes.appendElement(lexSuffix!)
                     return true
                 }

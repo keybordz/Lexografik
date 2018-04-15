@@ -73,8 +73,7 @@ class VowelBlend: LexicalBlend {
     }
     
     // initializer for triple blends
-    init(first: Letter, second: Letter, third: Letter,
-         verifyEnd: @escaping (PhoneticElementArray) -> Bool ) {
+    init(first: Letter, second: Letter, third: Letter, verifyEnd: ((PhoneticElementArray) -> Bool)?) {
         
         glottalStop = false
         super.init(first: first, second: second, third: third, start: false, end: false,
@@ -152,6 +151,7 @@ let EI = VowelBlend(first: .E, second: .I, start: true, end: false, glottal: fal
                     interFollowers: [.C, .G, .K, .L, .N, .R, .S, .T, .V, .Z],
                     finFollowers: [.C, .D, .K, .L, .N, .R, .S])
 
+// glottal setting could be variable, ie. YEOMAN vs. NEON, GEOLOGY
 let EO = VowelBlend(first: .E, second: .O, start: true, end: false, glottal: true,
                     initFollowers: [.N],
                     interFollowers: [.M, .N, .R, .S, .T],
@@ -205,7 +205,7 @@ let IE = VowelBlend(first: .I, second: .E, start: false, end: true, glottal: fal
 //        }
 //    },
    
-    nextLetters: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) -> [Letter] in
+    nextLetters: { (phonemes: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         let lastElement = phonemes.lastElement()
         
         // this allows for VIEW and related words (PREVIEW, REVIEW, OVERVIEW)
@@ -214,7 +214,7 @@ let IE = VowelBlend(first: .I, second: .E, start: false, end: true, glottal: fal
         }
             
         // this allows for LIEU
-        else if posIndicator == .positionLAST && lastElement!.id == "L" {
+        else if pos == .positionLAST && phonemes.matchesString("L", matchFull: true) {
             return [.U]
         }
             
@@ -266,9 +266,9 @@ let IU = VowelBlend(first: .I, second: .U, start: false, end: false, glottal: fa
     finFollowers: [.M])
 
 let IEU = VowelBlend(first: .I, second: .E, third: .U,
-                     verifyEnd: { (phonemes:PhoneticElementArray) -> Bool in
+                     verifyEnd: { (phonemes:PhoneticElementArray) -> Bool in                        
                         let lastElement = phonemes.lastElement
-                        
+
                         if lastElement()!.id == "L" {
                             return true
                         }
@@ -324,6 +324,7 @@ let UE = VowelBlend(first: .U, second: .E, start: false, end: true, glottal: fal
                     interFollowers: [.D, .L, .N, .R, .S, .T],
                     finFollowers: [.D, .L, .R, .S, .T, .Y])
 
+// The glottal setting for UI is variable, ie. FLUID or RUIN vs. SQUID or SUIT
 let UI = VowelBlend(first: .U, second: .I, start: false, end: false, glottal: false,
     initFollowers: [],
     interFollowers: [.C, .D, .L, .N, .R, .S, .T],

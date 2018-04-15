@@ -53,30 +53,26 @@ let A = Vowel( id: .A,
     finalConsonants: [.D, .G, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
     endBias: 1,
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+        var followers: [Letter] = []
+        
         if pos == .positionLAST {
             
-            // Final B enders: BLAB, CRAB, DRAB, FLAB, GRAB, REHAB, SCAB, SLAB, SQUAB
-            if pea.matchesSet(["BL", "CR", "DR", "FL", "GR", "REH", "SC", "SL", "SQU"]) {
-                return [.B]
+            // Final B enders: BLAB, CRAB, DRAB, FLAB, GRAB, REHAB, SCAB, SLAB, SQUAB, STAB, SWAB
+            if pea.matchesSet(["BL", "CR", "DR", "FL", "GR", "REH", "SC", "SL", "SQU", "ST", "SW"]) {
+                followers += [.B]
             }
                 
             // Only C ender so far is LILAC
-            else if pea.matchesString("LIL", matchFull: true) {
-                return [.C]
+            if pea.matchesString("LIL", matchFull: true) {
+                followers += [.C]
             }
                 
             // Only K ender is FLAK
-            else if pea.matchesString("FL", matchFull: true) {
-                return [.K]
-            }
-                
-            else {
-                return []
+            if pea.matchesString("FL", matchFull: true) {
+                followers += [.K]
             }
         }
-        else {
-            return []
-        }
+        return followers
     })
 
 let E = Vowel( id: .E,
@@ -87,102 +83,102 @@ let E = Vowel( id: .E,
     finalConsonants: [.D, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
     endBias: 3,
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+        var followers: [Letter] = []
         
         if pos == .positionLAST {
             
             // Only allow final F for CLEF
             if pea.matchesString("CL", matchFull: true) {
-                return [.F]
+                followers += [.F]
             }
             
             // Only allow final G for DREG
             if pea.matchesString("DR", matchFull: true) {
-                return [.G]
+                followers += [.G]
             }
                 
             // Only allow final K for TREK
-            else if pea.matchesString("TR", matchFull: true) {
-                return [.K]
-            }
-            
-            else {
-                return []
+            if pea.matchesString("TR", matchFull: true) {
+                followers += [.K]
             }
         }
-        else {
-            return []
-        }
+        
+        return followers
     })
 
 let I = Vowel( id: .I,
     blendStart: [.O],
     blendInto: [.A, .E, .O],
     
-    // Final consonant enders: DRIB, GENERIC, SQUID, TRIG, UNTIL, MAXIM, SPIN, STIR, SPLIT, REMIX
-    finalConsonants: [.B, .C, .D, .L, .M, .N, .P, .S, .T, .X],
+    // Final consonant enders: GENERIC, SQUID, UNTIL, MAXIM, SPIN, STIR, SPLIT, REMIX
+    finalConsonants: [.C, .D, .L, .M, .N, .P, .S, .T, .X],
     endBias: 0,
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+        var followers: [Letter] = []
         
-        // Only allow final R for EMIR, NADIR, STIR
-        if pos == .positionLAST && pea.matchesSet(["EM", "NAD", "ST"]) {
-            return [.R]
-        }
+        if pos == .positionLAST {
             
-        // Final G enders: BRIG, PRIG, SPRIG, STIG, SWIG, TWIG
-        else if pea.matchesSet(["BR", "PR", "SPR", "ST", "SW", "TW"]) {
-            return [.G]
+            // Final B enders: CRIB, DRIB
+            if pea.matchesSet(["CR", "DR"]) {
+                followers += [.B]
+            }
+            
+            // Final G enders: BRIG, PRIG, SPRIG, STIG, SWIG, TRIG, TWIG
+            if pea.matchesSet(["BR", "PR", "SPR", "ST", "SW", "TR", "TW"]) {
+                followers += [.G]
+            }
+            
+            // Only allow final R for EMIR, NADIR, STIR
+            if pea.matchesSet(["EM", "NAD", "ST"]) {
+                followers += [.R]
+            }
         }
-        
-        else {
-            return []
-        }
+
+        return followers
     })
 
 let O = Vowel( id: .O,
     blendStart: [.A, .O, .I, .U],
     blendInto: [.A, .E, .O, .I, .U],
     
-    // Final consonant enders: BLOB, CROC, TROD, GROG, CAROL, PROM, TROT, BROW, BOOMBOX, DECOY
+    // Final consonant enders: TROD, GROG, CAROL, PROM, TROT, BROW, BOOMBOX, DECOY
     finalConsonants: [.D, .G, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
     endBias: 1,
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+        var followers: [Letter] = []
+        
         if pos == .positionLAST {
             
-            // Only allow final B if preceded by L (BLOB, GLOB, SLOB)
-            if pea.lastElement()!.id == "L" {
-                return [.B]
+            // Final B enders: BLOB, GLOB, SLOB
+            if pea.matchesSet(["BL", "GL", "SL"]) {
+                followers += [.B]
             }
             
-            // Only allow final C for CROC
-            else if pea.matchesString("CR", matchFull: true) {
-                return [.C]
+            // Only allow final C for CHOC, CROC
+            if pea.matchesSet(["CH", "CR"]) {
+                followers += [.C]
             }
                 
             // Only allow final K for AMOK
             if pea.matchesString("AM", matchFull: true) {
-                return [.K]
-            }
-
-            else {
-                return []
+                followers += [.K]
             }
         }
-            
-        else {
-            return []
-        }
+        return followers
     })
 
 let U = Vowel( id: .U,
     blendStart: [],
-    blendInto: [.A, .E, .I, .O],    // blends into U only for VACUUM
+    blendInto: [.A, .E, .I, .O],
     
     // Final consonant enders: DRUB, THUD, PLUG, MOGUL, DRUM, STUN, BLUR, GLUT, FLUX
     finalConsonants: [.B, .D, .G, .L, .M, .N, .P, .R, .S, .T, .X],
     endBias: 0,
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
-        if pos == .positionLAST {
-            return []
+        
+       // Allow blending into U only for VACUUM
+        if pos == .positionMIDDLE && pea.matchesString("VACU", matchFull: false) {
+            return [.U]
         }
         else {
             return []

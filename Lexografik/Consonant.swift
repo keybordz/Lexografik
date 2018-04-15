@@ -82,12 +82,44 @@ class Consonant: LexicalLetter {
         }
     }
     
-    // Override the class-level nextLetters to return other consonants which become hard stops in the middle of the word
+    // Override the class-level nextLetters to deal with consonants which follow diphthongs and to generate hard stop followers
     override func nextLetters(pea: PhoneticElementArray, nRemaining: Int) -> [Letter] {
-        var expecting = super.nextLetters(pea: pea, nRemaining: nRemaining)
+        var expecting: [Letter] = []
+        let lastElement = pea.lastElement()
         
-        if pea.elements.count > 1 && nRemaining > 2 {
-            expecting += hardStops
+        // Check if this consonant follows a diphthong like AH, AW, AY
+        // If true, only allow vowels, Y, and final S
+        if lastElement != nil && lastElement is DiphthongBlend {
+
+            // For generating the last letter in the word, should only be E, Y, or S
+            if nRemaining == 2 {
+                if self.allowedVowels.contains(.E) {
+                    expecting += [.E]
+                }
+                if self.blendsWithY {
+                    expecting += [.Y]
+                }
+                if self.canPlural {
+                    expecting += [.S]
+                }
+            }
+            
+            // Middle of the word allows all vowel followers and Y
+            else {
+                expecting = self.allowedVowels
+                if self.blendsWithY {
+                    expecting += [.Y]
+                }
+            }
+        }
+        
+        // This is the normal case to allow the consonants respective hard stops to follow in the middle of a word
+        else {
+            expecting = super.nextLetters(pea: pea, nRemaining: nRemaining)
+            
+            if pea.elements.count > 1 && nRemaining > 2 {
+                expecting += hardStops
+            }
         }
         
         return expecting
@@ -150,12 +182,12 @@ let C = Consonant( id: .C,
     canPlural: true,
     dipthong: false,
     liquidBlend: true,
-    endBias: 1,
+    endBias: 2,
     dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
         
         // Allow final I for FOCI & LOCI
-        if posIndicator == .positionLAST && (phonemes.matchesString("FO", matchFull: true) ||
-                                             phonemes.matchesString("LO", matchFull: true)) {
+        if posIndicator == .positionLAST &&
+            (phonemes.matchesString("FO", matchFull: true) || phonemes.matchesString("LO", matchFull: true)) {
             return [.I]
         }
         else {
@@ -163,38 +195,39 @@ let C = Consonant( id: .C,
         }
     },
     
-    verifyEnd: { (phonemes: PhoneticElementArray) in
-        
-        let lastElement = phonemes.lastElement()
-        
-        // Single vowels
-        if lastElement is Vowel {
-            
-            // IC is always a valid ending
-            if lastElement!.id == "I" {
-                return true
-            }
-                
-            // other vowels only work with single syllable words
-            // COULD BE EXCEPTIONS TO THIS...something like EMACS?
-            else if phonemes.numSyllables() > 1 {
-                return false
-            }
-                
-            else {
-                return true
-            }
-        }
-            
-        // Vowel blends that end in I are ok
-        else if lastElement is VowelBlend && String(Array(lastElement!.id)[1]) == "I" {
-            return true
-        }
-            
-        else {
-            return false
-        }
-    } )
+    verifyEnd: nil)
+//    verifyEnd: { (phonemes: PhoneticElementArray) in
+//        
+//        let lastElement = phonemes.lastElement()
+//        
+//        // Single vowels
+//        if lastElement is Vowel {
+//            
+//            // IC is always a valid ending
+//            if lastElement!.id == "I" {
+//                return true
+//            }
+//                
+//            // other vowels only work with single syllable words
+//            // COULD BE EXCEPTIONS TO THIS...something like EMACS?
+//            else if phonemes.numSyllables() > 1 {
+//                return false
+//            }
+//                
+//            else {
+//                return true
+//            }
+//        }
+//            
+//        // Vowel blends that end in I are ok
+//        else if lastElement is VowelBlend && String(Array(lastElement!.id)[1]) == "I" {
+//            return true
+//        }
+//            
+//        else {
+//            return false
+//        }
+//    } )
 
 let D = Consonant( id: .D,
     blendStart: [.R],
@@ -241,35 +274,36 @@ let F = Consonant( id: .F,
             return []
         }
     },
-    verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
-        
-        let lastElement = phonemes.lastElement()
-        
-        // 4 letter words: only allow vowel blends and E ("CLEF"), no 2-syllable words ending in F
-        if phonemes.numLetters() < 4 {
-            if lastElement! is VowelBlend {
-                return true
-            }
-            else if phonemes.numSyllables() == 2 || lastElement!.id != "E" {
-                return false
-            }
-            else {
-                return true
-            }
-        }
-            
-        // Only allow vowel blends (which ones?) for 5-letter or longer words, ex. THIEF, PROOF
-        else {
-            if lastElement! is VowelBlend {
-                return true
-            }
-
-            else {
-                return true
-            }
-        }
-    }
-)
+    verifyEnd: nil)
+//    verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
+//        
+//        let lastElement = phonemes.lastElement()
+//        
+//        // 4 letter words: only allow vowel blends and E ("CLEF"), no 2-syllable words ending in F
+//        if phonemes.numLetters() < 4 {
+//            if lastElement! is VowelBlend {
+//                return true
+//            }
+//            else if phonemes.numSyllables() == 2 || lastElement!.id != "E" {
+//                return false
+//            }
+//            else {
+//                return true
+//            }
+//        }
+//            
+//        // Only allow vowel blends (which ones?) for 5-letter or longer words, ex. THIEF, PROOF
+//        else {
+//            if lastElement! is VowelBlend {
+//                return true
+//            }
+//
+//            else {
+//                return true
+//            }
+//        }
+//    }
+//)
 
 let G = Consonant( id: .G,
     blendStart: [.L, .N, .R],
@@ -478,7 +512,16 @@ let N = Consonant( id: .N,
     dipthong: false,
     liquidBlend: false,
     endBias: 3,
-    dynamicFollowers: nil,
+    dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
+        
+        // Allow final I for RANI
+        if pos == .positionLAST && phonemes.matchesString("RA", matchFull: true) {
+            return [.I]
+        }
+        else {
+            return []
+        }
+    },
     verifyEnd: nil)
 
 let P = Consonant( id: .P,
@@ -534,11 +577,10 @@ let R = Consonant( id: .R,
     dipthong: false,
     liquidBlend: false,
     endBias: 3,
-    dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
+    dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
         
         // Allow final I for SAFARI, SARI, TORI
-        if posIndicator == .positionLAST && (phonemes.matchesString("SAFA", matchFull: true) ||
-            phonemes.matchesString("SA", matchFull: true) || phonemes.matchesString("TO", matchFull: true)) {
+        if pos == .positionLAST && phonemes.matchesSet(["SA", "SAFA", "TO"]) {
             return [.I]
         }
         else {
@@ -627,7 +669,7 @@ let V = Consonant( id: .V,
 
 let W = Consonant( id: .W,
     blendStart: [.H, .R],
-    blendInto: [.D, .K, .L, .N, .S, .T],
+    blendInto: [.D, .K, .L, .N, .R, .S, .T],
     defFinal: [.D, .L, .N],         // final D: LEWD
     hardStops: [],
     allowedVowels: allVowels,

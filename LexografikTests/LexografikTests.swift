@@ -127,7 +127,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CHORAL")))
     }
     
-    func test_undertaKe() {   //2012Aug01
+    func test_2012Aug01_undertaKe() {
         storm = WordStorm(outer: ["U", "N", "D", "E", "R", "T", "A", "E"], center: "K")
         
         storm.gatherWords(4)
@@ -164,7 +164,7 @@ class LexografikTests: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "NETUK")))
     }
 
-    func test_extenSive() {   //2014Sep11
+    func test_2014Sep11_extenSive() {
         storm = WordStorm(outer: ["E", "X", "T", "E", "N", "I", "V", "E"], center: "S")
     
         storm.gatherWords(4)
@@ -219,7 +219,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "INVEST")))
     }
     
-    func test_squabbLes() {   //2012Sep16
+    func test_2012Sep16_squabbLes() {
         storm = WordStorm(outer: ["S", "Q", "U", "A", "B", "B", "E", "S"], center: "L")
         
         storm.gatherWords(4)
@@ -284,7 +284,7 @@ class LexografikTests: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "LASQUS")))
     }
 
-    func test_Reviewing() {   //2012Sep29
+    func test_2012Sep29_Reviewing() {
         storm = WordStorm(outer: ["E", "V", "I", "E", "W", "I", "N", "G"], center: "R")
         
         storm.gatherWords(4)
@@ -345,7 +345,7 @@ class LexografikTests: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "GIEW")))
     }
 
-    func test_gRuffness() {   //2014Sep19
+    func test_2014Sep19_gRuffness() {   //2014Sep19
         storm = WordStorm(outer: ["G", "U", "F", "F", "N", "E", "S", "S"], center: "R")
         
         storm.gatherWords(4)
@@ -375,7 +375,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SUFFERS")))
     }
 
-    func test_mOuthwash() {   //2014Sep23
+    func test_2014Sep23_mOuthwash() {   //2014Sep23
         storm = WordStorm(outer: ["M", "U", "T", "H", "W", "A", "S", "H"], center: "O")
         
         storm.gatherWords(4)
@@ -383,7 +383,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TWOS")))
     }
     
-    func test_pollutIng() {   //2014Sep19
+    func test_2014Sep19_pollutIng() {   //2014Sep19
         storm = WordStorm(outer: ["P", "O", "L", "L", "U", "T", "N", "G"], center: "I")
         
         storm.gatherWords(4)
@@ -429,7 +429,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TOLLING")))
     }
     
-    func test_coxSwains() {   //2012May05
+    func test_2012May05_coxSwains() {
         storm = WordStorm(outer: ["C", "O", "X", "S", "W", "A", "I", "N"], center: "S")
         
         storm.gatherWords(4)
@@ -515,7 +515,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SHROUD")))
     }
     
-    func test_struGgles() {   //2012Sep16
+    func test_2012Sep16_struGgles() {   //2012Sep16
         storm = WordStorm(outer: ["S", "T", "R", "U", "G", "L", "E", "S"], center: "G")
         
         storm.gatherWords(4)
@@ -565,7 +565,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "STRUGGLE")))
     }
 
-    func test_passCetty() {   //2013Feb18
+    func test_2013Feb18_passCetty() {   //2013Feb18
         storm = WordStorm(outer: ["P", "A", "S", "S", "E", "T", "T", "Y"], center: "C")
         
         storm.gatherWords(4)
@@ -608,14 +608,14 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ASPECTS")))
     }
     
-    func test_shOemaker() {  //2012Sep21
+    func test_2012Sep21_shOemaker() {  //2012Sep21
         storm = WordStorm(outer: ["S", "H", "E", "M", "A", "K", "E", "R"], center: "O")
         
         storm.gatherWords(4)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AMOK")))
     }
     
-    func test_tHickened() {  //2012Sep04
+    func test_2012Sep04_tHickened() {  //2012Sep04
         storm = WordStorm(outer: ["T", "I", "C", "K", "E", "N", "E", "D"], center: "H")
         
         storm.gatherWords(4)
@@ -632,7 +632,7 @@ class LexografikTests: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "CHEEKI")))
     }
     
-    func test_authEntic() {  //2014Nov15
+    func test_2014Nov15_authEntic() {  //2014Nov15
         storm = WordStorm(outer: ["A", "U", "T", "H", "N", "T", "I", "C"], center: "E")
         
         storm.gatherWords(4)
@@ -643,7 +643,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TENTH")))        
     }
     
-    func test_chrOmatic() {  //2011Dec27
+    func test_2011Dec27_chrOmatic() {  //2011Dec27
         storm = WordStorm(outer: ["C", "H", "R", "M", "A", "T", "I", "C"], center: "O")
         
         storm.gatherWords(4)
@@ -662,7 +662,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "COMIC")))
     }
     
-    func test_prEshrunk() {  //2011Dec20
+    func test_2011Dec20_prEshrunk() {  //2011Dec20
         storm = WordStorm(outer: ["P", "R", "S", "H", "R", "U", "N", "K"], center: "E")
         
         storm.gatherWords(4)
@@ -686,7 +686,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "NADIR")))
     }
     
-    func test_Pesticide() {  // 22Oct2014
+    func test_22Oct2014_Pesticide() {
         storm = WordStorm(outer: ["E", "S", "T", "I", "C", "I", "D", "E"], center: "P")
         
         storm.gatherWords(4)
@@ -701,7 +701,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PIECES")))
     }
 
-    func test_academIes() {  // 01Sep2013
+    func test_01Sep2013_academIes() {
         storm = WordStorm(outer: ["A", "C", "A", "D", "E", "M", "E", "S"], center: "I")
         
         storm.gatherWords(4)
@@ -713,14 +713,14 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MEDIA")))
     }
     
-    func test_crocodIle() {  // 05Oct2012
+    func test_05Oct2012_crocodIle() {
         storm = WordStorm(outer: ["C", "R", "O", "C", "O", "D", "L", "E"], center: "I")
         
         storm.gatherWords(4)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "OLIO")))
     }
     
-    func test_compLexes() {  // 20Nov2012
+    func test_20Nov2012_compLexes() {
         storm = WordStorm(outer: ["C", "O", "M", "P", "E", "X", "E", "S"], center: "L")
         
         storm.gatherWords(4)
@@ -730,8 +730,8 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ELOPE")))
     }
     
-    func test_dReamable() {
-        storm = WordStorm(outer: ["D", "E", "A", "M", "A", "B", "L", "E"], center: "R")
+    func test_Reamabled() {
+        storm = WordStorm(outer: ["E", "A", "M", "A", "B", "L", "E", "D"], center: "R")
         
         storm.gatherWords(5)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BEARD")))
@@ -750,7 +750,7 @@ class LexografikTests: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "FLEB")))
     }
     
-    func test_truantIng() {      // 08Apr2013        
+    func test_08Apr2013_truantIng() {      // 08Apr2013
         storm = WordStorm(outer: ["T", "R", "U", "A", "N", "T", "N", "G"], center: "I")
         
         storm.gatherWords(4)
@@ -772,7 +772,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MINUS")))
     }
     
-    func test_fReckling() {       // 03Apr2013
+    func test_03Apr2013_fReckling() {
         storm = WordStorm(outer: ["F", "E", "C", "K", "L", "I", "N", "G"], center: "R")
         
         storm.gatherWords(5)
@@ -780,7 +780,7 @@ class LexografikTests: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "RINLK")))
     }
     
-    func test_sorrowiNg() {       // 07Apr2013
+    func test_07Apr2013_sorrowiNg() {       // 07Apr2013
         storm = WordStorm(outer: ["S", "O", "R", "R", "O", "W", "I", "G"], center: "N")
         
         storm.gatherWords(5)
@@ -792,7 +792,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "WOOING")))
     }
     
-    func test_hankerIng() {        // 17Nov2013
+    func test_17Nov2013_hankerIng() {        // 17Nov2013
         storm = WordStorm(outer: ["H", "A", "N", "K", "E", "R", "N", "G"], center: "I")
         
         storm.gatherWords(4)
@@ -812,7 +812,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AGOG")))
     }
     
-//    func test_coaguLant() {      // 17Dec2011
+//    func test_17Dec2011_coaguLant() {
 //        storm = WordStorm(outer: ["C", "O", "A", "G", "U", "A", "N", "T"], center: "L")
 //        
 //        storm.gatherWords(4)
@@ -849,7 +849,7 @@ class LexografikTests: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "COOI")))
     }
     
-    func test_pedigreeD() {         // 09Jun2011
+    func test_09Jun2011_pedigreeD() {
         storm = WordStorm(outer: ["P", "E", "D", "I", "G", "R", "E", "E"], center: "D")
         
         storm.gatherWords(4)
@@ -880,21 +880,21 @@ class LexografikTests: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "ITEF")))
     }
     
-    func test_heaLthily() {             // 01Jun2011
+    func test_01Jun2011_heaLthily() {
         storm = WordStorm(outer: ["H", "E", "A", "T", "H", "I", "L", "Y"], center: "L")
         
         storm.gatherWords(5)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LATHI")))
     }
     
-    func test_Crediting() {             // 12Jun2011
+    func test_12Jun2011_Crediting() {
         storm = WordStorm(outer: ["R", "E", "D", "I", "T", "I", "N", "G"], center: "C")
         
         storm.gatherWords(5)
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "NITCE")))
     }
     
-    func test_Amazingly() {             // 04Jun2011
+    func test_04Jun2011_Amazingly() {
         storm = WordStorm(outer: ["M", "A", "Z", "I", "N", "G", "L", "Y"], center: "A")
         
         storm.gatherWords(4)
@@ -903,7 +903,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MYNA")))
     }
     
-    func test_inScribes() {         // 02Jun2011
+    func test_02Jun2011_inScribes() {
         storm = WordStorm(outer: ["I", "N", "S", "C", "R", "I", "B", "E"], center: "S")
         
         storm.gatherWords(4)
@@ -925,7 +925,7 @@ class LexografikTests: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "CIOSS")))
     }
     
-    func test_vainglorY() {             // 30Jun2011
+    func test_30Jun2011_vainglorY() {             // 30Jun2011
         storm = WordStorm(outer: ["V", "A", "I", "N", "G", "L", "O", "R"], center: "Y", filterStops: false)
         
         storm.gatherWords(4)
@@ -943,7 +943,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "GNARLY")))
     }
     
-    func test_commonErs() {        // 13Jun2011
+    func test_13Jun2011_commonErs() {        // 13Jun2011
         storm = WordStorm(outer: ["C", "O", "M", "M", "O", "N", "R", "S"], center: "E")
         
         storm.gatherWords(4)
@@ -971,7 +971,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "INLET")))
     }
     
-    func test_severallY() {         // 23Apr2015
+    func test_23Apr2015_severallY() {
         storm = WordStorm(outer: ["S", "E", "V", "E", "R", "A", "L", "L"], center: "Y")
         
         storm.gatherWords(4)
@@ -980,7 +980,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "EYES")))
     }
     
-    func test_cookerieS() {         // 27Jun2011
+    func test_27Jun2011_cookerieS() {
         storm = WordStorm(outer: ["C", "O", "O", "K", "E", "R", "I", "E"], center: "S")
         
         storm.gatherWords(4)
@@ -988,7 +988,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ORCS")))
     }
     
-    func test_employeeS() {         // 14May2011
+    func test_14May2011_employeeS() {         // 14May2011
         storm = WordStorm(outer: ["E", "M", "P", "L", "O", "Y", "E", "E"], center: "S")
         
         storm.gatherWords(4)
@@ -1008,7 +1008,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ARGUE")))
     }
     
-    func test_mandatOry() {         // 30May2011
+    func test_30May2011_mandatOry() {
         storm = WordStorm(outer: ["M", "A", "N", "D", "A", "T", "R", "Y"], center: "O")
         
         storm.gatherWords(4)
@@ -1025,7 +1025,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DYNAMO")))
    }
     
-    func test_broomdiSh() {         // 04May2011
+    func test_04May2011_broomdiSh() {         // 04May2011
         storm = WordStorm(outer: ["B", "R", "O", "O", "M", "D", "I", "H"], center: "S")
         
         storm.gatherWords(4)
@@ -1036,7 +1036,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MOBS")))
     }
         
-    func test_Requiting() {         // 29Apr2015
+    func test_29Apr2015_Requiting() {
         storm = WordStorm(outer: ["E", "Q", "U", "I", "T", "I", "N", "G"], center: "R")
         
         storm.gatherWords(5)
@@ -1058,7 +1058,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MOIRE")))
     }
     
-    func test_chainestY() {         // 21Apr2014
+    func test_21Apr2014_chainestY() {         // 21Apr2014
         storm = WordStorm(outer: ["C", "H", "A", "I", "N", "E", "S", "T"], center: "Y")
         
         storm.gatherWords(4)
@@ -1213,7 +1213,36 @@ class LexografikTests: XCTestCase {
         storm.gatherWords(5)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "EIGHT")))
     }
-}
+    
+    func test_15May2011_wAyfaring() {
+        storm = WordStorm(outer: ["W", "Y", "F", "A", "R", "I", "N", "G"], center: "A")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AWAY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AWRY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "RANI")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "GNAW")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "YAWN")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "RAGA")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "AWNF")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "AWNG")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "AWNI")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "AWNR")))
+    }
+    
+    func test_03May2011_cHopstick() {
+        storm = WordStorm(outer: ["C", "O", "P", "S", "T", "I", "C", "K"], center: "H")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CHIC")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CHOC")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PISH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PITH")))
+        
+//        storm.gatherWords(6)
+//        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SHTICK")))
+//        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "KITSCH")))
+    }}
 
 
 

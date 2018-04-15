@@ -17,9 +17,6 @@ class DiphthongBlend: LexicalBlend {
         super.init(first: vowel, second: consonant, start: start, end: end,
                    defFirst: [], defMiddle: interFollowers, defLast: finFollowers)
         
-//        initialFollowers = { return [] }
-//        interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
-//        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
         verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return end }
         verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
     }
@@ -30,10 +27,7 @@ class DiphthongBlend: LexicalBlend {
         singlePhoneme = true
         super.init(first: vowel, second: consonant, start: start, end: end,
                    defFirst: initFollowers, defMiddle: interFollowers, defLast: finFollowers)
-        
-//        initialFollowers = { return initFollowers }
-//        interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
-//        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
+
         verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return end }
         verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
     }
@@ -60,14 +54,14 @@ let OH = DiphthongBlend(vowel: .O, consonant: .H, start: true, end: false,
 //let UH = DiphthongBlend(vowel: .A, consonant: .H, start: false, end: false)
 
 let AW = DiphthongBlend(vowel: .A, consonant: .W, start: true, end: true,
-                        initFollowers: [.A, .E, .L, .N],
-                        interFollowers: [.A, .D, .E, .L, .N, .T],
+                        initFollowers: [.A, .E, .L, .N, .R],
+                        interFollowers: [.A, .D, .E, .I, .L, .N, .R, .T],
                         finFollowers: [.L, .N, .S])
 
 let EW = DiphthongBlend(vowel: .E, consonant: .W, start: true, end: true,
                         initFollowers: [.E],
                         interFollowers: [.A, .D, .E, .I, .L, .N, .T, .Y],
-                        finFollowers: [.N, .S, .T])
+                        finFollowers: [.L, .N, .S, .T])
 
 let OW = DiphthongBlend(vowel: .O, consonant: .W, start: true, end: true,
                         initFollowers: [.E, .I, .L, .N],
@@ -88,5 +82,6 @@ let OY = DiphthongBlend(vowel: .O, consonant: .Y, start: true, end: true,
                         interFollowers: [.A, .E, .I, .O],
                         finFollowers: [.S])
 
-let diphthongBlendMap = ["AH":AH, "EH":EH, "OH":OH, "AW":AW, "EW":EW, "OW":OW,
+let diphthongBlendMap = ["AH":AH, "EH":EH, "OH":OH,
+                         "AW":AW, "EW":EW, "OW":OW,
                          "AY":AY, "EY":EY, "OY":OY]

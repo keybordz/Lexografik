@@ -983,6 +983,10 @@ let TW = ConsonantBlend(first: .T, second: .W, start: true, end: false, single: 
 let XT = ConsonantBlend(first: .X, second: .T, start: false, end: true, single: false)
 
 let WH = ConsonantBlend(first: .W, second: .H, start: true, end: false, single: true)
+
+//let WN = ConsonantBlend(first: .W, second: .N, start: false, end: true, canPlural: true, single: true,
+//                        followers: [], finFollowers: [.Y], dynFollowers: nil)
+
 let WR = ConsonantBlend(first: .W, second: .R, start: true, end: false, single: false)
 
 let BB = ConsonantBlend(first: .B, second: .B, start: false, end: false, canPlural: false,
@@ -1127,9 +1131,9 @@ let consonantBlendMap = ["BL":BL, "BR":BR, "CH":CH, "CHR":CHR, "CK":CK, "CL":CL,
     "QU":QU, "RB":RB, "RC":RC, "RCH":RCH, "RD":RD, "RF":RF, "RG":RG, "RH":RH, "RK":RK, "RL":RL,
     "RM":RM, "RN":RN, "RP":RP, "RS":RS, "RSH":RSH, "RST":RST, "RT":RT, "RTH":RTH, "RV":RV, "RZ":RZ,
     "SC":SC, "SCH":SCH, "SCR":SCR, "SH":SH, "SHR":SHR, "SK":SK, "SL":SL, "SM":SM, "SN":SN, "SP":SP,
-    "SPH":SPH, "SPL":SPL, "SPR":SPR, "SQ":SQ, "SQU":SQU,
-    "ST":ST, "STR":STR, "SW":SW, "TC":TC, "TCH":TCH,
-    "TH":TH, "THR":THR,"TL":TL, "TR": TR,  "TW":TW, "XT":XT, "WH":WH, "WR":WR,
+    "SPH":SPH, "SPL":SPL, "SPR":SPR, "SQ":SQ, "SQU":SQU, "ST":ST, "STR":STR, "SW":SW,
+    "TC":TC, "TCH":TCH, "TH":TH, "THR":THR, "TL":TL, "TR":TR, "TW":TW,
+    "WH":WH, "WR":WR, "XT":XT,
     
     "BB":BB, "CC":CC, "DD":DD, "FF":FF, "GG":GG, "KK":KK, "LL":LL, "MM":MM,
     "NN":NN, "PP":PP, "RR":RR, "SS":SS, "TT":TT, "VV":VV, "ZZ":ZZ]
