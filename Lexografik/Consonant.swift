@@ -18,8 +18,16 @@ class Consonant: LexicalLetter {
     let liquidBlend: Bool
     
     init(id: Letter,
-         blendStart: [Letter], blendInto: [Letter], defFinal: [Letter], hardStops: [Letter], allowedVowels: [Letter],
-         blendsWithY: Bool, canPlural: Bool, dipthong: Bool, liquidBlend: Bool, endBias: Int,
+         blendStart: [Letter],
+         blendInto: [Letter],
+         defFinal: [Letter],
+         hardStops: [Letter],
+         allowedVowels: [Letter],
+         blendsWithY: Bool,
+         canPlural: Bool,
+         dipthong: Bool,
+         liquidBlend: Bool, 
+         endBias: Int,
          dynamicFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?,
          verifyEnd: ((PhoneticElementArray) -> Bool)?) {
         

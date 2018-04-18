@@ -102,7 +102,7 @@ let AI = VowelBlend(first: .A, second: .I, start: true, end: false, glottal: fal
 
 let AO = VowelBlend(first: .A, second: .O, start: true, end: false, glottal: true,
     initFollowers: [.R],
-    intFollowers: [],
+    intFollowers: [.S, .T],     // CHAOS, CHAOTIC
     
     nextLetters: { (phonemes: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         let lastElement = phonemes.lastElement()
@@ -193,18 +193,6 @@ let IA = VowelBlend(first: .I, second: .A, start: true, glottal: true,
 let IE = VowelBlend(first: .I, second: .E, start: false, end: true, glottal: false,
     initFollowers: [],
     intFollowers: [.C, .D, .F, .G, .L, .M, .N, .R, .S, .T, .U, .V, .Z],
-//    generateFollowers: { (phonemes:PhoneticElementArray) -> [Letter] in
-//        let lastElement = phonemes.lastElement
-//
-//        // mainly for VIEW
-//        if lastElement()!.id == "V" {
-//            return [.D, .N, .R, .S, .W]
-//        }
-//        else {
-//            return [.C, .D, .F, .G, .L, .M, .N, .R, .S, .T, .U, .V, .Z]
-//        }
-//    },
-   
     nextLetters: { (phonemes: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         let lastElement = phonemes.lastElement()
         
@@ -228,19 +216,7 @@ let IE = VowelBlend(first: .I, second: .E, start: false, end: true, glottal: fal
 
 let II = VowelBlend(first: .I, second: .I, start: false, end: false, glottal: true,
     initFollowers: [],
-    intFollowers: [],
-//    generateFollowers: { (phonemes:PhoneticElementArray) -> [Letter] in
-//        let lastElement = phonemes.lastElement
-//        
-//        // SKIING is the only word with II
-//        if lastElement()!.id == "SK" {
-//            return [.N]
-//        }
-//        else {
-//            return []
-//        }
-//    },
-    
+    intFollowers: [],    
     nextLetters: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) -> [Letter] in
         let lastElement = phonemes.lastElement()
         

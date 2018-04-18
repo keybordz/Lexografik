@@ -533,8 +533,9 @@ class LetterArray: Equatable {
                     else if suffix == .L && lexLast.liquidBlend {
                         phonemes.appendElement(lexSuffix!)
                         sylState = .articulateStart
-                        expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
-                        nextBias = .expectSubset
+//                        expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+//                        nextBias = .expectSubset
+                        nextBias = .expectVowel
                         return true
                     }
                      

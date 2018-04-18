@@ -16,7 +16,8 @@ enum PositionIndicator: Int {
 
 class PhoneticElement {
     var id: String = ""
-    var numLetters: Int = 0
+    var numLetters: Int = 0              // Number of letters in the id string
+    var canPlural: Bool = true
     var defaultFirst: [Letter]
     var defaultMiddle: [Letter]
     var defaultLast: [Letter]
@@ -63,7 +64,6 @@ class PhoneticElement {
         return nextLtrs
     }
     
-    // these can go away
     var verifyEndOfWord: ((PhoneticElementArray) -> Bool)?
     var verifyPlural: ((PhoneticElementArray) -> Bool)?
     

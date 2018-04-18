@@ -141,8 +141,8 @@ let O = Vowel( id: .O,
     blendStart: [.A, .O, .I, .U],
     blendInto: [.A, .E, .O, .I, .U],
     
-    // Final consonant enders: TROD, GROG, CAROL, PROM, TROT, BROW, BOOMBOX, DECOY
-    finalConsonants: [.D, .G, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
+    // Final consonant enders: TROD, GROG, CAROL, PROM, VALOR, TROT, BROW, BOOMBOX, DECOY
+    finalConsonants: [.D, .G, .L, .M, .N, .R, .S, .T, .W, .X, .Y],
     endBias: 1,
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
@@ -162,6 +162,11 @@ let O = Vowel( id: .O,
             // Only allow final K for AMOK
             if pea.matchesString("AM", matchFull: true) {
                 followers += [.K]
+            }
+            
+            // Only allow final P for CHOP, CLOP, CROP, DROP, FLOP, PLOP, PROP, SHOP, SLOP, STOP
+            if pea.matchesSet(["CH", "CL", "CR", "DR", "FL", "PL", "PR", "SH", "SL", "ST"]) {
+                followers += [.P]
             }
         }
         return followers

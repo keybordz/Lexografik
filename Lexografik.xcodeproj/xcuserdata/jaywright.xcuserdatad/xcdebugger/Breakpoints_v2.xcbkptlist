@@ -138,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LexografikTests/LexografikTests.swift"
-            timestampString = "545506121.09308"
+            timestampString = "545761008.360221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "29"
@@ -154,7 +154,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LexografikTests/LexografikTests.swift"
-            timestampString = "545506121.093843"
+            timestampString = "545761008.360358"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "29"
@@ -170,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LexografikTests/LexografikTests.swift"
-            timestampString = "545506121.094469"
+            timestampString = "545761008.360465"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "55"
@@ -218,7 +218,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.0950429"
+            timestampString = "545761008.360571"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "195"
@@ -234,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.095154"
+            timestampString = "545761008.360678"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "292"
@@ -250,7 +250,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.09525"
+            timestampString = "545761008.360773"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "215"
@@ -266,7 +266,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.095338"
+            timestampString = "545761008.360868"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "300"
@@ -314,7 +314,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.095425"
+            timestampString = "545761008.3609639"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "321"
@@ -362,7 +362,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LexicalBlend.swift"
-            timestampString = "545417091.980078"
+            timestampString = "545761008.361062"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "11"
@@ -426,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.09559"
+            timestampString = "545761008.361185"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "630"
-            endingLineNumber = "630"
+            startingLineNumber = "631"
+            endingLineNumber = "631"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
             <Locations>
@@ -474,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.0956939"
+            timestampString = "545761008.361281"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "675"
-            endingLineNumber = "675"
+            startingLineNumber = "676"
+            endingLineNumber = "676"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -490,11 +490,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.09579"
+            timestampString = "545761008.3613811"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "679"
-            endingLineNumber = "679"
+            startingLineNumber = "680"
+            endingLineNumber = "680"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -506,7 +506,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/Consonant.swift"
-            timestampString = "545506121.0958951"
+            timestampString = "545750890.7752891"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "363"
@@ -522,44 +522,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/PhoneticElement.swift"
-            timestampString = "545506121.0959899"
+            timestampString = "545761008.3615119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "numSyllables()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Lexografik/ConsonantBlend.swift"
-            timestampString = "545506121.0960751"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "520"
-            endingLineNumber = "520"
-            landmarkName = "unknown"
-            landmarkType = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Lexografik/ConsonantBlend.swift"
-            timestampString = "545506121.096166"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "init(first:second:start:verifyEnd:canPlural:single:conFollowers:finFollowers:dynFollowers:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -614,7 +582,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/Consonant.swift"
-            timestampString = "545506121.096307"
+            timestampString = "545750890.775581"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "474"
@@ -678,7 +646,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LexografikTests/LexografikTests.swift"
-            timestampString = "545506121.096422"
+            timestampString = "545761008.361724"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "606"
@@ -694,11 +662,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.097082"
+            timestampString = "545761008.361823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "751"
-            endingLineNumber = "751"
+            startingLineNumber = "752"
+            endingLineNumber = "752"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
             <Locations>
@@ -741,60 +709,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Lexografik/ConsonantBlend.swift"
-            timestampString = "545506121.0971839"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "451"
-            endingLineNumber = "451"
-            landmarkName = "unknown"
-            landmarkType = "0">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Lexografik.(GH : Lexografik.ConsonantBlend).(variable initialization expression).(closure #1)"
-                  moduleName = "Lexografik"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/ConsonantBlend.swift"
-                  timestampString = "491971738.066868"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "264"
-                  endingLineNumber = "264"
-                  offsetFromSymbolStart = "32">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "LexografikTests.(GH : LexografikTests.ConsonantBlend).(variable initialization expression).(closure #1)"
-                  moduleName = "LexografikTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/ConsonantBlend.swift"
-                  timestampString = "491971740.854986"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "264"
-                  endingLineNumber = "264"
-                  offsetFromSymbolStart = "32">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "LexografikTests/LexografikTests.swift"
-            timestampString = "545506121.09727"
+            timestampString = "545761008.361919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "803"
-            endingLineNumber = "803"
+            startingLineNumber = "815"
+            endingLineNumber = "815"
             landmarkName = "test_17Nov2013_hankerIng()"
             landmarkType = "7">
          </BreakpointContent>
@@ -806,11 +726,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.097869"
+            timestampString = "545761008.362018"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "668"
-            endingLineNumber = "668"
+            startingLineNumber = "669"
+            endingLineNumber = "669"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
             <Locations>
@@ -854,7 +774,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.097989"
+            timestampString = "545761008.362113"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "383"
@@ -902,7 +822,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.098093"
+            timestampString = "545761008.362209"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "366"
@@ -918,7 +838,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.098193"
+            timestampString = "545761008.362303"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "388"
@@ -966,7 +886,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.098291"
+            timestampString = "545761008.362398"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "385"
@@ -1014,7 +934,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.098388"
+            timestampString = "545761008.362493"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "401"
@@ -1062,11 +982,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.0984859"
+            timestampString = "545761008.362591"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "756"
-            endingLineNumber = "756"
+            startingLineNumber = "757"
+            endingLineNumber = "757"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1078,7 +998,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.098583"
+            timestampString = "545761008.3626961"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "407"
@@ -1094,11 +1014,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LexografikTests/LexografikTests.swift"
-            timestampString = "545506121.098683"
+            timestampString = "545761008.362802"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "874"
-            endingLineNumber = "874"
+            startingLineNumber = "886"
+            endingLineNumber = "886"
             landmarkName = "test_justifiEd()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1109,24 +1029,8 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Lexografik/ConsonantBlend.swift"
-            timestampString = "545506121.0993969"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "345"
-            endingLineNumber = "345"
-            landmarkName = "defaultVerifyEnd(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.099489"
+            timestampString = "545761008.362951"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "511"
@@ -1174,7 +1078,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.099587"
+            timestampString = "545761008.363061"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "421"
@@ -1222,7 +1126,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.099683"
+            timestampString = "545761008.36317"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "522"
@@ -1270,7 +1174,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.0997829"
+            timestampString = "545761008.363273"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "453"
@@ -1397,54 +1301,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Lexografik/ConsonantBlend.swift"
-            timestampString = "545506121.100033"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1069"
-            endingLineNumber = "1069"
-            landmarkName = "unknown"
-            landmarkType = "0">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Lexografik.PhoneticElementArray) -&gt; Swift.Bool in variable initialization expression of Lexografik.SS : Lexografik.ConsonantBlend"
-                  moduleName = "Lexografik"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/ConsonantBlend.swift"
-                  timestampString = "541378768.207574"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "731"
-                  endingLineNumber = "731"
-                  offsetFromSymbolStart = "49">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (LexografikTests.PhoneticElementArray) -&gt; Swift.Bool in variable initialization expression of LexografikTests.SS : LexografikTests.ConsonantBlend"
-                  moduleName = "LexografikTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/ConsonantBlend.swift"
-                  timestampString = "541378769.634288"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "731"
-                  endingLineNumber = "731"
-                  offsetFromSymbolStart = "49">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Lexografik/ViewController.swift"
             timestampString = "541629525.713128"
             startingColumnNumber = "9223372036854775807"
@@ -1479,7 +1335,7 @@
             condition = "suffix == .Y"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.100181"
+            timestampString = "545761008.363601"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "355"
@@ -1527,11 +1383,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.100281"
+            timestampString = "545761008.363718"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "578"
-            endingLineNumber = "578"
+            startingLineNumber = "579"
+            endingLineNumber = "579"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
             <Locations>
@@ -1575,11 +1431,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.100376"
+            timestampString = "545761008.3638279"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "693"
-            endingLineNumber = "693"
+            startingLineNumber = "694"
+            endingLineNumber = "694"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
             <Locations>
@@ -1623,7 +1479,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.100474"
+            timestampString = "545761008.363943"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "348"
@@ -1671,7 +1527,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/VowelBlend.swift"
-            timestampString = "545425760.3019871"
+            timestampString = "545761008.364063"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "133"
@@ -1687,11 +1543,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.100603"
+            timestampString = "545761008.364175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "728"
-            endingLineNumber = "728"
+            startingLineNumber = "729"
+            endingLineNumber = "729"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1703,11 +1559,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.100702"
+            timestampString = "545761008.364284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "766"
-            endingLineNumber = "766"
+            startingLineNumber = "767"
+            endingLineNumber = "767"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
             <Locations>
@@ -1749,16 +1605,48 @@
          <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
-            condition = "cKey == &quot;NY&quot;"
+            condition = "cKey == &quot;TY&quot;"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.1008"
+            timestampString = "545761008.364388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "503"
             endingLineNumber = "503"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Lexografik.LetterArray.testLexical(Lexografik.Letter, remainingLetters: Swift.Int) -&gt; Swift.Bool"
+                  moduleName = "Lexografik"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/LetterArray.swift"
+                  timestampString = "545760084.902193"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "503"
+                  endingLineNumber = "503"
+                  offsetFromSymbolStart = "20379">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LexografikTests.LetterArray.testLexical(LexografikTests.Letter, remainingLetters: Swift.Int) -&gt; Swift.Bool"
+                  moduleName = "LexografikTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/LetterArray.swift"
+                  timestampString = "545760086.4494849"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "503"
+                  endingLineNumber = "503"
+                  offsetFromSymbolStart = "20379">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1769,7 +1657,7 @@
             condition = "cKey == &quot;ST&quot;"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.100899"
+            timestampString = "545761008.364496"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "507"
@@ -1785,12 +1673,12 @@
                   moduleName = "Lexografik"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/LetterArray.swift"
-                  timestampString = "545424775.7495641"
+                  timestampString = "545751624.6004781"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "492"
-                  endingLineNumber = "492"
-                  offsetFromSymbolStart = "20390">
+                  startingLineNumber = "507"
+                  endingLineNumber = "507"
+                  offsetFromSymbolStart = "21856">
                </Location>
                <Location
                   shouldBeEnabled = "No"
@@ -1800,12 +1688,12 @@
                   moduleName = "LexografikTests"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/LetterArray.swift"
-                  timestampString = "545424777.307772"
+                  timestampString = "545751627.365147"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "492"
-                  endingLineNumber = "492"
-                  offsetFromSymbolStart = "20390">
+                  startingLineNumber = "507"
+                  endingLineNumber = "507"
+                  offsetFromSymbolStart = "21856">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1817,7 +1705,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/Consonant.swift"
-            timestampString = "545506121.101002"
+            timestampString = "545750890.779588"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "120"
@@ -1864,56 +1752,8 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Lexografik/ConsonantBlend.swift"
-            timestampString = "545506121.101096"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "879"
-            endingLineNumber = "879"
-            landmarkName = "unknown"
-            landmarkType = "0">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Lexografik.PhoneticElementArray, Lexografik.PositionIndicator) -&gt; Swift.Array&lt;Lexografik.Letter&gt; in variable initialization expression of Lexografik.SH : Lexografik.ConsonantBlend"
-                  moduleName = "Lexografik"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/ConsonantBlend.swift"
-                  timestampString = "545281084.170261"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "847"
-                  endingLineNumber = "847"
-                  offsetFromSymbolStart = "52">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (LexografikTests.PhoneticElementArray, LexografikTests.PositionIndicator) -&gt; Swift.Array&lt;LexografikTests.Letter&gt; in variable initialization expression of LexografikTests.SH : LexografikTests.ConsonantBlend"
-                  moduleName = "LexografikTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/ConsonantBlend.swift"
-                  timestampString = "545281090.902397"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "847"
-                  endingLineNumber = "847"
-                  offsetFromSymbolStart = "52">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Lexografik/Vowel.swift"
-            timestampString = "545506121.101185"
+            timestampString = "545589102.137949"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "91"
@@ -1961,7 +1801,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/Vowel.swift"
-            timestampString = "545506121.101272"
+            timestampString = "545589102.138662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "88"
@@ -2009,7 +1849,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/Consonant.swift"
-            timestampString = "545506121.1013581"
+            timestampString = "545750890.779748"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "495"
@@ -2057,7 +1897,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.1014431"
+            timestampString = "545761008.364736"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "515"
@@ -2073,11 +1913,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.101537"
+            timestampString = "545761008.364841"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "655"
-            endingLineNumber = "655"
+            startingLineNumber = "656"
+            endingLineNumber = "656"
             landmarkName = "testLexical(_:remainingLetters:)"
             landmarkType = "7">
             <Locations>
@@ -2121,7 +1961,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/VowelBlend.swift"
-            timestampString = "545425760.30448"
+            timestampString = "545761008.364954"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "111"
@@ -2136,56 +1976,8 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Lexografik/ConsonantBlend.swift"
-            timestampString = "545506121.101663"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "789"
-            endingLineNumber = "789"
-            landmarkName = "unknown"
-            landmarkType = "0">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Lexografik.PhoneticElementArray, Lexografik.PositionIndicator) -&gt; Swift.Array&lt;Lexografik.Letter&gt; in variable initialization expression of Lexografik.RG : Lexografik.ConsonantBlend"
-                  moduleName = "Lexografik"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/ConsonantBlend.swift"
-                  timestampString = "545348499.786188"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "766"
-                  endingLineNumber = "766"
-                  offsetFromSymbolStart = "52">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (LexografikTests.PhoneticElementArray, LexografikTests.PositionIndicator) -&gt; Swift.Array&lt;LexografikTests.Letter&gt; in variable initialization expression of LexografikTests.RG : LexografikTests.ConsonantBlend"
-                  moduleName = "LexografikTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jaywright/Desktop/Development/Lexografik/Lexografik/ConsonantBlend.swift"
-                  timestampString = "545348501.346982"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "766"
-                  endingLineNumber = "766"
-                  offsetFromSymbolStart = "52">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Lexografik/Vowel.swift"
-            timestampString = "545506121.10175"
+            timestampString = "545589102.1398129"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "119"
@@ -2233,7 +2025,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/Vowel.swift"
-            timestampString = "545506121.101836"
+            timestampString = "545589102.14036"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "109"
@@ -2281,7 +2073,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lexografik/LetterArray.swift"
-            timestampString = "545506121.1019191"
+            timestampString = "545761008.365105"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "484"
@@ -2320,6 +2112,22 @@
                   offsetFromSymbolStart = "17289">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Lexografik/ConsonantBlend.swift"
+            timestampString = "545761008.365204"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "init(first:second:third:initBlend:initVowels:midBlend:midVowels:finFollowers:canPlural:blendsWithY:single:endOfWord:preceders:dynFollowers:verifyEnd:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

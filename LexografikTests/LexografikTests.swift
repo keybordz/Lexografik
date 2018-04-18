@@ -402,7 +402,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LILT")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LING")))
         
-        // No final LP blends
+        // No final LP blends, except for E
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "GILP")))
         
         // No final LN blends
@@ -660,9 +660,21 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MACHO")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MACRO")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "COMIC")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MOCHA")))
+        
+        storm.gatherWords(7)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CHAOTIC")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CHARIOT")))
     }
     
-    func test_2011Dec20_prEshrunk() {  //2011Dec20
+    func test_2011May03_chromaTic() {
+        storm = WordStorm(outer: ["C", "H", "R", "O", "M", "A", "I", "C"], center: "T")
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CACTI")))
+    }
+    
+    func test_2011Dec20_prEshrunk() {
         storm = WordStorm(outer: ["P", "R", "S", "H", "R", "U", "N", "K"], center: "E")
         
         storm.gatherWords(4)
@@ -1192,8 +1204,8 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SIGHTS")))
         
         // ending restrictions on IGH
-        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "SISIGH")))
-        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "SITIGH")))
+//        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "SISIGH")))
+//        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "SITIGH")))
         
         // ending restrictions on IG
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "NISSIG")))
@@ -1242,7 +1254,16 @@ class LexografikTests: XCTestCase {
 //        storm.gatherWords(6)
 //        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SHTICK")))
 //        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "KITSCH")))
-    }}
+    }
+    
+    func test_07Jun2014_Squirrels() {
+        storm = WordStorm(outer: ["Q", "U", "I", "R", "R", "E", "L", "S"], center: "S")
+        
+        storm.gatherWords(5)
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "ESSLQ")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "ISSLQ")))
+    }
+}
 
 
 

@@ -9,114 +9,154 @@
 import Foundation
 
 class YBlend: ConsonantBlend {
-    init(first: Letter, initFollowers: [Letter], interFollowers: [Letter], finFollowers: [Letter]) {
-        super.init(first: first, second: .Y, start: true, end: true, single: true)
-        
-        defaultFirst = initFollowers
-        defaultMiddle = interFollowers
-        defaultLast = finFollowers
-//        initialFollowers = { return initFollowers }
-//        interiorFollowers = { (phonemes:PhoneticElementArray) in return interFollowers }
-//        finalFollowers = { (phonemes:PhoneticElementArray) in return finFollowers }
+    
+    init(first: Letter,
+         initBlend: [Letter],
+         initVowels: [Letter],
+         midBlend: [Letter],
+         midVowels: [Letter],
+         finFollowers: [Letter])
+    {
+        super.init(first: first, second: .Y, third: nil,
+                   initBlend: initBlend, initVowels: initVowels, midBlend: midBlend, midVowels: midVowels, finFollowers: finFollowers,
+                   canPlural: false, blendsWithY: false, single: true, endOfWord: true, preceders: [],
+                   dynFollowers: nil, verifyEnd: nil)
     }
 }
 
-// BYES, BYPASS, BYTE, BYZANTINE
+// BYES, BYPASS, BYSTANDER, BYTE, BYZANTINE
 let BY = YBlend(first: .B,
-                initFollowers: [.E, .P, .T, .Z],
-                interFollowers: [.E, .T],
+                initBlend: [.P, .S, .T, .Z],
+                initVowels: [.E],
+                midBlend: [.T],
+                midVowels: [.I],
                 finFollowers: [])
 
 // CYANIDE, CYBER, CYCLE, CYGNET, CYPHER, CYST
 let CY = YBlend(first: .C,
-                initFollowers: [.A, .B, .C, .G, .P, .S],
-                interFollowers: [.T],       // for SCYTHE
+                initBlend: [.B, .C, .G, .P, .S],
+                initVowels: [.A],
+                midBlend: [.T],     // SCYTHE
+                midVowels: [.I],
                 finFollowers: [])
 
 // DYES, DYSTOPIA, DYNOMITE
 let DY = YBlend(first: .D,
-                initFollowers: [.E, .N, .S],
-                interFollowers: [],
+                initBlend: [.N, .S],
+                initVowels: [.E],
+                midBlend: [],
+                midVowels: [.I],
                 finFollowers: [])
 
+// How useful is this, other than securing FFY?
 let FY = YBlend(first: .F,
-                initFollowers: [],
-                interFollowers: [],
+                initBlend: [],
+                initVowels: [],
+                midBlend: [],
+                midVowels: [],
                 finFollowers: [])
 
-// GYROSCOPE, GYPSY, GYNECOLOGY
+// GYMNASIUM, GYROSCOPE, GYPSY, GYNECOLOGY
 let GY = YBlend(first: .G,
-                initFollowers: [.N, .P, .R],
-                interFollowers: [],
+                initBlend: [.M, .N, .P, .R],
+                initVowels: [],
+                midBlend: [],
+                midVowels: [],
                 finFollowers: [])
 
-// HYACINTH, HYENA
+// HYACINTH, HYENA, HYMN, HYSTERIA
 let HY = YBlend(first: .H,
-                initFollowers: [.A, .E, .M, .S],     // HYMEN, HYSSOP
-                interFollowers: [.M, .T],            // RHYME, RHYTHM
+                initBlend: [.M, .S],
+                initVowels: [.A, .E, .I],
+                midBlend: [.M, .S, .T],     // RHYTHM, RHYME, THYME, AMETHYST
+                midVowels: [.I],
                 finFollowers: [])
 
+// Any application besides end of word like SHAKY?
 let KY = YBlend(first: .K,
-                initFollowers: [],
-                interFollowers: [.L],
+                initBlend: [],
+                initVowels: [],
+                midBlend: [],
+                midVowels: [],
                 finFollowers: [])
 
-// LYES, LYING, LYRIC, ANALYSIS
+// LYES, LYING, LYME, LYRIC, ANALYSIS, ANALYST
 let LY = YBlend(first: .L,
-                initFollowers: [.E, .I, .R],
-                interFollowers: [.S],
+                initBlend: [.M, .R],
+                initVowels: [.E, .I],
+                midBlend: [.S],
+                midVowels: [],
                 finFollowers: [])
 
 // MYNA, MYOPIA, MYSTERY
 let MY = YBlend(first: .M,
-                initFollowers: [.N, .O, .S],
-                interFollowers: [],
+                initBlend: [.N, .S],
+                initVowels: [.O],
+                midBlend: [],
+                midVowels: [],
                 finFollowers: [])
 
 // NYLON, *VINYL
-let NY = YBlend(first: .N,
-                initFollowers: [.L],
-                interFollowers: [.L],
+let NY = YBlend(first: .B,
+                initBlend: [.L],
+                initVowels: [],
+                midBlend: [.L],
+                midVowels: [],
                 finFollowers: [.L])
 
 // PYLON, PYROTECHNIC
 let PY = YBlend(first: .P,
-                initFollowers: [.L, .R],
-                interFollowers: [],
+                initBlend: [.L, .R],
+                initVowels: [],
+                midBlend: [],
+                midVowels: [],
                 finFollowers: [])
 
 // RYES
 let RY = YBlend(first: .R,
-                initFollowers: [.E, .I],
-                interFollowers: [],
+                initBlend: [],
+                initVowels: [.E],
+                midBlend: [],
+                midVowels: [],
                 finFollowers: [])
 
 // SYCOPHANT, SYLLABUS, SYMBOL, SYNERGY, SYPHILIS, SYSTEM
 let SY = YBlend(first: .S,
-                initFollowers: [.C, .L, .M, .N, .P, .S],
-                interFollowers: [],
+                initBlend: [.C, .L, .M, .N, .P, .S],
+                initVowels: [],
+                midBlend: [],
+                midVowels: [],
                 finFollowers: [])
 
+// TYPE, TYING, TYRANT
 let TY = YBlend(first: .T,
-                initFollowers: [.I, .R],
-                interFollowers: [],
-                finFollowers: [.E])
+                initBlend: [.P, .R],
+                initVowels: [.I],
+                midBlend: [],
+                midVowels: [.I],
+                finFollowers: [.E])        // STYE
 
 // VYING
 let VY = YBlend(first: .V,
-                initFollowers: [.I],
-                interFollowers: [],
+                initBlend: [],
+                initVowels: [.I],
+                midBlend: [],
+                midVowels: [],
                 finFollowers: [])
 
 let WY = YBlend(first: .W,
-                initFollowers: [],
-                interFollowers: [],
+                initBlend: [],
+                initVowels: [],
+                midBlend: [],
+                midVowels: [],
                 finFollowers: [])
 
 // ZYGOTE
-let ZY = YBlend(first: .W,
-                initFollowers: [.G],
-                interFollowers: [],
+let ZY = YBlend(first: .Z,
+                initBlend: [.G],
+                initVowels: [],
+                midBlend: [],
+                midVowels: [],
                 finFollowers: [])
 
 let YBlendMap = ["BY":BY, "CY":CY, "DY":DY, "FY":FY, "GY":GY, "HY":HY, "KY":KY, "LY":LY, "MY":MY,
