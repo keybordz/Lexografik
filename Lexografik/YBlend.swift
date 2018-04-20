@@ -109,7 +109,7 @@ let PY = YBlend(first: .P,
                 initBlend: [.L, .R],
                 initVowels: [],
                 midBlend: [],
-                midVowels: [],
+                midVowels: [.I],
                 finFollowers: [])
 
 // RYES
@@ -117,7 +117,7 @@ let RY = YBlend(first: .R,
                 initBlend: [],
                 initVowels: [.E],
                 midBlend: [],
-                midVowels: [],
+                midVowels: [.I],
                 finFollowers: [])
 
 // SYCOPHANT, SYLLABUS, SYMBOL, SYNERGY, SYPHILIS, SYSTEM

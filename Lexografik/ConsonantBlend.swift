@@ -243,19 +243,19 @@ let CR = ConsonantBlend(first: .C, second: .R, third: nil,
                         dynFollowers: nil,
                         verifyEnd: nil)
 
-let CS = ConsonantBlend(first: .C, second: .S, third: nil,
-                        initBlend: [],
-                        initVowels: [],
-                        midBlend: [.T],         // for ECSTASY
-                        midVowels: allVowels,
-                        finFollowers: [.A],
-                        canPlural: false,
-                        blendsWithY: false,
-                        single: true,
-                        endOfWord: true,
-                        preceders: [],
-                        dynFollowers: nil,
-                        verifyEnd: nil)
+//let CS = ConsonantBlend(first: .C, second: .S, third: nil,
+//                        initBlend: [],
+//                        initVowels: [],
+//                        midBlend: [.T],         // for ECSTASY
+//                        midVowels: allVowels,
+//                        finFollowers: [.A],
+//                        canPlural: false,
+//                        blendsWithY: false,
+//                        single: true,
+//                        endOfWord: true,
+//                        preceders: [],
+//                        dynFollowers: nil,
+//                        verifyEnd: nil)
 
 let CT = ConsonantBlend(first: .C, second: .T, third: nil,
                         initBlend: [],
@@ -279,14 +279,6 @@ let CT = ConsonantBlend(first: .C, second: .T, third: nil,
                             }
                         },
                         verifyEnd: nil)
-
-//let DG = ConsonantBlend(first: .D, second: .G,
-//                        start: false, end: false,
-//                        canPlural: false,
-//                        single: true,
-//                        followers: [],
-//                        finFollowers: [.E, .Y],
-//                        dynFollowers: nil)
 
 let DG = ConsonantBlend(first: .D, second: .G, third: nil,
                         initBlend: [],
@@ -355,6 +347,20 @@ let FR = ConsonantBlend(first: .F, second: .R, third: nil,
                         single: false,
                         endOfWord: false,
                         preceders: [],
+                        dynFollowers: nil,
+                        verifyEnd: nil)
+
+let FT = ConsonantBlend(first: .F, second: .T, third: nil,
+                        initBlend: [],
+                        initVowels: [],
+                        midBlend: [],
+                        midVowels: allVowels,
+                        finFollowers: [],
+                        canPlural: true,
+                        blendsWithY: true,
+                        single: false,
+                        endOfWord: true,
+                        preceders: ["A", "E", "I", "O", "U"],
                         dynFollowers: nil,
                         verifyEnd: nil)
 
@@ -453,8 +459,9 @@ let GN = ConsonantBlend(first: .G, second: .N, third: nil,
                                 return true
                             }
                             
-                            // SIGN or ALIGN
-                            if lastElement!.id == "I" && (prevElement!.id == "S" || prevElement!.id == "L") {
+                            // ALIGN, ASSIGN, SIGN, DESIGN, RESIGN
+                            if lastElement!.id == "I" &&
+                                (prevElement!.id == "L" || prevElement!.id == "S" || prevElement!.id == "SS") {
                                 return true
                             }
                                 
@@ -659,6 +666,30 @@ let LM = ConsonantBlend(first: .L, second: .M, third: nil,
                         dynFollowers: nil,
                         verifyEnd: nil)
 
+// Only exists for KILN
+//let LN = ConsonantBlend(first: .L, second: .N, third: nil,
+//                        initBlend: [],
+//                        initVowels: [],
+//                        midBlend: [],
+//                        midVowels: allVowels,
+//                        finFollowers: [],
+//                        canPlural: true,
+//                        blendsWithY: false,
+//                        single: false,
+//                        endOfWord: true,
+//                        preceders: ["I"],
+//                        dynFollowers: {(pea:PhoneticElementArray, pos:PositionIndicator) -> [Letter] in
+//
+//                            // Return final A follower for ULNA
+//                            if pos == .positionLAST && pea.matchesString("U", matchFull: true) {
+//                                return [.A]
+//                            }
+//                            else {
+//                                return []
+//                            }
+//                        },
+//                        verifyEnd: nil)
+
 let LP = ConsonantBlend(first: .L, second: .P, third: nil,
                         initBlend: [],
                         initVowels: [],
@@ -717,7 +748,16 @@ let LS = ConsonantBlend(first: .L, second: .S, third: nil,
                         single: false,
                         endOfWord: false,
                         preceders: ["A", "E", "I", "O", "U"],
-                        dynFollowers: nil,
+                        dynFollowers: { (pea:PhoneticElementArray, pos:PositionIndicator) -> [Letter] in
+                            
+                            // Final A follower for BALSA, SALSA
+                            if pos == .positionLAST && pea.matchesSet(["BA", "SA"]) {
+                                return [.A]
+                            }
+                            else {
+                                return []
+                            }
+                        },
                         verifyEnd: nil)
 
 // WALSH & WELSH, any others?
@@ -1555,7 +1595,7 @@ let SHR = ConsonantBlend(first: .S, second: .H, third: .R,
 let SK = ConsonantBlend(first: .S, second: .K, third: nil,
                         initBlend: [],
                         initVowels: [],
-                        midBlend: [.L],
+                        midBlend: [],
                         midVowels: allVowels,
                         finFollowers: [],
                         canPlural: true,
@@ -2025,10 +2065,10 @@ let NN = ConsonantBlend(first: .N, second: .N, third: nil,
                         midBlend: [],
                         midVowels: allVowels,
                         finFollowers: [],
-                        canPlural: false,
+                        canPlural: true,
                         blendsWithY: true,
                         single: true,
-                        endOfWord: false,
+                        endOfWord: true,
                         preceders: [],
                         dynFollowers: nil,
                         verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
@@ -2161,10 +2201,11 @@ let ZZ = ConsonantBlend(first: .Z, second: .Z, third: nil,
                         dynFollowers: nil,
                         verifyEnd: nil)         // BUZZ, FIZZ, FUZZ
 
-let consonantBlendMap = ["BL":BL, "BR":BR, "CH":CH, "CHR":CHR, "CK":CK, "CL":CL, "CR":CR, "CS":CS, "CT":CT,
-    "DG":DG, "DL":DL, "DR":DR, "FL":FL, "FR":FR, "GH":GH, "GHT":GHT, "GN":GN, "GL":GL, "GR":GR,
-    /* "KL":KL,*/ "KN":KN, "KR":KR, "LB":LB, "LC":LC, "LCH":LCH, "LD":LD, "LF":LF, "LG":LG, "LK":LK, "LM":LM,
-    "LP":LP, "LPH":LPH, "LS":LS, "LSH":LSH, "LT":LT, "LTH":LTH, "LV":LV, "MB":MB, "MP":MP, "MPH":MPH, "MPT":MPT,
+let consonantBlendMap = ["BL":BL, "BR":BR, "CH":CH, "CHR":CHR, "CK":CK, "CL":CL, "CR":CR, /*"CS":CS,*/ "CT":CT,
+                         "DG":DG, "DL":DL, "DR":DR, "FL":FL, "FR":FR, "FT":FT, "GH":GH, "GHT":GHT, "GN":GN, "GL":GL, "GR":GR,
+                         /* "KL":KL,*/ "KN":KN, "KR":KR, "LB":LB, "LC":LC, "LCH":LCH, "LD":LD, "LF":LF, "LG":LG, "LK":LK, "LM":LM,
+                         /* "LN":LN,*/ "LP":LP, "LPH":LPH, "LS":LS, "LSH":LSH, "LT":LT, "LTH":LTH, "LV":LV,
+                         "MB":MB, "MP":MP, "MPH":MPH, "MPT":MPT,
     "NC":NC, "NCH":NCH, "ND":ND, "NG":NG, "NK":NK, "NQ":NQ, "NQU":NQU, "NS":NS, "NT":NT,
     "NTH":NTH, /* "NZ":NZ,*/ "PH":PH, "PHR":PHR, "PL":PL, "PR":PR, "PS":PS,
     "QU":QU, "RB":RB, "RC":RC, "RCH":RCH, "RD":RD, "RF":RF, "RG":RG, "RH":RH, "RK":RK, "RL":RL,

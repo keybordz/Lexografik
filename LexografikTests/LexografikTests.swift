@@ -603,6 +603,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SPACEY")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CASTES")))
         
+        storm.filterStops = false       // to make ECSTASY work
         storm.gatherWords(7)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ECSTASY")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ASPECTS")))
@@ -1263,7 +1264,73 @@ class LexografikTests: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "ESSLQ")))
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "ISSLQ")))
     }
+    
+    func test_26Jun2014_skInflint() {
+        storm = WordStorm(outer: ["S", "K", "N", "F", "L", "I", "N", "T"], center: "I")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "INNS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "INKS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "KILN")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "KILN")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LIFT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SIFT")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "IFTK")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "IFTN")))
+    
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LIFTS")))
+//        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "KILNS")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "INTLI")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "INTLS")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "ISTLI")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "INSKI")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "INSKL")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "INSKT")))
+    }
+    
+    func test_09Jun2014_bypassinG() {
+        storm = WordStorm(outer: ["B", "Y", "P", "A", "S", "S", "I", "N"], center: "G")
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ASSIGN")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SPYING")))
+    }
+    
+    func test_21Jun2014_hAndballs() {
+        storm = WordStorm(outer: ["H", "N", "D", "B", "A", "L", "L", "S"], center: "A")
+        
+        storm.gatherWords(4)
+//        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BLAH")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BLAHS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BALSA")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HALAL")))
+    }
+
+    func test_11Jun2014_shiNbones() {
+        storm = WordStorm(outer: ["S", "H", "I", "B", "O", "N", "E", "S"], center: "N")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "NEON")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SNOB")))
+    }
+    
+    func test_14Jun2014_Stalwarts() {
+        storm = WordStorm(outer: ["T", "A", "L", "W", "A", "R", "T", "S"], center: "S")
+        
+        storm.gatherWords(4)
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "AWRS")))
+    }
+    
+    func test_02Dec2011_stolIdity() {
+        storm = WordStorm(outer: ["S", "T", "O", "L", "D", "I", "T", "Y"], center: "I")
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "IDIOT")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "IDIOTS")))
+    }
 }
-
-
-

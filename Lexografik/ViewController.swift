@@ -136,6 +136,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         textFieldArray.append(mask8!)
         textFieldArray.append(mask9!)
         
+//        for textField in textFieldArray {
+//            textField.addTarget(self, action: #selector(textFieldChanged), for: UIControlEvents.editingChanged)
+//        }
+        
         setMaskFields()
         letterKey!.becomeFirstResponder()
     }
@@ -149,6 +153,38 @@ class ViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
         super.touchesBegan(touches, with: event)
     }
+    
+//    @objc func textFieldChanged(textField: UITextField) {
+//        textField.text = textField.text?.uppercased()
+//
+//        // Which text field are we working with?
+//        let arrayIndex = textFieldArray.index(of: textField)
+//
+//        // Only need to check status of the letter fields, not the mask
+//        if arrayIndex! < 9 {
+////            if newLength == 0 {
+////                inputSwitches[arrayIndex!] = false
+////            }
+////            else {
+//                inputSwitches[arrayIndex!] = true
+////            }
+//
+//            // Enable button when all the fields have characters
+//            if inputSwitches.index(of: false) == nil {
+//                generateButton?.isEnabled = true
+//            }
+//            else {
+//                generateButton?.isEnabled = false
+//            }
+//        }
+//
+//        if arrayIndex == 17 {
+//            self.letterKey!.becomeFirstResponder()
+//        }
+//        else {
+//            textFieldArray[arrayIndex! + 1].becomeFirstResponder()
+//        }
+//    }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         

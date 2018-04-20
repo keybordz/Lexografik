@@ -62,8 +62,8 @@ let A = Vowel( id: .A,
                 followers += [.B]
             }
                 
-            // Only C ender so far is LILAC
-            if pea.matchesString("LIL", matchFull: true) {
+            // C enders: LILAC, TARMAC, SUMAC
+            if pea.matchesSet(["LIL", "SUM", "TARM"]) {
                 followers += [.C]
             }
                 
@@ -72,12 +72,19 @@ let A = Vowel( id: .A,
                 followers += [.K]
             }
         }
+        
+//        else if pea.elements.count == 1 {
+//            switch pea.elements[0].id {
+//            case "Y": followers += [.M, .N, .P, .R, .W]
+//            default: followers = []
+//            }
+//        }
         return followers
     })
 
 let E = Vowel( id: .E,
     blendStart: [.A, .E, .I, .O, .U],
-    blendInto: [.A, .E, .I, .U],
+    blendInto: [.A, .E, .I, .O, .U],
     
     // Final consonant enders: BRED, COMPEL, THEM, THEN, STEP, WATER, SLEW, FLEX, THEY
     finalConsonants: [.D, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
@@ -149,8 +156,8 @@ let O = Vowel( id: .O,
         
         if pos == .positionLAST {
             
-            // Final B enders: BLOB, GLOB, SLOB
-            if pea.matchesSet(["BL", "GL", "SL"]) {
+            // Final B enders: BLOB, GLOB, SLOB, SNOB
+            if pea.matchesSet(["BL", "GL", "SL", "SN"]) {
                 followers += [.B]
             }
             

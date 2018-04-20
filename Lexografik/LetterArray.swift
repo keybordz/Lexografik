@@ -205,9 +205,6 @@ class LetterArray: Equatable {
         return true
     }
     
-    // Final B words: SNUB, SNOB, SLOB, BLOB, BLURB, ARAB, BARB, BOOB, BULB, GOOB, GRAB, GARB, CRIB, GLIB
-    // --> LOOK AT INITIAL PHONEME!!
-    
     func lettersForInitialVowelConsonantPairs(_ first: Letter, second: Letter) -> [Letter] {
         switch first {
         case .A:
@@ -226,9 +223,9 @@ class LetterArray: Equatable {
             case .P: return [.A, .E, .H, .I, .L, .N, .O, .P, .R, .S, .T, .U]
             case .Q: return [.U]
             case .R: return [.A, .B, .C, .D, .E, .F, .G, .I, .K, .L, .M, .O, .P, .R, .S, .T, .U]
-            case .S: return [.A, .C, .E, .G, .H, .I, .K, .L, .O, .P, .S, .T, .U, .W]
-            case .T: return [.A, .E, .H, .I, .O, .R, .T, .U]
-            case .V: return [.A, .E, .I, .O]
+            case .S: return [.B, .C, .G, .H, .I, .K, .L, .P, .S, .T, .W]
+            case .T: return [.E, .H, .I, .O, .R, .T]
+            case .V: return [.A, .E, .I, .O, .U]
             case .W: return [.A, .E, .H, .I, .O]
             case .X: return [.E, .I, .L, .O]
             case .Y: return [.E, .O]
@@ -236,10 +233,10 @@ class LetterArray: Equatable {
             }
         case .E:
             switch second {
-            case .B: return [.A, .B, .E, .U]
-            case .C: return [.A, .C, .O, .R, .S, .T, .U]
-            case .D: return [.A, .D, .E, .G, .I, .O, .U]
-            case .F: return [.A, .E, .F, .O, .U]
+            case .B: return [.B, .U]
+            case .C: return [.C, .O, .R, .S, .T, .U]
+            case .D: return [.D, .G, .I, .O, .U]
+            case .F: return [.F, .O, .U]
             case .G: return [.A, .G, .O]
             case .H: return []
             case .J: return [.A, .E]
@@ -247,13 +244,13 @@ class LetterArray: Equatable {
             case .L: return [.A, .B, .C, .D, .E, .F, .G, .K, .L, .M, .O, .P, .S, .T, .U]
             case .M: return [.A, .B, .C, .E, .I, .M, .O, .P, .U]
             case .N: return [.A, .C, .D, .E, .I, .L, .M, .N, .O, .S, .T, .U, .V]
-            case .P: return [.A, .E, .H, .I, .O]
+            case .P: return [.E, .H, .I, .O]
             case .Q: return [.U]
             case .R: return [.A, .B, .C, .D, .E, .G, .H, .I, .O, .R, .S, .T]
-            case .S: return [.A, .C, .E, .H, .I, .O, .P, .Q, .S, .T]
-            case .T: return [.A, .C, .E, .H, .I, .O, .T]
+            case .S: return [.C, .H, .P, .Q, .S, .T]
+            case .T: return [.C, .H, .N, .T]
             case .V: return [.A, .E, .I, .O]
-            case .W: return [.A, .E]
+            case .W: return [.E]
             case .X: return [.A, .C, .E, .I, .O, .P, .T, .U]
             case .Y: return [.E]
             default: return []
@@ -262,7 +259,7 @@ class LetterArray: Equatable {
             switch second {
             case .B: return [.E, .I]
             case .C: return [.A, .E, .I, .O, .T, .Y]
-            case .D: return [.E, .L, .O]
+            case .D: return [.E, .I, .L, .O]
             case .F: return [.F, .T]
             case .G: return [.L]
             case .H: return []
@@ -424,6 +421,8 @@ class LetterArray: Equatable {
             if last!.isConsonant() {
                 var cKey: String
                 var conBlend: ConsonantBlend?
+                let lexLast = consonantMap[last!]! as Consonant
+                var reBlend: PhoneticElement? = nil
                 
                 // If this is a final S (but not an SS blend), first make sure the last phoneme can take a final S
                 // Then make sure it can end the word as it currently stands
@@ -482,18 +481,25 @@ class LetterArray: Equatable {
                         phonemes.appendElement(lexSuffix!)
                         return true
                     }
+                    
+                    // If following a W-diphthong blend with an R or H, then resplit so that vowel becomes single element
+                    if last! == .W && (suffix == .R || suffix == .H) {
+                        reBlend = vowelMap[nextToLast!]
+                        lastElement = consonantMap[last!]
+                    }
+                        
+                    // Otherwise just add on the new letter separately
                     else {
                         expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                        if expecting.isEmpty {
+                            return false
+                        }
+                        
+                        sylState = .articulateStop
+                        nextBias = .expectSubset
+                        phonemes.appendElement(lexSuffix!)
+                        return true
                     }
-                    
-                    if expecting.isEmpty {
-                        return false
-                    }
-                    
-                    sylState = .articulateStop
-                    nextBias = .expectSubset
-                    phonemes.appendElement(lexSuffix!)
-                    return true
                 }
                 
                 // Try to match connected consonants to a blend element
@@ -505,11 +511,25 @@ class LetterArray: Equatable {
                 else {
                     cKey = "\(lastElement!.id)\(suffix.rawValue)"
                     conBlend = consonantBlendMap[cKey]
+                    
+                    // failed to find a triple blend, now try just the last two letters
+                    if conBlend == nil && lastElement! is ConsonantBlend {
+                        let lexBlend = lastElement! as! ConsonantBlend
+                        
+                        if lexBlend.thirdLetter == nil {
+                            cKey = "\(lexBlend.secondLetter.rawValue)\(suffix.rawValue)"
+                            reBlend = consonantMap[nextToLast!]
+                        }
+                        else {
+                            cKey = "\(lexBlend.thirdLetter!.rawValue)\(suffix.rawValue)"
+                            reBlend = consonantBlendMap["\(lexBlend.firstLetter)\(lexBlend.secondLetter)"]
+                        }
+                        conBlend = consonantBlendMap[cKey]
+                    }
                 }
                 
                 // All cases where consonants don't blend...hard stops, etc.
                 if conBlend == nil {
-                    let lexLast = consonantMap[last!]! as Consonant
                     
                     // If it's not a blend at the end of the word, should be a special case like COLUMN
                     if endOfWord {
@@ -535,7 +555,15 @@ class LetterArray: Equatable {
                         sylState = .articulateStart
 //                        expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
 //                        nextBias = .expectSubset
-                        nextBias = .expectVowel
+                        
+                        // If the next letter is the last one, only approve E and Y to follow liquid blend
+                        if remainingLetters == 2 {
+                            expecting = [.E, .Y]
+                            nextBias = .expectSubset
+                        }
+                        else {
+                            nextBias = .expectVowel
+                        }
                         return true
                     }
                      
@@ -548,9 +576,15 @@ class LetterArray: Equatable {
                         return true
                     }
                     
-                    // Unlikely that we reach here
+                    // Extremely rare cases like LN in KILN which isn't a stop but typically doesn't blend
                     else {
-                        return false
+//                        phonemes.appendElement(lexSuffix!)
+//                        expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+//                        if expecting == [] {
+                            return false
+//                        }
+//                        nextBias = .expectSubset
+//                        return true
                     }
                 }
                 
@@ -574,6 +608,11 @@ class LetterArray: Equatable {
                     // Have to remove the last phoneme so that instance-level followers for consonant blends will evaluate properly
                     if suffix != .Y {
                         phonemes.removeLastElement()
+                        
+                        // If a triple blend has been broken up, then the first part
+                        if reBlend != nil {
+                            phonemes.appendElement(reBlend!)
+                        }
                     }
 
                     expecting = conBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
@@ -667,7 +706,6 @@ class LetterArray: Equatable {
             else {
                 return false
             }
-            
         }
             
         // NEXT LETTER IS A VOWEL

@@ -182,9 +182,9 @@ let B = Consonant( id: .B,
 
 let C = Consonant( id: .C,
     blendStart: [.H, .L, .R],
-    blendInto: [.C, .H, .K, .R, .S, .T],
+    blendInto: [.C, .H, .K, .R, .T],
     defFinal: [.A, .E, .H, .K, .O, .T],
-    hardStops: [.M, .N],                            // ACME, ACNE
+    hardStops: [.M, .N, .S],                            // ACME, ACNE
     allowedVowels: allVowels,
     blendsWithY: true,
     canPlural: true,
@@ -283,35 +283,6 @@ let F = Consonant( id: .F,
         }
     },
     verifyEnd: nil)
-//    verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
-//        
-//        let lastElement = phonemes.lastElement()
-//        
-//        // 4 letter words: only allow vowel blends and E ("CLEF"), no 2-syllable words ending in F
-//        if phonemes.numLetters() < 4 {
-//            if lastElement! is VowelBlend {
-//                return true
-//            }
-//            else if phonemes.numSyllables() == 2 || lastElement!.id != "E" {
-//                return false
-//            }
-//            else {
-//                return true
-//            }
-//        }
-//            
-//        // Only allow vowel blends (which ones?) for 5-letter or longer words, ex. THIEF, PROOF
-//        else {
-//            if lastElement! is VowelBlend {
-//                return true
-//            }
-//
-//            else {
-//                return true
-//            }
-//        }
-//    }
-//)
 
 let G = Consonant( id: .G,
     blendStart: [.L, .N, .R],
@@ -429,33 +400,6 @@ let K = Consonant( id: .K,
         }
     },
     verifyEnd: nil)
-//    verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
-//        
-//        let lastElement = phonemes.lastElement()
-//        let finalKWords = ["TRE", "AMO"]    // Only valid 4-letter works ending in vowel-K
-//        
-//        if lastElement is Vowel {
-//            
-//            // Need to allow words like TREK and AMOK
-//            if phonemes.numLetters() == 3 && lastElement! is Vowel {
-//                for word in finalKWords {
-//                    if phonemes.matchesString(word, matchFull: true) {
-//                        return true
-//                    }
-//                }
-//                return false
-//            }
-//                    
-//            
-//            else {
-//                return false
-//            }
-//        }
-//            
-//        else {
-//            return true
-//        }
-//    } )
 
 let L = Consonant( id: .L,
     blendStart: [.L],                   // only for LLAMA
@@ -468,12 +412,18 @@ let L = Consonant( id: .L,
     dipthong: false,
     liquidBlend: false,
     endBias: 2,
-    dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
+    dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
         
         // Allow final I for DELI
-        if posIndicator == .positionLAST && phonemes.matchesString("DE", matchFull: true) {
+        if pos == .positionLAST && phonemes.matchesString("DE", matchFull: true) {
             return [.I]
         }
+        
+        // This makes KILN work without adding an LN blend
+        else if phonemes.matchesString("KI", matchFull: true) {
+            return [.N]
+        }
+            
         else {
             return []
         }
@@ -526,6 +476,12 @@ let N = Consonant( id: .N,
         if pos == .positionLAST && phonemes.matchesString("RA", matchFull: true) {
             return [.I]
         }
+        
+        // Special case for making KILN have a plural since LN is not a useful blend
+        else if pos == .positionLAST && phonemes.matchesString("KIL", matchFull: true) {
+            return [.S]
+        }
+            
         else {
             return []
         }

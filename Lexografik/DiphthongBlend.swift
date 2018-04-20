@@ -36,11 +36,11 @@ class DiphthongBlend: LexicalBlend {
 
 // Not too many cases with vowel-H pairings
 
-// Need AHOY and AHEM
-let AH = DiphthongBlend(vowel: .A, consonant: .H, start: false, end: false,
+// AHOY, AHEM, BLAH
+let AH = DiphthongBlend(vowel: .A, consonant: .H, start: false, end: true,
     initFollowers: [.E, .O],
     interFollowers: [.N, .R],
-    finFollowers: [.N])  // plural?
+    finFollowers: [.N, .S])  // plural?
 
 let EH = DiphthongBlend(vowel: .E, consonant: .H, start: false, end: false,
     interFollowers: [],
