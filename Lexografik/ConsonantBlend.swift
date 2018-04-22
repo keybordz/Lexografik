@@ -8,10 +8,57 @@
 
 import Foundation
 
-class ConsonantBlend: LexicalBlend {
-    var blendsWithY: Bool = true
-    var singlePhoneme: Bool
+class ConsonantBlend: LexicalBlend, PhoneticFollowers {
+    let initBlend: [Letter]
+    let initVowels: [Letter]
+    let midBlend: [Letter]
+    let midVowels: [Letter]
+    let finFollowers: [Letter]
+    let blendsWithY: Bool
+    let singlePhoneme: Bool
     var preceders: [String] = []
+    
+    func initialFollowers(nRemain: Int) -> [Letter] {
+        
+        var initFollowers = initBlend + initVowels
+        if blendsWithY {
+            initFollowers += [.Y]
+        }
+        return initFollowers
+    }
+    
+    func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
+        return []
+    }
+    
+    func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
+        var midFollowers = midBlend + midVowels
+        if blendsWithY {
+            midFollowers += [.Y]
+        }
+        if dynFollowers != nil {
+            midFollowers += self.dynFollowers!(pea, .positionMIDDLE)
+        }
+        return midFollowers
+    }
+    
+    func lastFollowers(pea: PhoneticElementArray) -> [Letter] {
+        var lastFollowers = finFollowers
+        if blendsWithY {
+            lastFollowers += [.Y]
+        }
+        if canPlural {
+            lastFollowers += [.S]
+        }
+        if dynFollowers != nil {
+            lastFollowers += self.dynFollowers!(pea, .positionLAST)
+        }
+        return lastFollowers
+    }
+    
+    func verifyFinal(pea: PhoneticElementArray) -> Bool {
+        return true;
+    }
     
     // New comprehensive initializer
     init(first: Letter, second: Letter, third: Letter?,
@@ -31,45 +78,24 @@ class ConsonantBlend: LexicalBlend {
         
         verifyEnd: ((PhoneticElementArray) -> Bool)? )       // Callback for context checking at the end of a word
     {
-        var defFirst, defMiddle, defLast: [Letter]
         var start = false
         
         if !initVowels.isEmpty {
             start = true
         }
         
-        defFirst = initBlend + initVowels
-        defMiddle = midBlend + midVowels
-        defLast = finFollowers
-        
-        if canPlural {
-            defLast += [.S]
-        }
-        
-        // Right now Y is added everywhere but this might need fine tuning
-        if blendsWithY {
-            if start {
-                defFirst += [.Y]
-            }
-            defMiddle += [.Y]
-            defLast += [.Y]
-        }
-        
-        self.singlePhoneme = single
-        
-        if third == nil {
-            super.init(first: first, second: second, start: start, end: endOfWord,
-                       defFirst: defFirst, defMiddle: defMiddle, defLast: defLast)
-        }
-        else {
-            super.init(first: first, second: second, third: third!, start: start, end: endOfWord,
-                       defFirst: defFirst, defMiddle: defMiddle, defLast: defLast)
-        }
-        
-        self.canPlural = canPlural
+        self.initBlend = initBlend
+        self.initVowels = initVowels
+        self.midBlend = midBlend
+        self.midVowels = midVowels
+        self.finFollowers = finFollowers
         self.blendsWithY = blendsWithY
+        self.singlePhoneme = single
         self.preceders = preceders
-        self.instNextLetters = dynFollowers
+        
+        super.init(first: first, second: second, third: third,
+                   canStart: start, canEnd: endOfWord, canPlural: canPlural,
+                   dynFollowers: dynFollowers)
         
         if endOfWord {
             if verifyEnd == nil {
@@ -119,11 +145,11 @@ class ConsonantBlend: LexicalBlend {
         // so are blends that are S-plurals
         else if lastElement! is VowelBlend {
             
-            if self.singlePhoneme && (self.firstLetter != self.secondLetter) {
+            if self.singlePhoneme && (self.first != self.second) {
                 return true
             }
             
-            else if self.secondLetter == .S && self.firstLetter != .S {
+            else if self.second == .S && self.first != .S {
                 return true
             }
             
@@ -629,7 +655,7 @@ let LG = ConsonantBlend(first: .L, second: .G, third: nil,
                         initVowels: [],
                         midBlend: [],
                         midVowels: allVowels,
-                        finFollowers: [.E],         // BILGE, BULGE, INDULGE
+                        finFollowers: [.A, .E],         // ALGA, BILGE, BULGE, INDULGE
                         canPlural: false,
                         blendsWithY: true,
                         single: false,
@@ -1194,12 +1220,21 @@ let RC = ConsonantBlend(first: .R, second: .C, third: nil,
                         midBlend: [.H],
                         midVowels: allVowels,
                         finFollowers: [.H],     // maybe add E & K
-                        canPlural: true,
+                        canPlural: false,       // could be true for ARCS
                         blendsWithY: true,
                         single: false,
                         endOfWord: false,
                         preceders: ["A", "E", "I", "O", "U"],
-                        dynFollowers: nil,
+                        dynFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
+                            
+                            // Only allow plural for ARCS and ORCS
+                            if pos == .positionLAST && phonemes.matchesSet(["A", "O"]) {
+                                return [.S]
+                            }
+                            else {
+                                return []
+                            }
+                        },
                         verifyEnd: nil)
 
 let RCH = ConsonantBlend(first: .R, second: .C, third: .H,
@@ -1444,9 +1479,9 @@ let RST = ConsonantBlend(first: .R, second: .S, third: .T,
 let RT = ConsonantBlend(first: .R, second: .T, third: nil,
                         initBlend: [],
                         initVowels: [],
-                        midBlend: [.H, .L],
+                        midBlend: [.H, .L, .S],
                         midVowels: allVowels,
-                        finFollowers: [.A, .H],
+                        finFollowers: [.A, .H, .Z],     // AORTA, HERTZ, QUARTZ
                         canPlural: true,
                         blendsWithY: true,
                         single: false,
@@ -1671,7 +1706,16 @@ let SP = ConsonantBlend(first: .S, second: .P, third: nil,
                         endOfWord: true,
                         preceders: ["A", "E", "I", "O", "U"],
                         dynFollowers: nil,
-                        verifyEnd: nil)     // HASP, WASP, LISP
+                        verifyEnd: { (pea: PhoneticElementArray) -> Bool in
+                            
+                            // Final SP words: CLASP, CRISP, HASP, LISP, WASP, WISP
+                            if pea.matchesSet(["CLA", "CRI", "HA", "LI", "WA", "WI"]) {
+                                return true
+                            }
+                            else {
+                                return false
+                            }
+                        })     // HASP, WASP, LISP
 
 let SPH = ConsonantBlend(first: .S, second: .P, third: .H,
                         initBlend: [],
@@ -1990,10 +2034,10 @@ let DD = ConsonantBlend(first: .D, second: .D, third: nil,
                         midBlend: [.L],
                         midVowels: allVowels,
                         finFollowers: [],
-                        canPlural: false,
+                        canPlural: true,
                         blendsWithY: true,
                         single: true,
-                        endOfWord: false,
+                        endOfWord: true,
                         preceders: [],
                         dynFollowers: nil,
                         verifyEnd: nil)

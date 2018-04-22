@@ -288,7 +288,7 @@ class LetterArray: Equatable {
             case .G: return [.R]
             case .H: return [.M]
             case .J: return []
-            case .K: return []
+            case .K: return [.A]
             case .L: return [.A, .D, .E, .I, .L]
             case .M: return [.A, .E, .I, .O, .U]
             case .N: return [.A, .E, .I, .L, .O, .U]
@@ -312,7 +312,7 @@ class LetterArray: Equatable {
             case .G: return [.L]
             case .H: return []
             case .J: return []
-            case .K: return []
+            case .K: return [.E]
             case .L: return [.C, .N, .T]
             case .M: return [.B]
             case .N: return [.A, .B, .C, .D, .E, .F, .G, .H, .I, .K, .L, .M, .N, .O, .P, .R, .S, .T, .U, .V, .W, .Y, .Z]
@@ -334,22 +334,26 @@ class LetterArray: Equatable {
     
     // New, smarter implementation
     func testLexical(_ suffix: Letter, remainingLetters: Int) -> Bool {
-        
+        let nLetters = numLetters()
         let endOfWord = (remainingLetters == 1)
         let last = lastLetter()
         let nextToLast = nextToLastLetter()
         let lexSuffix: LexicalLetter = letterDictionary[suffix]!
+        let suffixProtocol = lexSuffix as! PhoneticFollowers
         var lastElement: PhoneticElement?
         
         // First letter in the word
         if hasNoLetters() {
-            
+
             if suffix.isVowel() {
                 sylState = .articulateVowel
             }
+            else {
+                sylState = .articulateStart
+            }
             
-            // expecting = lexSuffix.initialFollowers!()
-            expecting = lexSuffix.nextLetters(pea:phonemes, nRemaining: remainingLetters)
+            expecting = suffixProtocol.initialFollowers(nRemain: remainingLetters)
+            
             if expecting.isEmpty {
                 return false
             }
@@ -427,23 +431,23 @@ class LetterArray: Equatable {
                 // If this is a final S (but not an SS blend), first make sure the last phoneme can take a final S
                 // Then make sure it can end the word as it currently stands
                 if endOfWord && suffix == .S && lastElement!.id != "S" {
-                    
-                    if phonemes.elements.count > 2 {
-
-                        // Have to copy the current phones then remove the last one
-                        let phonemesCopy = PhoneticElementArray(pea: phonemes)
-                        phonemesCopy.removeLastElement()
-
-                        if lastElement!.verifyEndOfWord!(phonemesCopy) {
-                            return lastElement!.verifyPlural!(phonemes)
-                        }
-                        else {
-                            return false
-                        }
-                    }
-                    else {
-                        return lastElement!.verifyPlural!(phonemes)
-                    }
+                    return true
+//                    if phonemes.elements.count > 2 {
+//
+//                        // Have to copy the current phones then remove the last one
+//                        let phonemesCopy = PhoneticElementArray(pea: phonemes)
+//                        phonemesCopy.removeLastElement()
+//
+//                        if lastElement!.verifyEndOfWord!(phonemesCopy) {
+//                            return lastElement!.verifyPlural!(phonemes)
+//                        }
+//                        else {
+//                            return false
+//                        }
+//                    }
+//                    else {
+//                        return lastElement!.verifyPlural!(phonemes)
+//                    }
                 }
                 
                 // Assume all final Y's are ok for now - this speeds execution but is it necessary
@@ -463,7 +467,12 @@ class LetterArray: Equatable {
                         return true
                     }
                     
-                    expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                    if remainingLetters == 2 {
+                        expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                    }
+                    else {
+                        expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                    }
                     if expecting.isEmpty {
                         return false
                     }
@@ -490,7 +499,13 @@ class LetterArray: Equatable {
                         
                     // Otherwise just add on the new letter separately
                     else {
-                        expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                        
+                        if remainingLetters == 2 {
+                            expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                        }
+                        else {
+                            expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                        }
                         if expecting.isEmpty {
                             return false
                         }
@@ -516,13 +531,13 @@ class LetterArray: Equatable {
                     if conBlend == nil && lastElement! is ConsonantBlend {
                         let lexBlend = lastElement! as! ConsonantBlend
                         
-                        if lexBlend.thirdLetter == nil {
-                            cKey = "\(lexBlend.secondLetter.rawValue)\(suffix.rawValue)"
+                        if lexBlend.third == nil {
+                            cKey = "\(lexBlend.second!.rawValue)\(suffix.rawValue)"
                             reBlend = consonantMap[nextToLast!]
                         }
                         else {
-                            cKey = "\(lexBlend.thirdLetter!.rawValue)\(suffix.rawValue)"
-                            reBlend = consonantBlendMap["\(lexBlend.firstLetter)\(lexBlend.secondLetter)"]
+                            cKey = "\(lexBlend.third!.rawValue)\(suffix.rawValue)"
+                            reBlend = consonantBlendMap["\(lexBlend.first)\(lexBlend.second!)"]
                         }
                         conBlend = consonantBlendMap[cKey]
                     }
@@ -571,7 +586,12 @@ class LetterArray: Equatable {
                     else if !filterStops {
                         phonemes.appendElement(lexSuffix!)
                         sylState = .articulateStart
-                        expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                        if remainingLetters == 2 {
+                            expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                        }
+                        else {
+                            expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                        }
                         nextBias = .expectSubset
                         return true
                     }
@@ -615,7 +635,21 @@ class LetterArray: Equatable {
                         }
                     }
 
-                    expecting = conBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                    // Blend occurs at the start of the word
+                    if nLetters == 1 {
+                        expecting = conBlend!.initialFollowers(nRemain: remainingLetters)
+                    }
+                        
+                    // Blend immediately precedes the last letter
+                    else if remainingLetters == 2 {
+                        expecting = conBlend!.lastFollowers(pea: phonemes)
+                    }
+                        
+                    // Somewhere in the middle
+                    else {
+                        expecting = conBlend!.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                    }
+                    
                     if expecting.isEmpty {
                         return false
                     }
@@ -639,9 +673,10 @@ class LetterArray: Equatable {
             else if last!.isVowel() {
                 
                 // Appending a consonant after an initial vowel
-                if numLetters() == 1 && !suffix.isDipthong() {
+                if nLetters == 1 && !suffix.isDipthong() {
                     
-                    expecting = lettersForInitialVowelConsonantPairs(last!, second: suffix)
+                    // expecting = lettersForInitialVowelConsonantPairs(last!, second: suffix)
+                    expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
                     
                     if !expecting.isEmpty {
                         sylState = .articulateStop
@@ -675,14 +710,26 @@ class LetterArray: Equatable {
                         }
                     }
                     
-                    else {
-                        expecting = dipBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                    // Blend occurs at the start of the word
+                    if nLetters == 1 {
+                        expecting = dipBlend!.initialFollowers(nRemain: remainingLetters)
                     }
-                    
+                        
+                    // Blend immediately precedes the last letter
+                    else if remainingLetters == 2 {
+                        expecting = dipBlend!.lastFollowers(pea: phonemes)
+                    }
+                        
+                    // Somewhere in the middle
+                    else {
+                        expecting = dipBlend!.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                    }
+
                     if expecting.isEmpty {
                         return false
                     }
                     
+                    // No change in sylState here since the vowel sound is still active with the diphthong
                     nextBias = .expectSubset
                     phonemes.replaceLastElement(dipBlend!)
                     return true
@@ -692,7 +739,12 @@ class LetterArray: Equatable {
                     return lexSuffix!.verifyEndOfWord!(phonemes)
                 }
                 
-                expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                if remainingLetters == 2 {
+                    expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                }
+                else {
+                    expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                }
                 
                 // Reset state values
                 sylState = .articulateStop
@@ -729,14 +781,36 @@ class LetterArray: Equatable {
                     // Special case for QU
                     if suffix == .U && lastElement!.id.range(of: "Q") != nil {
                         let conBlend = consonantBlendMap["\(lastElement!.id)U"]
-                        expecting = conBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+
+                        if (nLetters == 1 && lastElement is Consonant) ||           // QU
+                            (nLetters == 2 && lastElement is ConsonantBlend) {      // SQU
+                            expecting = conBlend!.initialFollowers(nRemain: remainingLetters)
+                        }
+                        else if remainingLetters == 2 {
+                            expecting = conBlend!.lastFollowers(pea: phonemes)
+                        }
+                        else {
+                            expecting = conBlend!.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                        }
+                        if expecting == [] {
+                            return false
+                        }
                         nextBias = .expectSubset
                         phonemes.replaceLastElement(conBlend!)
                     }
-                        
+                     
+                    // All other cases
                     else {
+                        if remainingLetters == 2 {
+                            expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                        }
+                        else {
+                            expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                        }
+                        if expecting == [] {
+                            return false
+                        }
                         sylState = .articulateVowel
-                        expecting = lexSuffix.nextLetters(pea: phonemes, nRemaining: remainingLetters)
                         nextBias = .expectSubset
                         phonemes.appendElement(lexSuffix)
                     }
@@ -772,17 +846,35 @@ class LetterArray: Equatable {
                 
                 vowelBlend = vowelBlendMap[vKey]
                 
-                // Didn't find a vowel blend so throw this one out
+                // Didn't find a blend with this combination of vowels, should only fail for most triple blends
                 if vowelBlend == nil {
                     
-                    // Allow words like WOOING or FREEING
-                    if !endOfWord && suffix == .I && (lastElement!.id == "EE" || lastElement!.id == "OO") {
-                        phonemes.appendElement(lexSuffix)
-                        nextBias = .expectSubset
-                        expecting = [.N]
-                        return true
-                    }
+                    // Certain vowel blends are marked to blend into others, especially for double vowels
+                    // which can produce gerunds like SEEING, WOOING, etc. also LUAU
+                    if !endOfWord && lastElement! is VowelBlend {
+                        let lexLast = lastElement! as! VowelBlend
                         
+                        if lexLast.blendInto.contains(suffix) {
+                            phonemes.appendElement(lexSuffix)
+                            
+                            if remainingLetters == 2 {
+                                expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                            }
+                            else {
+                                expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                            }
+                            if expecting == [] {
+                                return false
+                            }
+                            nextBias = .expectSubset
+                            sylState = .articulateStart
+                            return true
+                        }
+                        else {
+                            return false
+                        }
+                    }
+                    
                     else {
                         return false
                     }
@@ -800,13 +892,29 @@ class LetterArray: Equatable {
                         return false
                     }
                 }
-                
+    
+                // Blend occurs at the start of the word
+                if nLetters == 1 {
+                    expecting = vowelBlend!.initialFollowers(nRemain: remainingLetters)
+                }
+                    
+                // Blend immediately precedes the last letter
+                else if remainingLetters == 2 {
+                    expecting = vowelBlend!.lastFollowers(pea: phonemes)
+                }
+                    
+                // Somewhere in the middle
                 else {
-                    expecting = vowelBlend!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
+                    expecting = vowelBlend!.midFollowers(pea: phonemes, nRemain: remainingLetters)
                 }
                 
                 if expecting.isEmpty {
                     return false
+                }
+                
+                // Start a new syllable if a glottal stop occurs in the blend
+                if vowelBlend!.glottalStop {
+                    sylState = .articulateStart
                 }
                 
                 nextBias = .expectSubset

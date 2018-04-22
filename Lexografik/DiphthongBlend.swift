@@ -7,15 +7,42 @@
 //
 
 import Foundation
-class DiphthongBlend: LexicalBlend {
+class DiphthongBlend: LexicalBlend, PhoneticFollowers {
+    var initFollowers: [Letter]
+    var interFollowers: [Letter]
+    var finFollowers: [Letter]
     var singlePhoneme: Bool
+    
+    func initialFollowers(nRemain: Int) -> [Letter] {
+        return initFollowers
+    }
+    
+    func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
+        return []
+    }
+    
+    func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
+        return interFollowers
+    }
+    
+    func lastFollowers(pea: PhoneticElementArray) -> [Letter] {
+        return finFollowers
+    }
+    
+    func verifyFinal(pea: PhoneticElementArray) -> Bool {
+        return true;
+    }
     
     init(vowel: Letter, consonant: Letter, start: Bool, end: Bool,
          interFollowers: [Letter], finFollowers: [Letter]) {
         
-        singlePhoneme = true
-        super.init(first: vowel, second: consonant, start: start, end: end,
-                   defFirst: [], defMiddle: interFollowers, defLast: finFollowers)
+        self.initFollowers = []
+        self.interFollowers = interFollowers
+        self.finFollowers = finFollowers
+        self.singlePhoneme = true
+        super.init(first: vowel, second: consonant, third: nil,
+                   canStart: start, canEnd: end, canPlural: true,
+                   dynFollowers: nil)
         
         verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return end }
         verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
@@ -24,9 +51,13 @@ class DiphthongBlend: LexicalBlend {
     init(vowel: Letter, consonant: Letter, start: Bool, end: Bool,
          initFollowers: [Letter], interFollowers: [Letter], finFollowers: [Letter]) {
         
+        self.initFollowers = initFollowers
+        self.interFollowers = interFollowers
+        self.finFollowers = finFollowers
         singlePhoneme = true
-        super.init(first: vowel, second: consonant, start: start, end: end,
-                   defFirst: initFollowers, defMiddle: interFollowers, defLast: finFollowers)
+        super.init(first: vowel, second: consonant, third: nil,
+                   canStart: start, canEnd: end, canPlural: true,
+                   dynFollowers: nil)
 
         verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return end }
         verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }

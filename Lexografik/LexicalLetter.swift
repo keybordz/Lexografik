@@ -8,21 +8,21 @@
 
 import Foundation
 
+// This class only exists to group vowels and consonants under one branch from PhoneticElement
 class LexicalLetter: PhoneticElement {
-
-    let endBias: Int
     
-    init(id: Letter, blendStart: [Letter], blendInto: [Letter], blendFinal: [Letter], canPlural: Bool, endBias: Int) {
-
-        self.endBias = endBias
-        super.init(defFirst: blendStart, defMiddle: blendInto, defLast: blendFinal)
-        self.canPlural = canPlural
-        self.id = id.rawValue
-        self.numLetters = 1
+    override init(first: Letter, second: Letter?, third: Letter?,
+                  canStart: Bool, canEnd: Bool, canPlural: Bool,
+                  dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?) {
+        
+        super.init(first: first, second: nil, third: nil,
+                   canStart: canStart, canEnd: canEnd, canPlural: canPlural,
+                   dynFollowers: dynFollowers)
     }
 }
 
-let letterDictionary: [Letter:LexicalLetter] = [.A:A, .B:B, .C:C, .D:D, .E:E, .F:F, .G:G, .H:H, .I:I, .J:J, .K:K, .L:L, .M:M, .N:N, .O:O, .P:P, .Q:Q, .R:R, .S:S, .T:T, .U:U, .V:V, .W:W, .X:X, .Y:Y, .Z:Z]
+let letterDictionary: [Letter:LexicalLetter] = [.A:A, .B:B, .C:C, .D:D, .E:E, .F:F, .G:G, .H:H, .I:I, .J:J, .K:K, .L:L, .M:M,
+                                                .N:N, .O:O, .P:P, .Q:Q, .R:R, .S:S, .T:T, .U:U, .V:V, .W:W, .X:X, .Y:Y, .Z:Z]
 
 
 

@@ -118,13 +118,13 @@ let RY = YBlend(first: .R,
                 initVowels: [.E],
                 midBlend: [],
                 midVowels: [.I],
-                finFollowers: [])
+                finFollowers: [.S])         // DRYS
 
 // SYCOPHANT, SYLLABUS, SYMBOL, SYNERGY, SYPHILIS, SYSTEM
 let SY = YBlend(first: .S,
                 initBlend: [.C, .L, .M, .N, .P, .S],
                 initVowels: [],
-                midBlend: [],
+                midBlend: [.C],
                 midVowels: [],
                 finFollowers: [])
 
@@ -134,7 +134,7 @@ let TY = YBlend(first: .T,
                 initVowels: [.I],
                 midBlend: [],
                 midVowels: [.I],
-                finFollowers: [.E])        // STYE
+                finFollowers: [.E, .R])        // STYE, SATYR
 
 // VYING
 let VY = YBlend(first: .V,

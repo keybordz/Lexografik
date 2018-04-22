@@ -265,7 +265,7 @@ class LexografikTests: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BLABS")))
         
         // If the singular E follower isn't allowed, the plural shouldn't be either
-        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "BLEBS")))
+//        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "BLEBS")))
         
         // No Q plurals
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "LEAQS")))
@@ -1332,5 +1332,50 @@ class LexografikTests: XCTestCase {
         
         storm.gatherWords(6)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "IDIOTS")))
+    }
+    
+    func test_17Dec2011_coaguLant() {
+        storm = WordStorm(outer: ["C", "O", "A", "G", "U", "A", "N", "T"], center: "L")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ALGA")))
+    }
+    
+    func test_23Jun2014_psychotIc() {
+        storm = WordStorm(outer: ["P", "S", "Y", "C", "H", "O", "T", "C"], center: "I")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TICS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ITCH")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "HISP")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "TISP")))
+        
+        storm.gatherWords(7)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PSYCHIC")))
+    }
+    
+    func test_27Jun2014_daStardly() {
+        storm = WordStorm(outer: ["D", "A", "T", "A", "R", "D", "L", "Y"], center: "S")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ADDS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DRYS")))
+        //        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TSAR")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SLAT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SLAY")))
+
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ATLAS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DRAYS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "STRAY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "YARDS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SADLY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SALTY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SATYR")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ALTARS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ASTRAL")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ASTRAY")))
     }
 }

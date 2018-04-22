@@ -8,6 +8,14 @@
 
 import Foundation
 
+protocol PhoneticFollowers {
+    func initialFollowers(nRemain: Int) -> [Letter]
+    func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter]
+    func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter]
+    func lastFollowers(pea: PhoneticElementArray) -> [Letter]
+    func verifyFinal(pea: PhoneticElementArray) -> Bool
+}
+
 enum PositionIndicator: Int {
     case positionFIRST = 0
     case positionMIDDLE = 1
@@ -15,62 +23,86 @@ enum PositionIndicator: Int {
 }
 
 class PhoneticElement {
-    var id: String = ""
-    var numLetters: Int = 0              // Number of letters in the id string
-    var canPlural: Bool = true
-    var defaultFirst: [Letter]
-    var defaultMiddle: [Letter]
-    var defaultLast: [Letter]
+    let id: String
+    let first: Letter
+    let second: Letter?
+    let third: Letter?
+    let numLetters: Int             // Number of letters in the id string
+    let canStart: Bool
+    let canEnd: Bool
+    let canPlural: Bool
     
-    var instNextLetters: ((PhoneticElementArray, PositionIndicator) -> [Letter])?
+    let dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?
     
-    func nextLetters(pea: PhoneticElementArray, nRemaining: Int) -> [Letter] {
-        var nextLtrs: [Letter]
-        var positionIndicator: PositionIndicator
-        
-        if nRemaining == 2 {
-            positionIndicator = .positionLAST
-        }
-        else if pea.elements.count == 0 {
-            positionIndicator = .positionFIRST
-        }
-        else if pea.elements.count > 1 {
-            positionIndicator = .positionMIDDLE
-        }
-        else {
-            let firstIdLetter = self.id[self.id.startIndex]
-            let firstWordLetter = pea.elements[0].id[pea.elements[0].id.startIndex]
-            if firstIdLetter == firstWordLetter {
-                positionIndicator = .positionFIRST
-            }
-            else {
-                positionIndicator = .positionMIDDLE
-            }
-        }
-
-        switch positionIndicator {
-        case .positionFIRST:
-            nextLtrs = self.defaultFirst
-        case .positionLAST:
-            nextLtrs = self.defaultLast
-        case .positionMIDDLE:
-            nextLtrs =  self.defaultMiddle
-        }
-        
-        if instNextLetters != nil {
-            nextLtrs += self.instNextLetters!(pea, positionIndicator)
-        }
-        
-        return nextLtrs
-    }
+//    func nextLetters(pea: PhoneticElementArray, nRemaining: Int) -> [Letter] {
+//        var nextLtrs: [Letter]
+//        var positionIndicator: PositionIndicator
+//        
+//        if nRemaining == 2 {
+//            positionIndicator = .positionLAST
+//        }
+//        else if pea.elements.count == 0 {
+//            positionIndicator = .positionFIRST
+//        }
+//        else if pea.elements.count > 1 {
+//            positionIndicator = .positionMIDDLE
+//        }
+//        else {
+//            let firstIdLetter = self.id[self.id.startIndex]
+//            let firstWordLetter = pea.elements[0].id[pea.elements[0].id.startIndex]
+//            if firstIdLetter == firstWordLetter {
+//                positionIndicator = .positionFIRST
+//            }
+//            else {
+//                positionIndicator = .positionMIDDLE
+//            }
+//        }
+//
+//        switch positionIndicator {
+//        case .positionFIRST:
+//            nextLtrs = self.defaultFirst
+//        case .positionLAST:
+//            nextLtrs = self.defaultLast
+//        case .positionMIDDLE:
+//            nextLtrs =  self.defaultMiddle
+//        }
+//        
+//        if instNextLetters != nil {
+//            nextLtrs += self.instNextLetters!(pea, positionIndicator)
+//        }
+//        
+//        return nextLtrs
+//    }
     
     var verifyEndOfWord: ((PhoneticElementArray) -> Bool)?
     var verifyPlural: ((PhoneticElementArray) -> Bool)?
     
-    init(defFirst: [Letter], defMiddle: [Letter], defLast: [Letter]) {
-        self.defaultFirst = defFirst
-        self.defaultMiddle = defMiddle
-        self.defaultLast = defLast
+    init(first: Letter, second: Letter?, third: Letter?,
+         canStart: Bool, canEnd: Bool, canPlural: Bool,
+         dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?)
+    {
+        // Set identifier values
+        self.first = first
+        self.second = second
+        self.third = third
+        if second == nil {
+            self.id = first.rawValue
+            self.numLetters = 1
+        }
+        else if third == nil {
+            self.id = "\(first.rawValue)\(second!.rawValue)"
+            self.numLetters = 2
+        }
+        else {
+            self.id = "\(first.rawValue)\(second!.rawValue)\(third!.rawValue)"
+            self.numLetters = 3
+        }
+        
+        // Set attributes
+        self.canStart = canStart
+        self.canEnd = canEnd
+        self.canPlural = canPlural
+        self.dynFollowers = dynFollowers
     }
 }
 

@@ -8,19 +8,51 @@
 
 import Foundation
 
-class Vowel: LexicalLetter {
+class Vowel: LexicalLetter, PhoneticFollowers {
+    let blendStart: [Letter]
+    let blendInto: [Letter]
+    let finalCons: [Letter]
     
-    init(id: Letter, blendStart: [Letter], blendInto: [Letter], finalConsonants: [Letter], endBias: Int,
-                  dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?) {
-        
-        super.init(id: id,
-                   blendStart: blendStart + allConsonants,
-                   blendInto: blendInto + allConsonants,
-                   blendFinal: blendInto + finalConsonants,
-                   canPlural: true, endBias: endBias)
+    func initialFollowers(nRemain: Int) -> [Letter] {
+        let initFollowers = blendStart + allConsonants
+        return initFollowers
+    }
     
-        self.instNextLetters = dynFollowers
+    func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
+        return []
+    }
+    
+    func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
+        var midFollowers = blendInto + allConsonants
+        if dynFollowers != nil {
+            midFollowers += self.dynFollowers!(pea, .positionMIDDLE)
+        }
+        return midFollowers
+    }
+    
+    func lastFollowers(pea: PhoneticElementArray) -> [Letter] {
+        var lastFollowers = blendInto + finalCons
+        if dynFollowers != nil {
+            lastFollowers += self.dynFollowers!(pea, .positionLAST)
+        }
+        return lastFollowers
+    }
+    
+    func verifyFinal(pea: PhoneticElementArray) -> Bool {
+        return true;
+    }
+    
+    init(id: Letter, blendStart: [Letter], blendInto: [Letter], finalConsonants: [Letter],
+         dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?) {
         
+        self.blendStart = blendStart
+        self.blendInto = blendInto
+        self.finalCons = finalConsonants
+        
+        super.init(first: id, second: nil, third: nil,
+                   canStart: true, canEnd: true, canPlural: true,
+                   dynFollowers: dynFollowers)
+    
 //        self.verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in
 //            let lastElement = phonemes.lastElement()
 //
@@ -41,46 +73,44 @@ class Vowel: LexicalLetter {
         self.verifyEndOfWord = { (elements:PhoneticElementArray) -> Bool in return true }
         self.verifyPlural = { (elements:PhoneticElementArray) -> Bool in return true }
     }
-    
 }
 
 // VOWELS
-let A = Vowel( id: .A,
-    blendStart: [.A, .E, .I, .O, .U],
-    blendInto: [.I, .O, .U],
+let A = Vowel(id: .A,
+              blendStart: [.A, .E, .I, .O, .U],
+              blendInto: [.I, .O, .U],
     
-    // Final consonant enders: GRAD, FLAG, FLAK, MORAL, TRAM, BRAN, SCRAP, AJAR, FLAT, FLAW, RELAX, TRAY
-    finalConsonants: [.D, .G, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
-    endBias: 1,
-    dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
-        var followers: [Letter] = []
-        
-        if pos == .positionLAST {
-            
-            // Final B enders: BLAB, CRAB, DRAB, FLAB, GRAB, REHAB, SCAB, SLAB, SQUAB, STAB, SWAB
-            if pea.matchesSet(["BL", "CR", "DR", "FL", "GR", "REH", "SC", "SL", "SQU", "ST", "SW"]) {
-                followers += [.B]
+              // Final consonant enders: GRAD, FLAG, FLAK, MORAL, TRAM, BRAN, SCRAP, AJAR, FLAT, FLAW, RELAX, TRAY
+              finalConsonants: [.D, .G, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
+              dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+                var followers: [Letter] = []
+                    
+                if pos == .positionLAST {
+                        
+                // Final B enders: BLAB, CRAB, DRAB, FLAB, GRAB, REHAB, SCAB, SLAB, SQUAB, STAB, SWAB
+                if pea.matchesSet(["BL", "CR", "DR", "FL", "GR", "REH", "SC", "SL", "SQU", "ST", "SW"]) {
+                    followers += [.B]
+                }
+                        
+                // C enders: LILAC, TARMAC, SUMAC
+                if pea.matchesSet(["LIL", "SUM", "TARM"]) {
+                    followers += [.C]
+                }
+                        
+                // Only K ender is FLAK
+                if pea.matchesString("FL", matchFull: true) {
+                    followers += [.K]
+                }
             }
-                
-            // C enders: LILAC, TARMAC, SUMAC
-            if pea.matchesSet(["LIL", "SUM", "TARM"]) {
-                followers += [.C]
-            }
-                
-            // Only K ender is FLAK
-            if pea.matchesString("FL", matchFull: true) {
-                followers += [.K]
-            }
-        }
-        
-//        else if pea.elements.count == 1 {
-//            switch pea.elements[0].id {
-//            case "Y": followers += [.M, .N, .P, .R, .W]
-//            default: followers = []
-//            }
-//        }
-        return followers
-    })
+                    
+        //        else if pea.elements.count == 1 {
+        //            switch pea.elements[0].id {
+        //            case "Y": followers += [.M, .N, .P, .R, .W]
+        //            default: followers = []
+        //            }
+        //        }
+                return followers
+            })
 
 let E = Vowel( id: .E,
     blendStart: [.A, .E, .I, .O, .U],
@@ -88,7 +118,6 @@ let E = Vowel( id: .E,
     
     // Final consonant enders: BRED, COMPEL, THEM, THEN, STEP, WATER, SLEW, FLEX, THEY
     finalConsonants: [.D, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
-    endBias: 3,
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
         
@@ -119,7 +148,6 @@ let I = Vowel( id: .I,
     
     // Final consonant enders: GENERIC, SQUID, UNTIL, MAXIM, SPIN, STIR, SPLIT, REMIX
     finalConsonants: [.C, .D, .L, .M, .N, .P, .S, .T, .X],
-    endBias: 0,
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
         
@@ -140,6 +168,11 @@ let I = Vowel( id: .I,
                 followers += [.R]
             }
         }
+        
+        // To make gerunds following double vowels work (FREEING, WOOING, etc.)
+        else if pos != .positionFIRST && (pea.lastElement()!.id == "EE" || pea.lastElement()!.id == "OO") {
+            followers += [.N]
+        }
 
         return followers
     })
@@ -150,7 +183,6 @@ let O = Vowel( id: .O,
     
     // Final consonant enders: TROD, GROG, CAROL, PROM, VALOR, TROT, BROW, BOOMBOX, DECOY
     finalConsonants: [.D, .G, .L, .M, .N, .R, .S, .T, .W, .X, .Y],
-    endBias: 1,
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
         
@@ -184,14 +216,19 @@ let U = Vowel( id: .U,
     blendInto: [.A, .E, .I, .O],
     
     // Final consonant enders: DRUB, THUD, PLUG, MOGUL, DRUM, STUN, BLUR, GLUT, FLUX
-    finalConsonants: [.B, .D, .G, .L, .M, .N, .P, .R, .S, .T, .X],
-    endBias: 0,
+    finalConsonants: [.B, .D, .G, .L, .M, .N, .P, .S, .T, .X],
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         
        // Allow blending into U only for VACUUM
         if pos == .positionMIDDLE && pea.matchesString("VACU", matchFull: false) {
             return [.U]
         }
+            
+        // Final R restricted words: BLUR, CUR, FUR, SLUR
+        else if pos == .positionLAST && pea.matchesSet(["BL", "C", "F", "SL"]) {
+            return [.R]
+        }
+            
         else {
             return []
         }
