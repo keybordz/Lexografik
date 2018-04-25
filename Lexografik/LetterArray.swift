@@ -205,133 +205,6 @@ class LetterArray: Equatable {
         return true
     }
     
-    func lettersForInitialVowelConsonantPairs(_ first: Letter, second: Letter) -> [Letter] {
-        switch first {
-        case .A:
-            switch second {
-            case .B: return [.A, .B, .D, .E, .I, .L, .N, .O, .R, .U, .Y]
-            case .C: return [.A, .C, .E, .H, .I, .M, .N, .O, .R, .T, .U]
-            case .D: return [.A, .B, .D, .E, .I, .J, .O, .R, .U]
-            case .F: return [.A, .E, .F, .I, .L, .O, .R, .U]
-            case .G: return [.A, .E, .G, .L, .I, .O, .R, .U]
-            case .H: return [.A, .O]
-            case .J: return [.A]
-            case .K: return [.I]
-            case .L: return [.A, .B, .D, .E, .G, .I, .K, .L, .M, .O, .P, .S, .T, .V, .U]
-            case .M: return [.A, .B, .E, .H, .I, .M, .O, .P, .U, .Y]
-            case .N: return [.A, .C, .D, .G, .E, .I, .K, .N, .O, .S, .T, .U, .Y]
-            case .P: return [.A, .E, .H, .I, .L, .N, .O, .P, .R, .S, .T, .U]
-            case .Q: return [.U]
-            case .R: return [.A, .B, .C, .D, .E, .F, .G, .I, .K, .L, .M, .O, .P, .R, .S, .T, .U]
-            case .S: return [.B, .C, .G, .H, .I, .K, .L, .P, .S, .T, .W]
-            case .T: return [.E, .H, .I, .O, .R, .T]
-            case .V: return [.A, .E, .I, .O, .U]
-            case .W: return [.A, .E, .H, .I, .O]
-            case .X: return [.E, .I, .L, .O]
-            case .Y: return [.E, .O]
-            default: return []
-            }
-        case .E:
-            switch second {
-            case .B: return [.B, .U]
-            case .C: return [.C, .O, .R, .S, .T, .U]
-            case .D: return [.D, .G, .I, .O, .U]
-            case .F: return [.F, .O, .U]
-            case .G: return [.A, .G, .O]
-            case .H: return []
-            case .J: return [.A, .E]
-            case .K: return []
-            case .L: return [.A, .B, .C, .D, .E, .F, .G, .K, .L, .M, .O, .P, .S, .T, .U]
-            case .M: return [.A, .B, .C, .E, .I, .M, .O, .P, .U]
-            case .N: return [.A, .C, .D, .E, .I, .L, .M, .N, .O, .S, .T, .U, .V]
-            case .P: return [.E, .H, .I, .O]
-            case .Q: return [.U]
-            case .R: return [.A, .B, .C, .D, .E, .G, .H, .I, .O, .R, .S, .T]
-            case .S: return [.C, .H, .P, .Q, .S, .T]
-            case .T: return [.C, .H, .N, .T]
-            case .V: return [.A, .E, .I, .O]
-            case .W: return [.E]
-            case .X: return [.A, .C, .E, .I, .O, .P, .T, .U]
-            case .Y: return [.E]
-            default: return []
-            }
-        case .I:
-            switch second {
-            case .B: return [.E, .I]
-            case .C: return [.A, .E, .I, .O, .T, .Y]
-            case .D: return [.E, .I, .L, .O]
-            case .F: return [.F, .T]
-            case .G: return [.L]
-            case .H: return []
-            case .J: return []
-            case .K: return []
-            case .L: return [.I, .L]
-            case .M: return [.A, .B, .E, .I, .M, .O, .P, .U]
-            case .N: return [.A, .C, .D, .E, .F, .G, .I, .J, .K, .L, .N, .O, .P, .S, .T, .V]
-            case .P: return []
-            case .Q: return []
-            case .R: return [.A, .E, .I, .K, .O, .R]
-            case .S: return [.H, .L, .S, .T]
-            case .T: return [.A, .C, .E, .H, .S, .T]
-            case .V: return [.E, .I, .O]
-            case .W: return []
-            case .X: return []
-            case .Y: return []
-            default: return []
-            }
-        case .O:
-            switch second {
-            case .B: return [.A, .D, .E, .F, .I, .J, .O, .S, .T, .U]
-            case .C: return [.A, .C, .E, .I, .O, .R, .T, .U]
-            case .D: return [.A, .D, .E, .I, .O, .U]
-            case .F: return [.A, .E, .F, .O, .U]
-            case .G: return [.R]
-            case .H: return [.M]
-            case .J: return []
-            case .K: return [.A]
-            case .L: return [.A, .D, .E, .I, .L]
-            case .M: return [.A, .E, .I, .O, .U]
-            case .N: return [.A, .E, .I, .L, .O, .U]
-            case .P: return [.A, .E, .I, .O, .U]
-            case .Q: return [.U]
-            case .R: return [.A, .B, .C, .D, .E, .G, .I, .N, .O, .U]
-            case .S: return [.A, .E, .I, .O, .S, .T, .U]
-            case .T: return [.A, .E, .I, .O, .T, .U]
-            case .V: return [.A, .E, .I, .O, .U]
-            case .W: return [.E, .L, .N, .O]
-            case .X: return [.E, .I, .Y]
-            case .Y: return [.A, .E, .I, .O, .U]
-            default: return []
-            }
-        case .U:
-            switch second {
-            case .B: return []
-            case .C: return []
-            case .D: return [.D]
-            case .F: return []
-            case .G: return [.L]
-            case .H: return []
-            case .J: return []
-            case .K: return [.E]
-            case .L: return [.C, .N, .T]
-            case .M: return [.B]
-            case .N: return [.A, .B, .C, .D, .E, .F, .G, .H, .I, .K, .L, .M, .N, .O, .P, .R, .S, .T, .U, .V, .W, .Y, .Z]
-            case .P: return [.A, .B, .C, .D, .E, .H, .I, .L, .O, .P, .R, .S, .T, .U]
-            case .Q: return []
-            case .R: return [.A, .E, .G, .I, .N, .O, .U]
-            case .S: return [.A, .E, .H, .I, .U]
-            case .T: return [.T]
-            case .V: return [.U]
-            case .W: return []
-            case .X: return []
-            case .Y: return []
-            default: return []
-            }
-        default:
-            return []
-        }
-    }
-    
     // New, smarter implementation
     func testLexical(_ suffix: Letter, remainingLetters: Int) -> Bool {
         let nLetters = numLetters()
@@ -625,13 +498,23 @@ class LetterArray: Equatable {
                     
                 else {
                     
-                    // Have to remove the last phoneme so that instance-level followers for consonant blends will evaluate properly
+                    // Have to remove the last phoneme so that followers for consonant blends will properly generate
                     if suffix != .Y {
                         phonemes.removeLastElement()
                         
                         // If a triple blend has been broken up, then the first part
                         if reBlend != nil {
                             phonemes.appendElement(reBlend!)
+                        }
+                    }
+                    
+                    // Adding the blend after an initial vowel
+                    if phonemes.elements.count == 1 {
+                        expecting = conBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                        if expecting != [] {
+                            nextBias = .expectSubset
+                            phonemes.appendElement(conBlend!)
+                            return true
                         }
                     }
 
@@ -675,7 +558,6 @@ class LetterArray: Equatable {
                 // Appending a consonant after an initial vowel
                 if nLetters == 1 && !suffix.isDipthong() {
                     
-                    // expecting = lettersForInitialVowelConsonantPairs(last!, second: suffix)
                     expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
                     
                     if !expecting.isEmpty {
@@ -739,11 +621,24 @@ class LetterArray: Equatable {
                     return lexSuffix!.verifyEndOfWord!(phonemes)
                 }
                 
+                if phonemes.elements.count == 1 && lastElement is VowelBlend {
+                    expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                    if expecting != [] {
+                        sylState = .articulateStop
+                        nextBias = .expectSubset
+                        phonemes.appendElement(lexSuffix!)
+                        return true
+                    }
+                }
                 if remainingLetters == 2 {
                     expecting = suffixProtocol.lastFollowers(pea: phonemes)
                 }
                 else {
                     expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                }
+                
+                if expecting == [] {
+                    return false
                 }
                 
                 // Reset state values
@@ -801,12 +696,22 @@ class LetterArray: Equatable {
                      
                     // All other cases
                     else {
-                        if remainingLetters == 2 {
+                        
+                        // First vowel following a Y
+                        if last == .Y && nLetters == 1 {
+                            expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                        }
+                            
+                        // Just before the last letter
+                        else if remainingLetters == 2 {
                             expecting = suffixProtocol.lastFollowers(pea: phonemes)
                         }
+                        
+                        // Somewhere in the middle of the word
                         else {
                             expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
                         }
+                        
                         if expecting == [] {
                             return false
                         }

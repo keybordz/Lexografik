@@ -12,6 +12,7 @@ class Vowel: LexicalLetter, PhoneticFollowers {
     let blendStart: [Letter]
     let blendInto: [Letter]
     let finalCons: [Letter]
+    let followerTable: [String:[Letter]]
     
     func initialFollowers(nRemain: Int) -> [Letter] {
         let initFollowers = blendStart + allConsonants
@@ -19,7 +20,14 @@ class Vowel: LexicalLetter, PhoneticFollowers {
     }
     
     func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
-        return []
+        let firstElement = pea.firstElement()               // Should only be one element
+        
+        if let secondFollowers = followerTable[firstElement!.id] {
+            return secondFollowers
+        }
+        else {
+            return []
+        }
     }
     
     func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
@@ -43,11 +51,13 @@ class Vowel: LexicalLetter, PhoneticFollowers {
     }
     
     init(id: Letter, blendStart: [Letter], blendInto: [Letter], finalConsonants: [Letter],
+         followerTable: [String:[Letter]],
          dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?) {
         
         self.blendStart = blendStart
         self.blendInto = blendInto
         self.finalCons = finalConsonants
+        self.followerTable = followerTable
         
         super.init(first: id, second: nil, third: nil,
                    canStart: true, canEnd: true, canPlural: true,
@@ -82,6 +92,8 @@ let A = Vowel(id: .A,
     
               // Final consonant enders: GRAD, FLAG, FLAK, MORAL, TRAM, BRAN, SCRAP, AJAR, FLAT, FLAW, RELAX, TRAY
               finalConsonants: [.D, .G, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
+              followerTable: [
+                "Y": [.C, .K, .M, .N, .P, .R, .W]],     // YACHT, YAKS, YAMS, YANG, YAPS, YARD, YAWN
               dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
                 var followers: [Letter] = []
                     
@@ -92,8 +104,8 @@ let A = Vowel(id: .A,
                     followers += [.B]
                 }
                         
-                // C enders: LILAC, TARMAC, SUMAC
-                if pea.matchesSet(["LIL", "SUM", "TARM"]) {
+                // C enders: COGNAC, LILAC, TARMAC, SUMAC
+                if pea.matchesSet(["COGN", "LIL", "SUM", "TARM"]) {
                     followers += [.C]
                 }
                         
@@ -118,6 +130,8 @@ let E = Vowel( id: .E,
     
     // Final consonant enders: BRED, COMPEL, THEM, THEN, STEP, WATER, SLEW, FLEX, THEY
     finalConsonants: [.D, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
+    followerTable: [
+        "Y": [.A, .G, .L, .N, .O, .P, .S, .T, .W]],     // YEAR, YEGG, YELL, YENS, YEOMAN, YEPS, YESTERDAY, YETI, YEWS
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
         
@@ -148,6 +162,8 @@ let I = Vowel( id: .I,
     
     // Final consonant enders: GENERIC, SQUID, UNTIL, MAXIM, SPIN, STIR, SPLIT, REMIX
     finalConsonants: [.C, .D, .L, .M, .N, .P, .S, .T, .X],
+    followerTable: [
+        "Y": [.E, .N, .P]],     // YIELD, YING, YIPS
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
         
@@ -183,6 +199,8 @@ let O = Vowel( id: .O,
     
     // Final consonant enders: TROD, GROG, CAROL, PROM, VALOR, TROT, BROW, BOOMBOX, DECOY
     finalConsonants: [.D, .G, .L, .M, .N, .R, .S, .T, .W, .X, .Y],
+    followerTable: [
+        "Y": [.D, .G, .L, .N, .U, .W, .Y]],     // YODEL, YOGA, YOLK, YON, YOUR, YOWS, YOYO
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
         
@@ -217,6 +235,8 @@ let U = Vowel( id: .U,
     
     // Final consonant enders: DRUB, THUD, PLUG, MOGUL, DRUM, STUN, BLUR, GLUT, FLUX
     finalConsonants: [.B, .D, .G, .L, .M, .N, .P, .S, .T, .X],
+    followerTable: [
+        "Y": [.C, .L, .M, .P, .R]],     // YUCCA, YULE, YUMMY, YUPS, YURT
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         
        // Allow blending into U only for VACUUM

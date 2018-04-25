@@ -126,11 +126,10 @@ let AO = VowelBlend(first: .A, second: .O, third: nil,
                     finalCons: [],
                     blendInto: [],
                     canPlural: false,
-                    endOfWord: true,           // CACAO
+                    endOfWord: true,        
                     glottal: true,          // but false for GAOL
                     dynFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
-                        let lastElement = phonemes.lastElement()
-        
+
                         // GAOL
                         if pos == .positionLAST && phonemes.matchesString("G", matchFull: true) {
                             return [.L]
@@ -139,7 +138,16 @@ let AO = VowelBlend(first: .A, second: .O, third: nil,
                             return []
                         }
                     },
-                    verifyEnd: nil)
+                    verifyEnd: { (phonemes:PhoneticElementArray) -> Bool in
+                        
+                        // Words ending in AO: CACAO
+                        if phonemes.matchesString("CAC", matchFull: true) {
+                            return true
+                        }
+                        else {
+                            return false
+                        }
+                    })
 
 let AU = VowelBlend(first: .A, second: .U, third: nil,
                     initCons: [.D, .G, .L, .R, .S, .T, .X],  // AUDIO, AUGUR, AURAL, AUSTRIAN, AUTO, AUXILIARY
@@ -154,25 +162,32 @@ let AU = VowelBlend(first: .A, second: .U, third: nil,
 
 let EA = VowelBlend(first: .E, second: .A, third: nil,
                     initCons: [.C, .R, .S, .T, .V],
-                    interCons: [.B, .C, .D, .F, .G, .K, .L, .M, .N, .P, .R, .S, .T, .U, .V],
-                    finalCons: [.D, .F, .H, .K, .L, .M, .N, .P, .R, .T],       // YEAH
+                    interCons: [.B, .C, .D, .F, .G, .K, .L, .M, .N, .P, .R, .S, .T, .V],
+                    finalCons: [.D, .F, .K, .L, .M, .N, .P, .R, .T],
                     blendInto: [.U],
                     canPlural: true,
                     endOfWord: true,
                     glottal: false,
-                    dynFollowers: nil,
+                    dynFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+
+                        // final H for YEAH
+                        if pos == .positionLAST && phonemes.matchesString("Y", matchFull: true) {
+                            return [.H]
+                        }
+                        else {
+                            return []
+                        }
+                    },
                     verifyEnd: { (phonemes:PhoneticElementArray) -> Bool in
                         
                         // FLEA, LEA, PEA, PLEA, RHEA, SEA, TEA, UREA, YEA
-                        let finalEAWords = ["FL", "L", "P", "PL", "RH", "S", "T", "UR", "Y"]
-                        
-                        for word in finalEAWords {
-                            if phonemes.matchesString(word, matchFull: true) {
-                                return true
-                            }
+                        if phonemes.matchesSet(["FL", "L", "P", "PL", "RH", "S", "T", "UR", "Y"]) {
+                            return true
                         }
-                        return false
-})
+                        else {
+                            return false
+                        }
+                    })
 
 let EAU = VowelBlend(first: .E, second: .A, third: .U,
                     initCons: [],
@@ -357,11 +372,20 @@ let OA = VowelBlend(first: .O, second: .A, third: nil,
                     interCons: [.C, .D, .F, .K, .L, .M, .N, .P, .R, .S, .T, .V],
                     finalCons: [.D, .F, .K, .L, .M, .N, .P, .R, .S, .T],
                     blendInto: [],
-                    canPlural: false,
-                    endOfWord: false,
+                    canPlural: true,
+                    endOfWord: true,
                     glottal: false,
                     dynFollowers: nil,
-                    verifyEnd: nil)
+                    verifyEnd: { (phonemes:PhoneticElementArray) -> Bool in
+                        
+                        // Words ending in OA: BOA, COCOA
+                        if phonemes.matchesSet(["B", "COC"]) {
+                            return true
+                        }
+                        else {
+                            return false
+                        }
+                    })
 
 let OE = VowelBlend(first: .O, second: .E, third: nil,
                     initCons: [.N],
@@ -389,21 +413,21 @@ let OO = VowelBlend(first: .O, second: .O, third: nil,
                     initCons: [.Z],        // OOZE
                     interCons: [.B, .D, .F, .G, .I, .K, .L, .M, .N, .P, .R, .S, .T, .V, .Z],
                     finalCons: [.B, .D, .F, .K, .L, .M, .N, .P, .R, .S, .T],
-                    blendInto: [.I],        // for gerunds like WOOING
+                    blendInto: [.E, .I],        // GOOEY, gerunds like WOOING
                     canPlural: true,
                     endOfWord: true,
                     glottal: false,
                     dynFollowers: nil,
                     verifyEnd: { (phonemes:PhoneticElementArray) -> Bool in
-                        let finalOOWords = ["B", "G", "M", "W", "Z", "SH", "IGL", "TAB"]
-                        for word in finalOOWords {
-                            if phonemes.matchesString(word, matchFull: true) {
-                                return true
-                            }
+
+                        // Final OO words: BOO, GOO, MOO, WOO, ZOO, SHOO, IGLOO, TABOO
+                        if phonemes.matchesSet(["B", "G", "M", "W", "Z", "SH", "IGL", "TAB"]) {
+                            return true
                         }
-                        
-                        return false
-                })
+                        else {
+                            return false
+                        }
+                    })
 
 let OU = VowelBlend(first: .O, second: .U, third: nil,
                     initCons: [.N, .R, .S, .T],    // OUNCE, OURS, OUST, OUTS
@@ -419,7 +443,7 @@ let OU = VowelBlend(first: .O, second: .U, third: nil,
 let UA = VowelBlend(first: .U, second: .A, third: nil,
                     initCons: [],
                     interCons: [.B, .C, .D, .F, .G, .L, .M, .N, .P, .R, .S, .T, .V, .Z],
-                    finalCons: [.D, .F, .L, .M, .N, .R, .T, .Y],
+                    finalCons: [.D, .F, .L, .M, .N, .R, .T],        // QUAY?
                     blendInto: [.U],        // for LUAU
                     canPlural: false,
                     endOfWord: false,
@@ -430,7 +454,7 @@ let UA = VowelBlend(first: .U, second: .A, third: nil,
 let UE = VowelBlend(first: .U, second: .E, third: nil,
                     initCons: [],
                     interCons: [.D, .L, .N, .R, .S, .T],
-                    finalCons: [.D, .L, .R, .T, .Y],
+                    finalCons: [.D, .L, .R, .T],
                     blendInto: [],
                     canPlural: true,
                     endOfWord: true,

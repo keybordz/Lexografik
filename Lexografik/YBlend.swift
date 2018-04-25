@@ -20,7 +20,7 @@ class YBlend: ConsonantBlend {
         super.init(first: first, second: .Y, third: nil,
                    initBlend: initBlend, initVowels: initVowels, midBlend: midBlend, midVowels: midVowels, finFollowers: finFollowers,
                    canPlural: false, blendsWithY: false, single: true, endOfWord: true, preceders: [],
-                   dynFollowers: nil, verifyEnd: nil)
+                   followerTable: [:], dynFollowers: nil, verifyEnd: nil)
     }
 }
 
@@ -155,7 +155,7 @@ let WY = YBlend(first: .W,
 let ZY = YBlend(first: .Z,
                 initBlend: [.G],
                 initVowels: [],
-                midBlend: [],
+                midBlend: [.M],     // ENZYME
                 midVowels: [],
                 finFollowers: [])
 
