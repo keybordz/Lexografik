@@ -93,6 +93,7 @@ let A = Vowel(id: .A,
               // Final consonant enders: GRAD, FLAG, FLAK, MORAL, TRAM, BRAN, SCRAP, AJAR, FLAT, FLAW, RELAX, TRAY
               finalConsonants: [.D, .G, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
               followerTable: [
+                "GN":[.R, .T, .W],                      // GNARLY, GNAT, GNAW
                 "Y": [.C, .K, .M, .N, .P, .R, .W]],     // YACHT, YAKS, YAMS, YANG, YAPS, YARD, YAWN
               dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
                 var followers: [Letter] = []
@@ -114,15 +115,8 @@ let A = Vowel(id: .A,
                     followers += [.K]
                 }
             }
-                    
-        //        else if pea.elements.count == 1 {
-        //            switch pea.elements[0].id {
-        //            case "Y": followers += [.M, .N, .P, .R, .W]
-        //            default: followers = []
-        //            }
-        //        }
-                return followers
-            })
+            return followers
+        })
 
 let E = Vowel( id: .E,
     blendStart: [.A, .E, .I, .O, .U],
@@ -200,6 +194,8 @@ let O = Vowel( id: .O,
     // Final consonant enders: TROD, GROG, CAROL, PROM, VALOR, TROT, BROW, BOOMBOX, DECOY
     finalConsonants: [.D, .G, .L, .M, .N, .R, .S, .T, .W, .X, .Y],
     followerTable: [
+        "GN":[.C, .M],
+        "PR":[.P],
         "Y": [.D, .G, .L, .N, .U, .W, .Y]],     // YODEL, YOGA, YOLK, YON, YOUR, YOWS, YOYO
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
@@ -236,6 +232,7 @@ let U = Vowel( id: .U,
     // Final consonant enders: DRUB, THUD, PLUG, MOGUL, DRUM, STUN, BLUR, GLUT, FLUX
     finalConsonants: [.B, .D, .G, .L, .M, .N, .P, .S, .T, .X],
     followerTable: [
+        "GN":[.S],                      // GNUS
         "Y": [.C, .L, .M, .P, .R]],     // YUCCA, YULE, YUMMY, YUPS, YURT
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         

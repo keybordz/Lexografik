@@ -250,10 +250,11 @@ let C = Consonant( id: .C,
     dipthong: false,
     liquidBlend: true,
     followerTable: [
-        "A":[.A, .C, .E, .H, .I, .M, .N, .O, .R, .T, .U],
+        "A":[.C, .E, .H, .I, .M, .N, .O, .R, .T, .U],
         "E":[.C, .O, .R, .S, .T, .U],
-        "I":[.A, .E, .I, .O, .T, .Y],
-        "O":[.A, .C, .E, .I, .O, .R, .T, .U]],
+        "EA":[.H],
+        "I":[.E, .I, .O, .T, .Y],
+        "O":[.C, .H, .R, .T]],
     dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
         
         // Allow final I for FOCI & LOCI
@@ -271,7 +272,7 @@ let C = Consonant( id: .C,
 
 let D = Consonant( id: .D,
     blendStart: [.R],
-    blendInto: [.D, .J, .L, .R],
+    blendInto: [.D, .G, .J, .L, .R],
     defFinal: [.A, .E, .O],
     hardStops: [.B, .H, .N],            // CARDBOARD, BLOODHOUND, GOODNESS
     allowedVowels: allVowels,
@@ -282,7 +283,7 @@ let D = Consonant( id: .D,
     dipthong: false,
     liquidBlend: true,
     followerTable: ["A":[.A, .B, .D, .E, .J, .O, .R, .U, .V, .Z],
-                    "E":[.D, .G, .I, .O, .U],
+                    "E":[.D, .G, .I, .U],
                     "I":[.E, .I, .L, .O],
                     "O":[.D, .E, .I, .O, .U],
                     "U":[.D]],
@@ -314,7 +315,8 @@ let F = Consonant( id: .F,
         "A":[.A, .F, .L, .R, .T],
         "E":[.F],
         "I":[.F],
-        "O":[.F, .T]],
+        "O":[.F, .T],
+        "OA":[.S]],
     dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
         
         // Allow final U for SNAFU, TOFU
@@ -342,8 +344,10 @@ let G = Consonant( id: .G,
     liquidBlend: true,
     followerTable: [
         "A":[.A, .E, .G, .L, .I, .O, .R, .U],
-        "AE":[.G],          // AEGIS
+        "AE":[.I],          // AEGIS
+        "AU":[.E],
         "E":[.A, .G, .O],
+        "EA":[.E],
         "EI":[.H],          // EIGHT
         "I":[.G, .L],
         "O":[.D, .L, .R],
@@ -414,8 +418,8 @@ let J = Consonant( id: .J,
     dipthong: false,
     liquidBlend: false,
     followerTable: [
-        "A":[.A],
-        "E":[.A, .E]],
+        "A":[.A],           // AJAR
+        "E":[.A, .E]],      // EJACULATE, EJECT
     dynamicFollowers: nil,
     verifyEnd: nil)
 
@@ -435,6 +439,7 @@ let K = Consonant( id: .K,
         "A":[.I],       // AKIN
         "I":[.O],       // IKON (yes)
         "O":[.A],       // OKAY
+        "OA":[.E, .S],  // OAKEN, OAKS
         "U":[.E]],      // UKELELE
     dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
     
@@ -480,10 +485,11 @@ let L = Consonant( id: .L,
     liquidBlend: false,
     followerTable: [
         "A":[.A, .B, .D, .E, .G, .I, .K, .L, .M, .O, .P, .S, .T, .U, .V, .W],
-        "E":[.A, .B, .C, .D, .E, .F, .G, .K, .L, .M, .O, .P, .S, .T, .U],
+        "E":[.A, .B, .D, .E, .F, .G, .I, .K, .L, .M, .O, .P, .S, .T, .U],
         "EE":[.S, .Y],                      // EELS, EELY
         "I":[.I, .L],
         "O":[.D, .E, .I, .L],
+        "OI":[.E, .I, .S, .Y],              // OILED, OILING, OILS, OILY
         "U":[.C, .N, .S, .T]],
     dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
         
@@ -558,7 +564,7 @@ let N = Consonant( id: .N,
         "I":[.A, .C, .D, .E, .F, .G, .I, .J, .K, .L, .N, .O, .P, .S, .T, .V],
         "IO":[.S],              // IONS
         "O":[.E, .L, .S, .T, .U],
-        "OE":[.N],              // OENOPHILE
+        "OE":[.O],              // OENOPHILE
         "U":[.A, .B, .C, .D, .E, .F, .G, .H, .I, .K, .L, .M, .N, .O, .P, .R, .S, .T, .U, .V, .W, .Y, .Z]],
     dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
         
@@ -587,8 +593,9 @@ let P = Consonant( id: .P,
     liquidBlend: true,
     followerTable: [
         "A":[.A, .E, .H, .I, .L, .N, .O, .P, .R, .S, .T, .U],
-        "E":[.A, .E, .H, .I, .O, .S],
+        "E":[.A, .H, .I, .S],
         "O":[.A, .E, .I, .P, .T, .U],
+        "OO":[.S],
         "U":[.B, .D, .E, .L, .O, .R, .S, .T, .V]],
     dynamicFollowers: nil,
     verifyEnd:
@@ -674,6 +681,7 @@ let S = Consonant(id: .S,
     liquidBlend: false,
     followerTable: [
         "A":[.B, .C, .G, .H, .I, .K, .L, .P, .S, .T, .W],
+        "AI":[.L],
         "E":[.C, .H, .P, .Q, .S, .T],
         "EA":[.E, .I, .T, .Y],              // EASE, EASILY, EAST, EASY
         "I":[.L, .S],
@@ -698,7 +706,7 @@ let T = Consonant( id: .T,
     followerTable: [
         "A":[.E, .H, .I, .L, .O, .R, .T],
         "E":[.C, .H, .N, .T],
-        "EA":[.E, .I, .S],          // EATEN
+        "EA":[.E, .I, .S],          // EATEN, EATING, EATS
         "I":[.A, .C, .E, .S, .T],
         "IO":[.A],                  // IOTA
         "O":[.H, .I, .T],
@@ -731,6 +739,7 @@ let V = Consonant( id: .V,
     followerTable: [
         "A":[.A, .E, .I, .O, .U],
         "E":[.A, .E, .I, .O],
+        "EA":[.E],
         "I":[.A, .E, .I, .O],
         "O":[.A, .E, .I, .U],
         "U":[.U]],
@@ -818,7 +827,7 @@ let Z = Consonant( id: .Z,
     followerTable: [
         "A":[.I],       // AZIMUTH
         "E":[.R],
-        "OO":[.Z]],
+        "OO":[.E]],
     dynamicFollowers: nil,
     verifyEnd: nil)
 

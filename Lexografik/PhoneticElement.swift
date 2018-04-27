@@ -120,6 +120,10 @@ class PhoneticElementArray {
         elements = pea.elements
     }
     
+    func numElements() -> Int {
+        return elements.count
+    }
+    
     func numLetters() -> Int {
         var nLetters = 0
         

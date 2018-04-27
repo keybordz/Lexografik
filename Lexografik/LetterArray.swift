@@ -469,15 +469,8 @@ class LetterArray: Equatable {
                         return true
                     }
                     
-                    // Extremely rare cases like LN in KILN which isn't a stop but typically doesn't blend
                     else {
-//                        phonemes.appendElement(lexSuffix!)
-//                        expecting = lexSuffix!.nextLetters(pea: phonemes, nRemaining: remainingLetters)
-//                        if expecting == [] {
                             return false
-//                        }
-//                        nextBias = .expectSubset
-//                        return true
                     }
                 }
                 
@@ -508,16 +501,6 @@ class LetterArray: Equatable {
                         }
                     }
                     
-                    // Adding the blend after an initial vowel
-                    if phonemes.elements.count == 1 {
-                        expecting = conBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
-                        if expecting != [] {
-                            nextBias = .expectSubset
-                            phonemes.appendElement(conBlend!)
-                            return true
-                        }
-                    }
-
                     // Blend occurs at the start of the word
                     if nLetters == 1 {
                         expecting = conBlend!.initialFollowers(nRemain: remainingLetters)
@@ -526,6 +509,11 @@ class LetterArray: Equatable {
                     // Blend immediately precedes the last letter
                     else if remainingLetters == 2 {
                         expecting = conBlend!.lastFollowers(pea: phonemes)
+                    }
+                    
+                    // Adding the blend after an initial vowel (make sure to ignore Y blends)
+                    else if phonemes.numElements() == 1 && suffix != .Y {
+                        expecting = conBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
                     }
                         
                     // Somewhere in the middle
@@ -621,16 +609,10 @@ class LetterArray: Equatable {
                     return lexSuffix!.verifyEndOfWord!(phonemes)
                 }
                 
-                if phonemes.elements.count == 1 && lastElement is VowelBlend {
+                if phonemes.numElements() == 1 {
                     expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
-                    if expecting != [] {
-                        sylState = .articulateStop
-                        nextBias = .expectSubset
-                        phonemes.appendElement(lexSuffix!)
-                        return true
-                    }
                 }
-                if remainingLetters == 2 {
+                else if remainingLetters == 2 {
                     expecting = suffixProtocol.lastFollowers(pea: phonemes)
                 }
                 else {
@@ -697,13 +679,19 @@ class LetterArray: Equatable {
                     // All other cases
                     else {
                         
-                        // First vowel following a Y
-                        if last == .Y && nLetters == 1 {
+                        // First vowel added after initial consonant/consonant blend
+                        if phonemes.numElements() == 1 {
                             expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                            if expecting != [] {
+                                sylState = .articulateVowel
+                                nextBias = .expectSubset
+                                phonemes.appendElement(lexSuffix)
+                                return true
+                            }
                         }
                             
                         // Just before the last letter
-                        else if remainingLetters == 2 {
+                        if remainingLetters == 2 {
                             expecting = suffixProtocol.lastFollowers(pea: phonemes)
                         }
                         
@@ -795,6 +783,16 @@ class LetterArray: Equatable {
                     }
                     else {
                         return false
+                    }
+                }
+                
+                // Adding the blend after an initial cononsant
+                if phonemes.numElements() == 1 {
+                    expecting = vowelBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                    if expecting != [] {
+                        nextBias = .expectSubset
+                        phonemes.appendElement(vowelBlend!)
+                        return true
                     }
                 }
     

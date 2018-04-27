@@ -1439,4 +1439,43 @@ class LexografikTests: XCTestCase {
         storm.gatherWords(6)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ORPHAN")))
     }
+    
+    func test_16Feb2013_embOdying() {
+        storm = WordStorm(outer: ["E", "M", "B", "D", "Y", "I", "N", "G"], center: "O")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "OBEY")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BINGO")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DINGO")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DOYEN")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "NODGE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DOING")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BEYOND")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BODING")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "EMBODY")))
+    }
+    
+    func test_09Mar2013_geriaTric() {
+        storm = WordStorm(outer: ["G", "E", "R", "I", "A", "R", "I", "C"], center: "T")
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CARET")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "IRATE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "RECTA")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TRIER")))
+        
+        storm.gatherWords(8)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CRITERIA")))
+    }
+    
+    func test_2014Jul19_pReposses() {
+        storm = WordStorm(outer: ["P", "E", "P", "O", "S", "S", "E", "S"], center: "R")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PROP")))
+    }
 }
