@@ -195,7 +195,6 @@ let O = Vowel( id: .O,
     finalConsonants: [.D, .G, .L, .M, .N, .R, .S, .T, .W, .X, .Y],
     followerTable: [
         "GN":[.C, .M],
-        "PR":[.P],
         "Y": [.D, .G, .L, .N, .U, .W, .Y]],     // YODEL, YOGA, YOLK, YON, YOUR, YOWS, YOYO
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
@@ -244,6 +243,11 @@ let U = Vowel( id: .U,
         // Final R restricted words: BLUR, CUR, FUR, SLUR
         else if pos == .positionLAST && pea.matchesSet(["BL", "C", "F", "SL"]) {
             return [.R]
+        }
+            
+        // Final I for ENNUI
+        else if pos == .positionLAST && pea.matchesString("ENN", matchFull: true) {
+            return [.I]
         }
             
         else {

@@ -203,7 +203,7 @@ let B = Consonant(id: .B,
                     "A":[.A, .B, .D, .E, .I, .L, .N, .O, .R, .U, .Y],
                     "E":[.B, .U],
                     "I":[.E, .I],
-                    "O":[.A, .D, .E, .F, .I, .J, .O, .S, .T, .U]],
+                    "O":[.D, .E, .F, .J, .L, .S, .T]],
                   dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
                     
                         // Allow T follower only for DEBT
@@ -648,13 +648,14 @@ let R = Consonant( id: .R,
         "AE":[.A, .I, .O],              // AERATE, AERIE, AEROBIC
         "AI":[.E, .S, .Y],              // AIRE, AIRS, AIRY
         "AO":[.T],                      // AORTA
+        "AU":[.A, .O],                  // AURA, AURORA
         "E":[.A, .B, .C, .D, .E, .G, .H, .I, .O, .R, .S, .T],
         "EA":[.G, .L, .N, .S, .T],      // EAGER, EARL, EARN, EARS, EARTH
         "EE":[.I],                      // EERIE
         "I":[.A, .E, .I, .K, .O, .R],
         "O":[.A, .B, .C, .D, .E, .G, .I, .N, .O, .P, .U],           // ORPHAN
         "OA":[.E, .I, .S],              // OARED, OARING, OARS
-        "U":[.A, .E, .G, .I, .N, .O, .U]],
+        "U":[.A, .E, .G, .I, .N, .O, .S, .U]],      // URANUS, UREA, URGE, URI?, URNS, UROLOGY, URSING, URSU?
     dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
         
         // Allow final I for SAFARI, SARI, TORI
@@ -808,7 +809,36 @@ let Y = Consonant( id: .Y,
     canPlural: false,
     dipthong: true,
     liquidBlend: true,
-    followerTable: [:],             // followers generated thru YBlend and Diphthongs
+    followerTable: [
+        "B":[.E, .P, .S, .T, .Z],   // BYES, BYPASS, BYSTANDER, BYTE, BYZANTINE
+        "C":[.A, .B, .C, .G, .P, .S, .T],   // CYANIDE, CYBER, CYCLE, CYGNET, CYPHER, CYST, CYTOSIS
+        "CHR":[.S],                 // CHRYSALIS/CHRYSANTHEMUM
+        "CR":[.I],                  // CRYING
+        "D":[.E, .I, .N, .S],       // DYES, DYING, DYSTOPIA, DYNOMITE
+        "DR":[.E, .I, .S],          // DRYING, DRYER, DRYS
+        "G":[.M, .N, .P, .R],       // GYMS, GYNECOLOGY, GYPSY, GYRO
+        "GL":[.P],                  // GLYPH
+        "GR":[.P],                  // GRYPHON
+        "H":[.A, .E, .M],           // HYACINTH, HYENA, HYMN, HYSTERIA
+        "L":[.E, .I, .M, .R],       // LYES, LYING, LYME, LYRIC
+        "M":[.N, .O, .S],           // MYNA, MYOPIA, MYSTERY
+        "N":[.L],                   // NYLON
+        "P":[.L, .R, .T],           // PYLON, PYROTECHNIC/PYRRIC?, PYTHON
+        "PH":[.L],                  // PHYLUM
+        "PR":[.I],                  // PRYING
+        "PS":[.C],                  // PSYCHO
+        "R":[.E],                   // RYES
+        "RH":[.M, .T],              // RHYME, RHYTHM
+        "S":[.C, .L, .M, .N, .P, .R, .S],   // SYCOPHANT, SYLLABUS, SYMBOL, SYNERGY, SYPHILIS, SYRUP, SYSTEM
+        "SC":[.T],                  // SCYTHE
+        "SH":[.E, .I, .L],          // SHYER, SHYING, SHYLY
+        "SP":[.I],                  // SPYING
+        "ST":[.E, .R],              // STYE, STYROFOAM
+        "T":[.I, .P, .R],           // TYING, TYPE, TYRANT
+        "TH":[.M],                  // THYME
+        "V":[.I],                   // VYING
+        "Z":[.G]],                  // ZYGOTE
+        
     dynamicFollowers: nil,
     verifyEnd: nil)
 

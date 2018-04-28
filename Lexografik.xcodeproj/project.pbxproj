@@ -112,7 +112,6 @@
 				C9045F3A1C70FC0200958455 /* Vowel.swift */,
 				C9045F401C7101CB00958455 /* VowelBlend.swift */,
 				C9045F461C7101EA00958455 /* DiphthongBlend.swift */,
-				C9B6D8A41CB586B0004032EE /* YBlend.swift */,
 				C92FB5871C6AB9B300BD269C /* LetterArray.swift */,
 				C963348A1D53D5F60074AD96 /* WordMatchDictionary.swift */,
 				C90C53601C568B1000FD7550 /* WordStorm.swift */,
@@ -135,6 +134,7 @@
 		C95BF34A1C6C258E0051F725 /* Deprecated */ = {
 			isa = PBXGroup;
 			children = (
+				C9B6D8A41CB586B0004032EE /* YBlend.swift */,
 				C9762D1B1BAB800000A4E25D /* LetterArray (OLD).swift */,
 			);
 			name = Deprecated;

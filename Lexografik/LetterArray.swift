@@ -390,12 +390,34 @@ class LetterArray: Equatable {
                     }
                 }
                 
-                // Try to match connected consonants to a blend element
-                // With Y's, omly match the last letter, not the entire blend
+                // Treat interior Y's the same way as vowels
                 if suffix == .Y {
-                    cKey = "\(last!.rawValue)Y"
-                    conBlend = YBlendMap[cKey]
+                    
+                    // First Y after initial consonant or consonant blend
+                    if phonemes.numElements() == 1 {
+                        expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                    }
+                    
+                    // Just before the last letter
+                    else if remainingLetters == 2 {
+                        expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                    }
+                        
+                    // Somewhere in the middle of the word
+                    else {
+                        expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                    }
+                    
+                    if expecting == [] {
+                        return false
+                    }
+                    sylState = .articulateVowel
+                    nextBias = .expectSubset
+                    phonemes.appendElement(lexSuffix!)
+                    return true
                 }
+                    
+                // Try to match consecutive consonants to a blend element
                 else {
                     cKey = "\(lastElement!.id)\(suffix.rawValue)"
                     conBlend = consonantBlendMap[cKey]
@@ -470,7 +492,7 @@ class LetterArray: Equatable {
                     }
                     
                     else {
-                            return false
+                        return false
                     }
                 }
                 
@@ -492,28 +514,26 @@ class LetterArray: Equatable {
                 else {
                     
                     // Have to remove the last phoneme so that followers for consonant blends will properly generate
-                    if suffix != .Y {
-                        phonemes.removeLastElement()
+                    phonemes.removeLastElement()
                         
-                        // If a triple blend has been broken up, then the first part
-                        if reBlend != nil {
-                            phonemes.appendElement(reBlend!)
-                        }
+                    // If a triple blend has been broken up, then the first part
+                    if reBlend != nil {
+                        phonemes.appendElement(reBlend!)
                     }
                     
                     // Blend occurs at the start of the word
                     if nLetters == 1 {
                         expecting = conBlend!.initialFollowers(nRemain: remainingLetters)
                     }
+
+                    // Adding the blend after an initial vowel (make sure to ignore Y blends)
+                    else if phonemes.numElements() == 1 {
+                        expecting = conBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                    }
                         
                     // Blend immediately precedes the last letter
                     else if remainingLetters == 2 {
                         expecting = conBlend!.lastFollowers(pea: phonemes)
-                    }
-                    
-                    // Adding the blend after an initial vowel (make sure to ignore Y blends)
-                    else if phonemes.numElements() == 1 && suffix != .Y {
-                        expecting = conBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
                     }
                         
                     // Somewhere in the middle
@@ -526,16 +546,7 @@ class LetterArray: Equatable {
                     }
                     
                     nextBias = .expectSubset
-                    
-                    // Here the added Y is acting as a vowel
-                    if suffix == .Y {
-                        phonemes.appendElement(lexSuffix!)
-                        sylState = .articulateVowel
-                    }
-                    else {
-                        phonemes.appendElement(conBlend!)
-                    }
-                    
+                    phonemes.appendElement(conBlend!)
                     return true
                 }
             }
@@ -786,19 +797,14 @@ class LetterArray: Equatable {
                     }
                 }
                 
-                // Adding the blend after an initial cononsant
-                if phonemes.numElements() == 1 {
-                    expecting = vowelBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
-                    if expecting != [] {
-                        nextBias = .expectSubset
-                        phonemes.appendElement(vowelBlend!)
-                        return true
-                    }
-                }
-    
                 // Blend occurs at the start of the word
                 if nLetters == 1 {
                     expecting = vowelBlend!.initialFollowers(nRemain: remainingLetters)
+                }
+                                        
+                // Adding the blend after an initial cononsant
+                else if phonemes.numElements() == 1 {
+                    expecting = vowelBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
                 }
                     
                 // Blend immediately precedes the last letter

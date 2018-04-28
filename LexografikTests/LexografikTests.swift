@@ -881,7 +881,6 @@ class LexografikTests: XCTestCase {
         storm.gatherWords(5)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AERIE")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "OSIER")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MOIRE")))
     }
     
     func test_justifiEd() {
@@ -1477,5 +1476,62 @@ class LexografikTests: XCTestCase {
         
         storm.gatherWords(4)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PROP")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PROPS")))
+    }
+    
+    func test_2013Mar25_carNation() {
+        storm = WordStorm(outer: ["C", "A", "R", "A", "T", "I", "O", "N"], center: "N")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ANON")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ANION")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CONTRA")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CRANIA")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CITRON")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CANNOT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ACTION")))
+    }
+    
+    func test_2014Jul17_Overtaxed() {
+        storm = WordStorm(outer: ["V", "E", "R", "T", "A", "X", "E", "D"], center: "O")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TOAD")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "VETO")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "REDO")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DETOX")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "OVERT")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "VORTEX")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DEVOTE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "VETOED")))
+    }
+    
+    func test_2013Mar07_Nunneries() {
+        storm = WordStorm(outer: ["U", "N", "N", "E", "R", "I", "E", "S"], center: "N")
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ENSUE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "URINE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ENNUI")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "URSINE")))        
+    }
+    
+    func test_2013Mar31_ingeniouS() {
+        storm = WordStorm(outer: ["I", "N", "G", "E", "N", "I", "O", "U"], center: "S")
+        
+        storm.gatherWords(7)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ENSUING")))
     }
 }
