@@ -294,20 +294,6 @@ let CR = ConsonantBlend(first: .C, second: .R, third: nil,
                         dynFollowers: nil,
                         verifyEnd: nil)
 
-//let CS = ConsonantBlend(first: .C, second: .S, third: nil,
-//                        initBlend: [],
-//                        initVowels: [],
-//                        midBlend: [.T],         // for ECSTASY
-//                        midVowels: allVowels,
-//                        finFollowers: [.A],
-//                        canPlural: false,
-//                        blendsWithY: false,
-//                        single: true,
-//                        endOfWord: true,
-//                        preceders: [],
-//                        dynFollowers: nil,
-//                        verifyEnd: nil)
-
 let CT = ConsonantBlend(first: .C, second: .T, third: nil,
                         initBlend: [],
                         initVowels: [],
@@ -320,7 +306,8 @@ let CT = ConsonantBlend(first: .C, second: .T, third: nil,
                         endOfWord: true,
                         preceders: ["EA", "IA", "OA"],
                         followerTable: [
-                            "A":[.E, .I, .O, .S]],      // ACTED, ACTING, ACTOR, ACTS
+                            "A":[.E, .I, .O, .S],       // ACTED, ACTING, ACTOR, ACTS
+                            "O":[.A]],                  // OCTANE, OCTAVE
                         dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
                             
                             // Allow final I follower for CACTI and A for RECTA
@@ -627,6 +614,7 @@ let LB = ConsonantBlend(first: .L, second: .B, third: nil,
                         endOfWord: true,
                         preceders: ["U"],
                         followerTable: [
+                            "A":[.I],       // ALBINO
                             "E":[.O]],      // ELBOW
                         dynFollowers: nil,
                         verifyEnd: { (phonemes:PhoneticElementArray) -> Bool in
@@ -709,11 +697,11 @@ let LD = ConsonantBlend(first: .L, second: .D, third: nil,
                         verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
                             let lastElement = phonemes.lastElement()
                             
-                            // Can only follow an OU vowel blend i.e. WOULD, COULD
+                            // Can only follow an OU vowel blend i.e. WOULD, COULD, or IE like FIELD, YIELD
                             if lastElement is Vowel {
                                 return true
                             }
-                            else if lastElement is VowelBlend && lastElement!.id == "OU" {
+                            else if lastElement is VowelBlend && (lastElement!.id == "OU" || lastElement!.id == "IE") {
                                 return true
                             }
                             else {
@@ -920,10 +908,25 @@ let LT = ConsonantBlend(first: .L, second: .T, third: nil,
                         endOfWord: true,
                         preceders: ["A", "AU", "E", "EA", "I", "O", "U"],      // MALT, FAULT, PELT, DEALT, HILT, COLT, VULTURE
                         followerTable: [
-                            "A":[.A, .E],       // ALTAR, ALTER
-                            "U":[.I]],          // ULTIMATE
+                            "A":[.A, .E],           // ALTAR, ALTER
+                            "U":[.I, .R]],          // ULTIMATE, ULTRA
                         dynFollowers: nil,
-                        verifyEnd: nil)
+                        verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
+                            
+                            // Allow GUILT, FAULT, VAULT
+                            if phonemes.matchesSet(["FAU", "VAU", "GUI"]) {
+                                return true
+                            }
+                                
+                            // And any single vowel preceders
+                            else if phonemes.lastElement()! is Vowel {
+                                return true
+                            }
+                            
+                            else {
+                                return false
+                            }
+                        })
 
 // This one could potentially plural but don't see it in words like FILTH, HEALTH, WEALTH
 let LTH = ConsonantBlend(first: .L, second: .T, third: .H,
@@ -1380,22 +1383,6 @@ let PS = ConsonantBlend(first: .P, second: .S, third: nil,
                         dynFollowers: nil,
                         verifyEnd: nil)
 
-// Should this be in Y blends?
-let PSY = ConsonantBlend(first: .P, second: .S, third: .Y,
-                        initBlend: [.C],
-                        initVowels: [],
-                        midBlend: [.C],
-                        midVowels: [],
-                        finFollowers: [],
-                        canPlural: false,
-                        blendsWithY: false,
-                        single: false,
-                        endOfWord: true,
-                        preceders: [],
-                        followerTable: [:],
-                        dynFollowers: nil,
-                        verifyEnd: nil)
-
 let PT = ConsonantBlend(first: .P, second: .T, third: nil,
                          initBlend: [],
                          initVowels: [],
@@ -1470,7 +1457,7 @@ let RC = ConsonantBlend(first: .R, second: .C, third: nil,
                         preceders: ["A", "E", "I", "O", "U"],
                         followerTable: [
                             "A":[.H, .I, .O, .S, .T],       // ARCH, ARCING, ARCO, ARCS, ARCTANGENT
-                            "O":[.H, .S],                   // ORCHESTRA, ORCS
+                            "O":[.A, .H, .S],               // ORCA, ORCHESTRA, ORCS
                             "U":[.H]],                      // URCHIN
                         dynFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
                             
@@ -1772,7 +1759,7 @@ let RT = ConsonantBlend(first: .R, second: .T, third: nil,
                         initVowels: [],
                         midBlend: [.H, .L, .S],
                         midVowels: allVowels,
-                        finFollowers: [.A, .H, .Z],     // AORTA, HERTZ, QUARTZ
+                        finFollowers: [.A, .E, .H, .Z],     // AORTA, TORTE/CARTE, HERTZ/QUARTZ
                         canPlural: true,
                         blendsWithY: true,
                         single: false,
@@ -1944,7 +1931,7 @@ let SHR = ConsonantBlend(first: .S, second: .H, third: .R,
 
 let SK = ConsonantBlend(first: .S, second: .K, third: nil,
                         initBlend: [],
-                        initVowels: [],
+                        initVowels: allVowels,
                         midBlend: [],
                         midVowels: allVowels,
                         finFollowers: [],
@@ -1971,7 +1958,8 @@ let SL = ConsonantBlend(first: .S, second: .L, third: nil,
                         preceders: ["AI", "I"],
                         followerTable: [
                             "A":[.E],           // ASLEEP
-                            "AI":[.E]],         // AISLE
+                            "AI":[.E],          // AISLE
+                            "I":[.A, .E]],      // ISLAM, ISLE
                         dynFollowers: nil,
                         verifyEnd: nil)
 
@@ -2516,7 +2504,7 @@ let NN = ConsonantBlend(first: .N, second: .N, third: nil,
                         endOfWord: true,
                         preceders: [],
                         followerTable: [
-                            "A":[.A, .E, .O, .U],           // ANNAL, ANNEX, ANNOUNCE, ANNUL
+                            "A":[.A, .E, .O, .U],           // ANNAL, ANNEX, ANNOY/ANNOUNCE, ANNUL
                             "E":[.U],                       // ENNUI
                             "I":[.S],                       // INNS
                             "U":[.A, .E, .I, .O, .U]],      // UNNATURAL, UNNESTED, UNNOTICED, UNNUMBERED
@@ -2593,7 +2581,14 @@ let SS = ConsonantBlend(first: .S, second: .S, third: nil,
                             "E":[.A, .E],               // ESSAY, ESSENTIAL
                             "I":[.U],                   // ISSUE
                             "O":[.I]],                  // OSSIFY
-                        dynFollowers: nil,
+                        dynFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+                            
+                            // Approve E follower for POSSE, others?
+                            if phonemes.matchesString("PO", matchFull: true) {
+                                return [.E]
+                            }
+                            return []
+                        },
                         verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
                             let lastElement = phonemes.lastElement()
                             
@@ -2627,7 +2622,19 @@ let TT = ConsonantBlend(first: .T, second: .T, third: nil,
                             "A":[.A, .E, .I, .U],       // ATTACK, ATTEST, ATTIRE, ATTUNED
                             "O":[.E],
                             "U":[.E]],
-                        dynFollowers: nil,
+                        dynFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+                            var followers: [Letter] = []
+                            
+                            if pos == .positionLAST {
+                                let lastElement = phonemes.lastElement()
+                                
+                                // Approve final O for words like LOTTO, GROTTO, DITTO
+                                if lastElement!.id == "I" || lastElement!.id == "O" {
+                                    followers += [.O]
+                                }
+                            }
+                            return followers
+                        },
                         verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in
                             
                             // final TT words: BUTT, MATT, MITT, SETT, WATT

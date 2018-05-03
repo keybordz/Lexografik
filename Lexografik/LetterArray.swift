@@ -20,6 +20,7 @@ enum NextLetterBias: Int {
     case expectConsonant
     case expectSubset
     case expectSequence
+    case expectCombo
 }
 
 class LetterArray: Equatable {
@@ -240,15 +241,15 @@ class LetterArray: Equatable {
             lastElement = phonemes.lastElement()
             
             // Check if there is a predefined set of words for the combined prefix
-//            if numLetters() < 3 && exactMatches == [] {
-//                let mKey = "\(phonemes.stringRep())\(suffix.rawValue)"
-//                if let matches = wordMatchDictionary[mKey] {
-//                    exactMatches = matches
-//                    nextBias = .expectSequence
-//                    phonemes.appendElement(lexSuffix)
-//                    return true
-//                }
-//            }
+            if numLetters() < 3 && exactMatches == [] {
+                let mKey = "\(phonemes.stringRep())\(suffix.rawValue)"
+                if let matches = wordMatchDictionary[mKey] {
+                    exactMatches = matches
+                    nextBias = .expectSequence
+                    phonemes.appendElement(lexSuffix)
+                    return true
+                }
+            }
         }
         
         // Matching exact sequence of letters
@@ -258,18 +259,28 @@ class LetterArray: Equatable {
             let currentString = "\(phonemes.stringRep())\(suffix.rawValue)"
             for matchString in exactMatches {
                 
-                if !matchString.contains(currentString) {
+                // If we're at the last letter in the word, the strings must be identical
+                if endOfWord && matchString != currentString {
                     exactMatches.remove(at: x)
                 }
+                    
+                // Otherwise the matched string only has to contain the current string
+                else if !matchString.contains(currentString) {
+                    exactMatches.remove(at: x)
+                }
+                    
+                // Both tests pass so keep this match
                 else {
                     x += 1
                 }
             }
             
+            // If no matches, then this sequence isn't a valid word
             if exactMatches.count == 0 {
                 return false
             }
                 
+            // How to update syllable state here?
             else {
                 phonemes.appendElement(lexSuffix)
                 return true
@@ -282,6 +293,19 @@ class LetterArray: Equatable {
                 expecting = []
                 nextBias = .expectAny
             }
+                
+//            else {
+//                for lt in expecting {
+//                    if lt.rawValue.count > 1 {
+//                        if suffix.rawValue.prefix(0) == lt.rawValue.prefix(0) {
+//                            nextBias = .expectSequence
+//                            exactMatches.append(lt.rawValue.prefix(1))
+//                            phonemes.appendElement(lexSuffix)
+//                            return true
+//                        }
+//                    }
+//                }
+//            }
                 
             // make an exception for final S plurals if allowable
             else { // } if !endOfWord || suffix != .S {
@@ -594,6 +618,12 @@ class LetterArray: Equatable {
                     // Blend occurs at the start of the word
                     if nLetters == 1 {
                         expecting = dipBlend!.initialFollowers(nRemain: remainingLetters)
+                    }
+                        
+                    // Here, adding the diphthong doesn't add a new element so any consonant entity (single or blend)
+                    // paired with the succeeding vowel means there will already be 2 elements present before calling secondFollowers
+                    else if phonemes.numElements() == 2 {
+                        expecting = dipBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
                     }
                         
                     // Blend immediately precedes the last letter

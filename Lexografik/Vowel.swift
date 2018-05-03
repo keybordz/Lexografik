@@ -93,7 +93,9 @@ let A = Vowel(id: .A,
               // Final consonant enders: GRAD, FLAG, FLAK, MORAL, TRAM, BRAN, SCRAP, AJAR, FLAT, FLAW, RELAX, TRAY
               finalConsonants: [.D, .G, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
               followerTable: [
-                "GN":[.R, .T, .W],                      // GNARLY, GNAT, GNAW
+                "GH":[.S],
+                "GN":[.R, .S, .T, .W],                  // GNARLY, GNASH, GNAT, GNAW
+                "RH":[.P],
                 "Y": [.C, .K, .M, .N, .P, .R, .W]],     // YACHT, YAKS, YAMS, YANG, YAPS, YARD, YAWN
               dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
                 var followers: [Letter] = []
@@ -125,6 +127,8 @@ let E = Vowel( id: .E,
     // Final consonant enders: BRED, COMPEL, THEM, THEN, STEP, WATER, SLEW, FLEX, THEY
     finalConsonants: [.D, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
     followerTable: [
+        "AH":[.E],
+        "RH":[.A],
         "Y": [.A, .G, .L, .N, .O, .P, .S, .T, .W]],     // YEAR, YEGG, YELL, YENS, YEOMAN, YEPS, YESTERDAY, YETI, YEWS
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
@@ -163,8 +167,8 @@ let I = Vowel( id: .I,
         
         if pos == .positionLAST {
             
-            // Final B enders: CRIB, DRIB
-            if pea.matchesSet(["CR", "DR"]) {
+            // Final B enders: CRIB, DRIB, SAHIB
+            if pea.matchesSet(["CR", "DR", "SAH"]) {
                 followers += [.B]
             }
             
@@ -173,8 +177,8 @@ let I = Vowel( id: .I,
                 followers += [.G]
             }
             
-            // Only allow final R for EMIR, NADIR, STIR
-            if pea.matchesSet(["EM", "NAD", "ST"]) {
+            // Only allow final R for EMIR, NADIR, STIR, TAPIR
+            if pea.matchesSet(["EM", "NAD", "ST", "TAP"]) {
                 followers += [.R]
             }
         }
@@ -194,6 +198,8 @@ let O = Vowel( id: .O,
     // Final consonant enders: TROD, GROG, CAROL, PROM, VALOR, TROT, BROW, BOOMBOX, DECOY
     finalConsonants: [.D, .G, .L, .M, .N, .R, .S, .T, .W, .X, .Y],
     followerTable: [
+        "AH":[.Y],
+        "GH":[.S],
         "GN":[.C, .M],
         "Y": [.D, .G, .L, .N, .U, .W, .Y]],     // YODEL, YOGA, YOLK, YON, YOUR, YOWS, YOYO
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
