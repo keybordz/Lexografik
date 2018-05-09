@@ -92,55 +92,59 @@ let AW = DiphthongBlend(vowel: .A, consonant: .W, start: true, end: true,
                         interFollowers: [.A, .D, .E, .I, .L, .N, .R, .T],
                         finFollowers: [.L, .N, .S],
                         followerTable: [
-                            "B":[.L],
-                            "C":[.E, .I, .S],
-                            "CL":[.E, .I, .S],
-                            "CR":[.L, .S],
-                            "D":[.N],
-                            "DR":[.I, .S],
-                            "F":[.N],
-                            "FL":[.E, .S],
-                            "GN":[.E, .I, .S],
-                            "H":[.K, .S],
-                            "J":[.B, .S],
-                            "L":[.N, .S, .Y],
-                            "M":[.S],
-                            "P":[.E, .I, .N, .S],
-                            "R":[.E],
-                            "S":[.E, .I, .N, .S],
-                            "SCR":[.L],
-                            "SH":[.L],
-                            "SL":[.E, .I, .S],
-                            "SPR":[.L],
-                            "TH":[.E, .I, .S],
-                            "TR":[.L],
-                            "Y":[.E, .I, .N, .S]])
+                            "B":[.L],               // BAWL
+                            "C":[.E, .I, .S],       // CAWED, CAWING, CAWS
+                            "CL":[.E, .I, .S],      // CLAWED, CLAWING, CLAWS
+                            "CR":[.L, .S],          // CRAWL, CRAWS
+                            "D":[.N],               // DAWN
+                            "DR":[.E, .I, .N, .S],  // DRAWER, DRAWING, DRAWN, DRAWS
+                            "F":[.N],               // FAWN
+                            "FL":[.E, .L, .S],      // FLAWED, FLAWLESS, FLAWS
+                            "GN":[.E, .I, .N, .S],  // GNAWED, GNAWING, GNAWN, GNAWS
+                            "H":[.K, .S],           // HAWK, HAWS
+                            "J":[.B, .E, .I, .S],   // JAWBONE, JAWED, JAWING, JAWS
+                            "L":[.L, .N, .S, .Y],   // LAWLESS, LAWN, LAWS, LAWYER
+                            "M":[.S],               // MAWS
+                            "P":[.E, .I, .N, .S],   // PAWED, PAWING, PAWN, PAWS
+                            "R":[.E],               // RAWER
+                            "S":[.E, .I, .N, .S],   // SAWED, SAWING, SAWN, SAWS
+                            "SCR":[.L],             // SCRAWL
+                            "SH":[.L],              // SHAWL
+                            "SL":[.E, .I, .S],      // SLAWED, SLAWING, SLAWS
+                            "SP":[.N],              // SPAWN
+                            "SPR":[.L],             // SPRAWL
+                            "STR":[.N, .S],         // STRAWN, STRAWS
+                            "T":[.N],               // TAWNY
+                            "TH":[.E, .I, .N, .S],  // THAWED, THAWING, THAWN, THAWS
+                            "TR":[.L],              // TRAWL
+                            "Y":[.N, .S]])          // YAWN, YAWS
 
 let EW = DiphthongBlend(vowel: .E, consonant: .W, start: true, end: true,
                         initFollowers: [.E],
                         interFollowers: [.A, .D, .E, .I, .L, .N, .T, .Y],
                         finFollowers: [.L, .N, .S, .T],
                         followerTable: [
-                            "BL":[],
-                            "BR":[.E, .I, .S],
-                            "CH":[.E, .I, .S, .Y],
-                            "CR":[.S],
-                            "D":[.Y],
-                            "DR":[],
-                            "FL":[],
-                            "GR":[],
-                            "H":[.E, .I, .N, .S],
-                            "L":[.D],
-                            "M":[.L, .S],
-                            "N":[.E, .L, .S],
-                            "P":[.S, .T],
-                            "PH":[],
-                            "S":[.E, .I, .N, .S],
-                            "SCR":[.E, .I, .S, .Y],
-                            "SHR":[.S],
-                            "SL":[.S],
-                            "SP":[.E, .I, .N, .S],
-                            "ST":[.E, .I, .N, .S, .Y],
+                            "BL":[],                // BLEW
+                            "BR":[.E, .I, .S],      // BREWED, BREWING, BREWS
+                            "CH":[.E, .I, .S, .Y],  // CHEWED, CHEWING, CHEWS, CHEWY
+                            "CR":[.S],              // CREWS
+                            "D":[.S, .Y],           // DEWS, DEWY
+                            "DR":[],                // DREW
+                            "FL":[],                // FLEW
+                            "GR":[],                // GREW
+                            "H":[.E, .I, .N, .S],   // HEWED, HEWING, HEWN, HEWS
+                            "L":[.D],               // LEWD
+                            "M":[.L, .S],           // MEWL, MEWS
+                            "N":[.E, .L, .S, .T],   // NEWER, NEWLY, NEWS, NEWT
+                            "P":[.S, .T],           // PEWS, PEWTER
+                            "PH":[],                // PHEW
+                            "S":[.E, .I, .N, .S],   // SEWED, SEWING, SEWN, SEWS
+                            "SCR":[.E, .I, .S, .Y], // SCREWED, SCREWING, SCREWS, SCREWY
+                            "SHR":[.S],             // SHREWS
+                            "SL":[.S],              // SLEWS
+                            "SP":[.E, .I, .N, .S],  // SPEWED, SPEWING, SPEWN, SPEWS
+                            "ST":[.E, .I, .N, .S, .Y],  // STEWED, STEWING, STEWN, STEWS, STEWY
+                            "STR":[.N],             // YEWS
                             "Y":[.S]])
 
 let OW = DiphthongBlend(vowel: .O, consonant: .W, start: true, end: true,
@@ -170,7 +174,7 @@ let OW = DiphthongBlend(vowel: .O, consonant: .W, start: true, end: true,
                             "P":[.E, .S],
                             "PL":[.E, .I, .S],
                             "PR":[.E, .I, .L, .S],
-                            "R":[.E, .I, .S],
+                            "R":[.E, .I, .L, .S],
                             "S":[.E, .I, .N, .S],
                             "SC":[.E, .I, .S],
                             "SH":[.E, .I, .N, .S, .Y],
