@@ -36,6 +36,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var mask8: UITextField!
     @IBOutlet weak var mask9: UITextField!
     
+    
     @IBAction func clearFields(_ sender: Any) {
         self.letter1!.text = ""
         self.letter2!.text = ""
@@ -55,7 +56,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.mask7!.text = ""
         self.mask8!.text = ""
         self.mask9!.text = ""
-        
         self.letterKey?.becomeFirstResponder()
     }
     

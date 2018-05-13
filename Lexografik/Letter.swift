@@ -87,6 +87,12 @@ enum Letter: String {
     func isConsonant() -> Bool {
         return !self.isVowel()
     }
+    
+    func isDoublingConsonant() -> Bool {
+        let doubles = [Letter.B, .D, .F, .G, .L, .M, .N, .P, .R, .S, .T, .V, .Z]
+        
+        return doubles.contains(self)
+    }
 }
 
 let allVowels: [Letter] = [.A, .E, .I, .O, .U]

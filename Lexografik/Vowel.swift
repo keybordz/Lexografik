@@ -78,9 +78,14 @@ let A = Vowel(id: .A,
               followerTable: [
                 "GH":[.S],                              // GHASTLY
                 "GN":[.R, .S, .T, .W],                  // GNARLY, GNASH, GNAT, GNAW
+                "PH":[.L, .N, .R, .S],                  // PHALANX, PHANTOM, PHARISEE, PHASE
+                "QU":[.C, .D, .F, .G, .I, .K, .L, .N, .R, .S, .V, .Y],
+                                                        // QUACK, QUAD, QUAFF, QUAGMIRE, QUAIL, QUAKE, QUALITY,
+                                                        // QUANT(ITY), QUARTER/QUARRY, QUASH, QUAVER, QUAY
                 "RH":[.P],                              // RHAPSODY
                 "SM":[.C, .L, .R, .S, .T],              // SMACK, SMALL, SMART, SMASH, SMATTER
                 "SN":[.C, .F, .G, .I, .P, .R, .T],      // SNACK, SNAFU, SNAG, SNAIL, SNAP, SNARE, SNATCH
+                "SQU":[.B, .D, .L, .N, .R, .S, .T, .W], // SQUABBLE, SQUAD, SQUALOR, SQUANDER, SQUARE, SQUASH, SQUAT, SQUAWK
                 "Y": [.C, .K, .M, .N, .P, .R, .W]],     // YACHT, YAKS, YAMS, YANG, YAPS, YARD, YAWN
               dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
                 var followers: [Letter] = []
@@ -119,9 +124,13 @@ let E = Vowel( id: .E,
     defFinal: [.E, .D, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
     followerTable: [
         "AH":[.E],              // AHEM
+        "PH":[.N],              // PHENTONOL,
+        "QU":[.A, .E, .L, .R, .S, .U],
+                                // QUEASY, QUEEN, QUELL, QUERY, QUEST(ION), QUEUE
         "RH":[.A],              // RHEA
-        "SM":[.L],              // SMELL/SMELTER
+        "SM":[.G, .L],          // SMEGMA, SMELL/SMELTER
         "SN":[.A, .E],          // SNEAK, SNEER
+        "SQU":[.A, .E],         // SQUEAL, SQUEEZE
         "Y": [.A, .G, .L, .N, .O, .P, .S, .T, .W]],     // YEAR, YEGG, YELL, YENS, YEOMAN, YEPS, YESTERDAY, YETI, YEWS
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
@@ -156,6 +165,11 @@ let E = Vowel( id: .E,
             if pea.matchesString("TR", matchFull: true) {
                 followers += [.K]
             }
+            
+            // Approve EO ending for RODEO, VIDEO
+            if pea.matchesSet(["ROD", "VID"]) {
+                followers += [.O]
+            }
         }
         
         return followers
@@ -168,8 +182,12 @@ let I = Vowel( id: .I,
     // Final consonant enders: GENERIC, SQUID, UNTIL, MAXIM, SPIN, STIR, SPLIT, REMIX
     defFinal: [.E, .C, .D, .L, .M, .N, .O, .P, .S, .T, .X],
     followerTable: [
+        "PH":[],
+        "QU":[.B, .C, .D, .E, .F, .L, .N, .P, .R, .T, .V],
+                                        // QUIBBLE, QUICK, QUID, QUIET, QUIFF, QUILL, QUINT, QUIP, QUIRE, QUIT, QUIVER
         "SM":[.L, .R, .T],              // SMILE, SMIRK, SMITE/SMITH
         "SN":[.C, .D, .F, .P, .T],      // SNICKER, SNIDE, SNIFF, SNIP, SNIT(CH)
+        "SQU":[.D, .R],                 // SQUID, SQUIRE/SQUIRM/SQUIRT
         "Y": [.E, .N, .P]],             // YIELD, YING, YIPS
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
@@ -178,11 +196,11 @@ let I = Vowel( id: .I,
         
         if pos == .positionLAST {
             
-            // Trying to cover typical IA enders: MEDIA/ENCYCLOPEDIA, MANIA/CRANIA, GLIA/GANGLIA, ILIA, ZINNIA, CRITERIA
+            // Trying to cover typical IA enders: MEDIA/ENCYCLOPEDIA, MANIA/CRANIA, GLIA/GANGLIA, ILIA, ZINNIA, CRITERIA, ATRIA
             if (lastElement!.id == "D" && penElement!.id == "E") ||
                 (lastElement!.id == "N" && penElement!.id == "A") ||
                  lastElement!.id == "GL" || lastElement!.id == "L" ||
-                 lastElement!.id == "NN" || lastElement!.id == "R" {
+                 lastElement!.id == "NN" || lastElement!.id == "R" || lastElement!.id == "TR" {
                 followers += [.A]
             }
 
@@ -191,8 +209,9 @@ let I = Vowel( id: .I,
                 followers += [.B]
             }
             
-            // Final G enders: BRIG, PRIG, SPRIG, STIG, SWIG, TRIG, TWIG
-            if pea.matchesSet(["BR", "PR", "SPR", "ST", "SW", "TR", "TW"]) {
+            // Final G enders: BRIG, PRIG, SPRIG, STIG, SWIG, TRIG, TWIG, and any RIG ender (UNRIG)
+            if pea.matchesSet(["BR", "PR", "SPR", "ST", "SW", "TR", "TW"]) ||
+                lastElement!.id == "R" {
                 followers += [.G]
             }
             
@@ -215,6 +234,8 @@ let O = Vowel( id: .O,
         "AH":[.Y],                              // AHOY
         "GH":[.S],                              // GHOST
         "GN":[.C, .M],                          // GNOCCHI, GNOME
+        "PH":[.E, .N, .O, .S],                  // PHOENIX, PHONE, PHOOEY, PHOSPHORUS
+        "QU":[.T],                              // QUOTE
         "PS":[.R],                              // PSORIASIS
         "SM":[.C, .G, .K, .O, .T],              // SMOCK, SMOG, SMOKE, SMOOTH, SMOTE/SMOTHER
         "SN":[.B, .O, .R, .T, .U, .W],          // SNOB, SNOOT, SNORE, SNOT, SNOUT, SNOW
@@ -280,6 +301,7 @@ let U = Vowel( id: .U,
     defFinal: [.E, .B, .D, .G, .L, .M, .N, .P, .S, .T, .X],
     followerTable: [
         "GN":[.S],                      // GNUS
+        "PH":[],
         "SM":[.G, .T],                  // SMUG, SMUT
         "SN":[.B, .C, .F, .G],          // SNUB, SNUCK, SNUFF, SNUG
         "Y": [.C, .L, .M, .P, .R]],     // YUCCA, YULE, YUMMY, YUPS, YURT

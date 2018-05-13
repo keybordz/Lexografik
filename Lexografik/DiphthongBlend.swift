@@ -113,6 +113,7 @@ let AW = DiphthongBlend(vowel: .A, consonant: .W, start: true, end: true,
                             "SL":[.E, .I, .S],      // SLAWED, SLAWING, SLAWS
                             "SP":[.N],              // SPAWN
                             "SPR":[.L],             // SPRAWL
+                            "SQU":[.K],             // SQUAWK
                             "STR":[.N, .S],         // STRAWN, STRAWS
                             "T":[.N],               // TAWNY
                             "TH":[.E, .I, .N, .S],  // THAWED, THAWING, THAWN, THAWS
