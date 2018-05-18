@@ -64,18 +64,20 @@ class Vowel: LexicalLetter, PhoneticFollowers {
                    dynFollowers: dynFollowers)
 
         self.verifyEndOfWord = { (elements:PhoneticElementArray) -> Bool in return true }
-        self.verifyPlural = { (elements:PhoneticElementArray) -> Bool in return true }
     }
 }
 
 // VOWELS
 let A = Vowel(id: .A,
-              blendStart: [.A, .E, .I, .O, .U],
+              blendStart: allVowels,
               blendInto: [.I, .O, .U],
     
               // Final consonant enders: GRAD, FLAG, FLAK, MORAL, TRAM, BRAN, SCRAP, AJAR, FLAT, FLAW, RELAX, TRAY
               defFinal: [.D, .G, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
               followerTable: [
+                "BL":[.B, .C, .D, .H, .M, .N, .R, .S, .T, .Z],
+                                                        // BLAB, BLACK, BLADE, BLAME, BLAND/BLANCHE, BLARE, BLAST, BLATHER, BLAZE
+                                
                 "GH":[.S],                              // GHASTLY
                 "GN":[.R, .S, .T, .W],                  // GNARLY, GNASH, GNAT, GNAW
                 "PH":[.L, .N, .R, .S],                  // PHALANX, PHANTOM, PHARISEE, PHASE
@@ -83,6 +85,7 @@ let A = Vowel(id: .A,
                                                         // QUACK, QUAD, QUAFF, QUAGMIRE, QUAIL, QUAKE, QUALITY,
                                                         // QUANT(ITY), QUARTER/QUARRY, QUASH, QUAVER, QUAY
                 "RH":[.P],                              // RHAPSODY
+                "SC":[.B, .D, .L, .M, .N, .R, .T],      // SCAB, SCAD, SCALAWAG, SCAM, SCAN, SCAR(F/V), SCAT
                 "SM":[.C, .L, .R, .S, .T],              // SMACK, SMALL, SMART, SMASH, SMATTER
                 "SN":[.C, .F, .G, .I, .P, .R, .T],      // SNACK, SNAFU, SNAG, SNAIL, SNAP, SNARE, SNATCH
                 "SQU":[.B, .D, .L, .N, .R, .S, .T, .W], // SQUABBLE, SQUAD, SQUALOR, SQUANDER, SQUARE, SQUASH, SQUAT, SQUAWK
@@ -102,6 +105,11 @@ let A = Vowel(id: .A,
                         followers += [.C]
                     }
                     
+                    // AE enders: ALGAE, MINUTAE
+                    if pea.matchesSet(["ALG", "MINUT"]) {
+                        followers += [.E]
+                    }
+                    
                     // Only K ender is FLAK
                     if pea.matchesString("FL", matchFull: true) {
                         followers += [.K]
@@ -117,20 +125,21 @@ let A = Vowel(id: .A,
             })
 
 let E = Vowel( id: .E,
-    blendStart: [.A, .E, .I, .O, .U],
-    blendInto: [.A, .E, .I, .O, .U],
+    blendStart: allVowels,
+    blendInto: allVowels,
     
     // Final consonant enders: BRED, COMPEL, THEM, THEN, STEP, WATER, SLEW, FLEX, THEY
-    defFinal: [.E, .D, .L, .M, .N, .P, .R, .S, .T, .W, .X, .Y],
+    defFinal: [.D, .L, .M, .N, .P, .R, .S, .T, .W, .Y],
     followerTable: [
-        "AH":[.E],              // AHEM
-        "PH":[.N],              // PHENTONOL,
-        "QU":[.A, .E, .L, .R, .S, .U],
-                                // QUEASY, QUEEN, QUELL, QUERY, QUEST(ION), QUEUE
-        "RH":[.A],              // RHEA
-        "SM":[.G, .L],          // SMEGMA, SMELL/SMELTER
-        "SN":[.A, .E],          // SNEAK, SNEER
-        "SQU":[.A, .E],         // SQUEAL, SQUEEZE
+        "AH":[.E],                      // AHEM
+        "BL":[.A, .D, .E, .N, .S, .W],  // BLEAK, BLED, BLEED, BLEND, BLESS/T, BLEW
+        "PH":[.N],                      // PHENTONOL,
+        "QU":[.A, .E, .L, .R, .S, .U],  // QUEASY, QUEEN, QUELL, QUERY, QUEST(ION), QUEUE
+        "RH":[.A],                      // RHEA
+        "SC":[.N],                      // SCENE/T
+        "SM":[.G, .L],                  // SMEGMA, SMELL/SMELTER
+        "SN":[.A, .E],                  // SNEAK, SNEER
+        "SQU":[.A, .E],                 // SQUEAL, SQUEEZE
         "Y": [.A, .G, .L, .N, .O, .P, .S, .T, .W]],     // YEAR, YEGG, YELL, YENS, YEOMAN, YEPS, YESTERDAY, YETI, YEWS
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
@@ -144,9 +153,9 @@ let E = Vowel( id: .E,
             }
             
             // Final EE words...rying to cast a wide net here with many possibilities:
-            // APOGEE, OVERSEE, FLEE, CAREFREE, AGREE & PEDIGREE, KNEE, THEE, TREE & THREE
+            // APOGEE, OVERSEE, FLEE, CAREFREE, AGREE & PEDIGREE, GLEE, KNEE, THEE, TREE & THREE
             if lastElement!.id == "G" || lastElement!.id == "P" || lastElement!.id == "S" ||
-                lastElement!.id == "FL" || lastElement!.id == "FR" || lastElement!.id == "GR" ||
+                lastElement!.id == "FL" || lastElement!.id == "FR" || lastElement!.id == "GR" || lastElement!.id == "GL" ||
                 lastElement!.id == "KN" || lastElement!.id == "TH" || lastElement!.id == "TR" || lastElement!.id == "THR" {
                 followers += [.E]
             }
@@ -170,8 +179,12 @@ let E = Vowel( id: .E,
             if pea.matchesSet(["ROD", "VID"]) {
                 followers += [.O]
             }
+            
+            // X follower: need words like ANNEX, FLEX, CODEX, INDEX, ROLODEX, VORTEX
+            if pea.matchesSet(["ANN", "FL"]) || lastElement!.id == "D" || lastElement!.id == "RT" {
+                followers += [.X]
+            }
         }
-        
         return followers
     })
 
@@ -180,11 +193,13 @@ let I = Vowel( id: .I,
     blendInto: [.A, .E, .O],
     
     // Final consonant enders: GENERIC, SQUID, UNTIL, MAXIM, SPIN, STIR, SPLIT, REMIX
-    defFinal: [.E, .C, .D, .L, .M, .N, .O, .P, .S, .T, .X],
+    defFinal: [.C, .D, .L, .M, .N, .O, .P, .S, .T],
     followerTable: [
-        "PH":[],
+        "BL":[.N, .P, .S, .T],          // BLIND/K, BLIP, BLISS, BLITHE
         "QU":[.B, .C, .D, .E, .F, .L, .N, .P, .R, .T, .V],
                                         // QUIBBLE, QUICK, QUID, QUIET, QUIFF, QUILL, QUINT, QUIP, QUIRE, QUIT, QUIVER
+        "RH":[.N],                      // RHINO
+        "SC":[.N, .O],                  // SCINTILLATE, SCION
         "SM":[.L, .R, .T],              // SMILE, SMIRK, SMITE/SMITH
         "SN":[.C, .D, .F, .P, .T],      // SNICKER, SNIDE, SNIFF, SNIP, SNIT(CH)
         "SQU":[.D, .R],                 // SQUID, SQUIRE/SQUIRM/SQUIRT
@@ -204,9 +219,14 @@ let I = Vowel( id: .I,
                 followers += [.A]
             }
 
-            // Final B enders: CRIB, DRIB, SAHIB
-            if pea.matchesSet(["CR", "DR", "SAH"]) {
+            // Final B enders: CRIB, DRIB, GLIB, SAHIB
+            if pea.matchesSet(["CR", "DR", "GL", "SAH"]) {
                 followers += [.B]
+            }
+            
+            // Final IE words: AERIE, CADDIE, GENIE
+            if pea.matchesSet(["AER", "CADD", "GEN"]) {
+                followers += [.E]
             }
             
             // Final G enders: BRIG, PRIG, SPRIG, STIG, SWIG, TRIG, TWIG, and any RIG ender (UNRIG)
@@ -219,24 +239,32 @@ let I = Vowel( id: .I,
             if pea.matchesSet(["EM", "NAD", "ST", "TAP"]) {
                 followers += [.R]
             }
+            
+            // X followers: AFFIX, REMIX
+            if lastElement!.id == "F" || lastElement!.id == "FF" || lastElement!.id == "M" {
+                followers += [.X]
+            }
         }
 
         return followers
     })
 
 let O = Vowel( id: .O,
-    blendStart: [.A, .O, .I, .U],
-    blendInto: [.A, .E, .O, .I, .U],
+    blendStart: allVowels,
+    blendInto: allVowels,
     
-    // Final consonant enders: TROD, GROG, CAROL, PROM, VALOR, TROT, BROW, BOOMBOX, DECOY
-    defFinal: [.D, .L, .M, .N, .R, .S, .T, .W, .X, .Y],
+    // Final consonant enders: TROD, GROG, CAROL, PROM, VALOR, TROT, BROW, DECOY
+    defFinal: [.D, .L, .M, .N, .R, .S, .T, .W, .Y],
     followerTable: [
         "AH":[.Y],                              // AHOY
+        "BL":[.A, .B, .C, .G, .N, .O, .T, .V, .W],  // BLOAT, BLOB, BLOCK, BLOG, BLOND, BLOOD, BLOT, BLOVIATE, BLOW
         "GH":[.S],                              // GHOST
         "GN":[.C, .M],                          // GNOCCHI, GNOME
         "PH":[.E, .N, .O, .S],                  // PHOENIX, PHONE, PHOOEY, PHOSPHORUS
-        "QU":[.T],                              // QUOTE
         "PS":[.R],                              // PSORIASIS
+        "QU":[.T],                              // QUOTE
+        "RH":[.M],                              // RHOMBUS(OID)
+        "SC":[.F, .L, .N, .O, .P, .R, .U, .W],  // SCOFF, SCOLL, SCONE, SCOOT, SCOPE, SCORE, SCOUT, SCOWL
         "SM":[.C, .G, .K, .O, .T],              // SMOCK, SMOG, SMOKE, SMOOTH, SMOTE/SMOTHER
         "SN":[.B, .O, .R, .T, .U, .W],          // SNOB, SNOOT, SNORE, SNOT, SNOUT, SNOW
         "Y": [.D, .G, .L, .N, .U, .W, .Y]],     // YODEL, YOGA, YOLK, YON, YOUR, YOWS, YOYO
@@ -261,10 +289,10 @@ let O = Vowel( id: .O,
                 followers += [.C]
             }
             
-            // Final E for all words ending in HOE, NOE, SHOE, TOE and also FLOE, SLOE
+            // Final E for all words ending in HOE, NOE, SHOE, TOE and also FLOE, SLOE, OBOE
             // 3 letter OE enders: DOE, FOE, JOE, NOE, ROE, WOE (POE? ZOE?)
             if lastElement!.id == "H" || lastElement!.id == "SH" || lastElement!.id == "N" || lastElement!.id == "T" ||
-                pea.matchesSet(["FL", "SL"]) {
+                pea.matchesSet(["FL", "OB", "SL"]) {
                 followers += [.E]
             }
             
@@ -289,6 +317,11 @@ let O = Vowel( id: .O,
             if pea.matchesSet(["CH", "CL", "CR", "DR", "FL", "PL", "PR", "SH", "SL", "ST"]) {
                 followers += [.P]
             }
+            
+            // Only approve X follower for BOX words
+            if lastElement!.id.contains("B") || lastElement!.id == "T" {
+                followers += [.X]
+            }
         }
         return followers
     })
@@ -297,11 +330,13 @@ let U = Vowel( id: .U,
     blendStart: [],
     blendInto: [.A, .E, .I, .O],
     
-    // Final consonant enders: DRUB, THUD, PLUG, MOGUL, DRUM, STUN, BLUR, GLUT, FLUX
-    defFinal: [.E, .B, .D, .G, .L, .M, .N, .P, .S, .T, .X],
+    // Final consonant enders: DRUB, THUD, PLUG, MOGUL, DRUM, STUN, BLUR, GLUT
+    defFinal: [.E, .B, .D, .G, .L, .M, .N, .P, .S, .T],
     followerTable: [
+        "BL":[.B, .E, .F, .I, .N, .R, .S],  // BLUBBER, BLUE, BLUFF, BLUISH, BLUNDER/BLUNT, BLUR, BLUSTER
         "GN":[.S],                      // GNUS
-        "PH":[],
+        "RH":[.M],                      // RHUMBA
+        "SC":[.D, .F, .M, .R],          // SCUD, SCUFF, SCUM, SCURVY
         "SM":[.G, .T],                  // SMUG, SMUT
         "SN":[.B, .C, .F, .G],          // SNUB, SNUCK, SNUFF, SNUG
         "Y": [.C, .L, .M, .P, .R]],     // YUCCA, YULE, YUMMY, YUPS, YURT
@@ -320,6 +355,11 @@ let U = Vowel( id: .U,
             // Final UR restricted words: BLUR, INCUR, SLUR
             if pea.matchesSet(["BL", "INC", "SL"]) {
                 followers += [.R]
+            }
+            
+            // Final X for FLUX
+            if pea.matchesSet(["FL"]) {
+                followers += [.X]
             }
         }
         

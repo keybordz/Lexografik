@@ -93,7 +93,14 @@ enum Letter: String {
         
         return doubles.contains(self)
     }
+    
+    func isFollowerConsonant() -> Bool {
+        let defaultVowelFollowers = [Letter.B, .C, .D, .F, .G, .K, .L, .M, .N, .P, .R, .S, .T, .V]
+        
+        return defaultVowelFollowers.contains(self)
+    }
 }
 
 let allVowels: [Letter] = [.A, .E, .I, .O, .U]
 let allConsonants: [Letter] = [.B, .C, .D, .E, .F, .G, .H, .J, .K, .L, .M, .N, .P, .Q, .R, .S, .T, .V, .W, .X, .Y, .Z]
+let followerConsonants: [Letter] = [.B, .C, .D, .F, .G, .K, .L, .M, .N, .P, .R, .S, .T, .V, .Y]

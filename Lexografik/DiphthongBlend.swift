@@ -54,7 +54,6 @@ class DiphthongBlend: LexicalBlend, PhoneticFollowers {
                    dynFollowers: nil)
 
         verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return end }
-        verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return true }
     }
     
 }
@@ -81,7 +80,7 @@ let EH = DiphthongBlend(vowel: .E, consonant: .H, start: false, end: false,
 let OH = DiphthongBlend(vowel: .O, consonant: .H, start: true, end: false,
                         initFollowers: [.M],
                         interFollowers: [.N],
-                        finFollowers: [],
+                        finFollowers: [],       // Need conditional A for ALOHA
                         followerTable: [
                             "J":[.N]])
 

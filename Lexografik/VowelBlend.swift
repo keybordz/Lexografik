@@ -81,7 +81,6 @@ class VowelBlend: LexicalBlend, PhoneticFollowers {
                    dynFollowers: dynFollowers)
         
         self.verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return true }
-        self.verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return canPlural }
     }
 }
 
@@ -176,7 +175,9 @@ let AU = VowelBlend(first: .A, second: .U, third: nil,
                         "F":[.N],               // FAUN
                         "FL":[.N],              // FLAUNT
                         "FR":[.D, .G],          // FRAUD, FRAUGHT
+                        "G":[.G],               // GAUGE
                         "H":[.G, .L, .N],       // HAUGHTY, HAUL, HAUNCH
+                        "J":[.N],               // JAUNDICE
                         "L":[.D, .G, .N],       // LAUD, LAUGH, LAUNCH/LAUNDRY
                         "M":[.L, .V],           // MAUL, MAUVE
                         "N":[.G, .T],           // NAUGHT, NAUTICAL
@@ -232,6 +233,7 @@ let EA = VowelBlend(first: .E, second: .A, third: nil,
                         "STR":[.K, .M],                                     // STREAK, STREAM
                         "T":[.C, .K, .L, .M, .R, .S, .T],                   // TEACH, TEAK, TEAL, TEAM, TEAR, TEAS, TEAT
                         "THR":[.D, .T],                                     // THREAD, THREAT
+                        "TR":[.T],                                          // TREAT
                         "V":[.L],                                           // VEAL
                         "W":[.K, .L, .N, .P, .R, .V],                       // WEAK, WEAL, WEAN, WEAPON, WEAR, WEAVE
                         "WH":[.T],                                          // WHEAT
@@ -277,6 +279,7 @@ let EE = VowelBlend(first: .E, second: .E, third: nil,
                         "FL":[.C, .I, .R, .S, .T],          // FLEECE, FLEEING, FLEER, FLEES, FLEET
                         "FR":[.D, .I, .L, .S, .Z],          // FREED, FREEING, FREELY, FREES, FREEZE
                         "G":[.K, .S],                       // GEEK, GEES
+                        "GL":[.S],                          // GLEES?
                         "GR":[.D, .K, .N, .T],              // GREED, GREEK, GREEN, GREET
                         "H":[.D, .L],                       // HEED, HEEL
                         "J":[.P, .R],                       // JEEP, JEER
@@ -289,9 +292,10 @@ let EE = VowelBlend(first: .E, second: .E, third: nil,
                         "PR":[.N],                          // PREEN
                         "QU":[.N, .R],                      // QUEEN, QUEER
                         "R":[.D, .F, .K, .L, .S],           // REED, REEF, REEK, REEL, REES
-                        "S":[.D, .I, .K, .M, .N, .P, .R, .T],  // SEED, SEEING, SEEK, SEEM, SEEN, SEEP, SEER, SEETHE
+                        "S":[.D, .I, .K, .M, .N, .P, .R, .S, .T],
+                                                            // SEED, SEEING, SEEK, SEEM, SEEN, SEEP, SEER, SEES, SEETHE
                         "SH":[.N, .P, .R, .T],              // SHEEN, SHEEP, SHEER, SHEET
-                        "SL":[.K, .P, .T],                  // SLEEK, SLEEP, SLEET
+                        "SL":[.K, .P, .T, .V],              // SLEEK, SLEEP, SLEET, SLEEVE
                         "SK":[.T],                          // SKEET
                         "SN":[.R, .Z],                      // SNEER, SNEEZE
                         "SP":[.C, .D],                      // SPEECH, SPEED
@@ -312,7 +316,7 @@ let EE = VowelBlend(first: .E, second: .E, third: nil,
 let EI = VowelBlend(first: .E, second: .I, third: nil,
                     initCons: [.G, .T],        // EIGHT, EITHER
                     interCons: [.C, .G, .K, .L, .N, .R, .S, .T, .V, .Z],
-                    finalCons: [.C, .D, .K, .L, .N, .R, .S],
+                    finalCons: [.D, .K, .L, .N, .R, .S],
                     blendInto: [],
                     canPlural: false,
                     glottal: false,
@@ -717,7 +721,7 @@ let UE = VowelBlend(first: .U, second: .E, third: nil,
                         "CR":[.L],                  // CRUEL
                         "D":[.L, .S, .T],           // DUEL, DUES, DUET
                         "F":[.L],                   // FUEL(S)
-                        "FL":[.S],                  // FLUES
+                        "FL":[.N, .S],              // FLUENT, FLUES
                         "G":[.S],                   // GUESS & GUEST
                         "GL":[.D, .I, .R, .S],      // GLUED, GLUEING, GLUER, GLUES
                         "GR":[.L],                  // GRUEL
@@ -743,7 +747,7 @@ let UI = VowelBlend(first: .U, second: .I, third: nil,
                         "G":[.D, .L, .S],       // GUIDE, GUILD/GUILT, GUISE
                         "J":[.C],               // JUICE
                         "R":[.N],               // RUIN
-                        "S":[.C, .N, .T],       // SUICIDE, SUING, SUIT
+                        "S":[.C, .N, .T],       // SUICIDE, SUING, SUIT(E)
                         "SL":[.C],              // SLUICE
                         "TR":[.S]],             // TRUISM
                     dynFollowers: nil)

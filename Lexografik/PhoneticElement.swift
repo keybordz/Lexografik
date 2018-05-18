@@ -31,51 +31,8 @@ class PhoneticElement {
     let canStart: Bool
     let canEnd: Bool
     let canPlural: Bool
-    
     let dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?
-    
-//    func nextLetters(pea: PhoneticElementArray, nRemaining: Int) -> [Letter] {
-//        var nextLtrs: [Letter]
-//        var positionIndicator: PositionIndicator
-//        
-//        if nRemaining == 2 {
-//            positionIndicator = .positionLAST
-//        }
-//        else if pea.elements.count == 0 {
-//            positionIndicator = .positionFIRST
-//        }
-//        else if pea.elements.count > 1 {
-//            positionIndicator = .positionMIDDLE
-//        }
-//        else {
-//            let firstIdLetter = self.id[self.id.startIndex]
-//            let firstWordLetter = pea.elements[0].id[pea.elements[0].id.startIndex]
-//            if firstIdLetter == firstWordLetter {
-//                positionIndicator = .positionFIRST
-//            }
-//            else {
-//                positionIndicator = .positionMIDDLE
-//            }
-//        }
-//
-//        switch positionIndicator {
-//        case .positionFIRST:
-//            nextLtrs = self.defaultFirst
-//        case .positionLAST:
-//            nextLtrs = self.defaultLast
-//        case .positionMIDDLE:
-//            nextLtrs =  self.defaultMiddle
-//        }
-//        
-//        if instNextLetters != nil {
-//            nextLtrs += self.instNextLetters!(pea, positionIndicator)
-//        }
-//        
-//        return nextLtrs
-//    }
-    
     var verifyEndOfWord: ((PhoneticElementArray) -> Bool)?
-    var verifyPlural: ((PhoneticElementArray) -> Bool)?
     
     init(first: Letter, second: Letter?, third: Letter?,
          canStart: Bool, canEnd: Bool, canPlural: Bool,

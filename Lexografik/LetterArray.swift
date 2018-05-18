@@ -26,7 +26,7 @@ enum NextLetterBias: Int {
     case expectConsonant
     case expectSubset
     case expectSequence
-    case expectCombo
+    case expectElement
 }
 
 class LetterArray: Equatable {
@@ -237,13 +237,17 @@ class LetterArray: Equatable {
             for matchString in matches {
 
                 if let pIndex = matchString.index(of: "+") {
-                    var prefixString = matchString[..<pIndex]
+                    let prefixString = matchString[..<pIndex]
+                    let lastChar = prefixString.last!
+                    let lastLetter = Letter(rawValue: String(lastChar))!
+                    var irregularForm = false
                     
                     // Add a match for the regular string
                     exactMatches.append(String(prefixString))
                     
                     let tokenString = matchString[matchString.index(after: pIndex)...]
                     for token in tokenString {
+                        
                         switch token {
                         
                         // Add match for plural nouns
@@ -256,10 +260,18 @@ class LetterArray: Equatable {
                             exactMatches.append(String(prefixString) + String("LY"))
                             break
                             
+                        // Add Y to noun form to make adjective
+                        case "y":
+                            exactMatches.append(String(prefixString) + String("Y"))
+                            break
+                            
+                        case "!":
+                            irregularForm = true
+                            break
+                            
                         // Add matches for verb plural, past tense, and gerund
-                        case "v":
-                            let lastChar = prefixString.last!
-                            let lastLetter = Letter(rawValue: String(lastChar))!
+                        case "r", "n", "v":
+                            var prefixCopy = String(prefixString)
                             var nextToLastLetter: Letter? = nil
                             
                             // Try to get the next to last character (if there is one)
@@ -269,27 +281,54 @@ class LetterArray: Equatable {
                                 nextToLastLetter = Letter(rawValue: String(nextToLastChar))
                             }
                             
-                            // For verbs ending in E, remove the E to create the gerund
-                            if lastLetter == .E {
-                                exactMatches.append(String(prefixString) + String("S"))
-                                exactMatches.append(String(prefixString) + String("D"))
-                                prefixString.remove(at: prefixString.index(before: prefixString.endIndex))
-                                exactMatches.append(String(prefixString) + String("ING"))
+                            // Normally for words ending in E, have to drop the E when creating gerund and TION followers
+                            if lastLetter == .E && !irregularForm {
+                                prefixCopy.remove(at: prefixCopy.index(before: prefixCopy.endIndex))
                             }
                                 
-                            // For verbs ending in a single consonant, double it for past tense and gerund
-                            else if lastLetter.isDoublingConsonant() && nextToLastLetter != nil && nextToLastLetter!.isVowel() {
-                                exactMatches.append(String(prefixString) + String("S"))
-                                prefixString.append(lastChar)
-                                exactMatches.append(String(prefixString) + String("ED"))
-                                exactMatches.append(String(prefixString) + String("ING"))
+                            // For words ending in a single consonant, the consonant is usually doubled for past tense & gerund
+                            else if !irregularForm && lastLetter.isDoublingConsonant() &&
+                                (nextToLastLetter == nil || nextToLastLetter!.isVowel()) {
+                                prefixCopy.append(lastChar)
                             }
-                           
-                            // Otherwise, no modification for match forms
-                            else {
+                            
+                            // Verb forms: plural, past tense, and gerund
+                            if token == "v" {
                                 exactMatches.append(String(prefixString) + String("S"))
-                                exactMatches.append(String(prefixString) + String("ED"))
-                                exactMatches.append(String(prefixString) + String("ING"))
+                                exactMatches.append(String(prefixCopy) + String("ED"))
+                                exactMatches.append(String(prefixCopy) + String("ING"))
+                            }
+                        
+                            // Action noun forms
+                            else if token == "r" {
+                                exactMatches.append(String(prefixCopy) + String("ER"))
+                                exactMatches.append(String(prefixCopy) + String("ERS"))
+                            }
+                                
+                            // Stae noun form
+                            else if token == "n" {
+                                if lastLetter == .T {
+                                    exactMatches.append(String(prefixString) + String("ION"))
+                                    exactMatches.append(String(prefixString) + String("IONS"))
+                                }
+                                else if lastLetter == .E {
+                                    if nextToLastLetter != nil && nextToLastLetter! == .T {
+                                        exactMatches.append(String(prefixCopy) + String("ION"))
+                                        exactMatches.append(String(prefixCopy) + String("IONS"))
+                                    }
+                                    else if nextToLastLetter != nil && nextToLastLetter! == .D {
+                                        prefixCopy.remove(at: prefixCopy.index(before: prefixCopy.endIndex))
+                                        exactMatches.append(String(prefixCopy) + String("SION"))
+                                        exactMatches.append(String(prefixCopy) + String("SIONS"))
+                                    }
+                                    else {
+                                        exactMatches.append(String(prefixCopy) + String("ATION"))
+                                        exactMatches.append(String(prefixCopy) + String("ATIONS"))
+                                    }
+                                }
+                                else {
+                                    print("n case not handled")
+                                }
                             }
                             break
                             
@@ -339,16 +378,16 @@ class LetterArray: Equatable {
             
             // Check if there is a predefined set of words for the combined prefix
             if nLetters == 2 && processMatches(suffix: suffix) {
-                    if suffix.isVowel() {
-                        processNewLetter(element: lexSuffix, state: .articulateVowel, bias: .expectSequence)
-                    }
-                    else if sylState == .articulateVowel {
-                        processNewLetter(element: lexSuffix, state: .articulateStop, bias: .expectSequence)
-                    }
-                    else {
-                        processNewLetter(element: lexSuffix, state: sylState, bias: .expectSequence)
-                    }
-                    return true
+                if suffix.isVowel() {
+                    processNewLetter(element: lexSuffix, state: .articulateVowel, bias: .expectSequence)
+                }
+                else if sylState == .articulateVowel {
+                    processNewLetter(element: lexSuffix, state: .articulateStop, bias: .expectSequence)
+                }
+                else {
+                    processNewLetter(element: lexSuffix, state: sylState, bias: .expectSequence)
+                }
+                return true
             }
         }
         
@@ -818,27 +857,33 @@ class LetterArray: Equatable {
                 var vKey: String
                 var vowelBlend: VowelBlend?
                 
-                // Filter out vowels following QU
-                // --> This code really shouldn't be necessary
+                // For vowels following QU, need to treat them as single vowels after a consonant
                 if lastElement!.id == "QU" || lastElement!.id == "SQU" {
-                    if suffix == .U {
+                    
+                    // First vowel added after initial consonant/consonant blend
+                    if phonemes.numElements() == 1 {
+                        expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                    }
+                    
+                    // Just before the last letter
+                    else if remainingLetters == 2 {
+                        expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                    }
+                        
+                    // Somewhere in the middle of the word
+                    else {
+                        expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                    }
+                    
+                    if expecting == [] {
                         return false
                     }
-                    else {
-                        nextBias = .expectAny
-                        phonemes.appendElement(lexSuffix)
-                        return true
-                    }
+                    processNewLetter(element: lexSuffix, state: .articulateVowel, bias: .expectSubset)
+                    return true
                 }
                 
-                // The last condition is added to correctly handle vowel blends following SQU
-                if nextToLast == nil || nextToLast!.isConsonant() || lastElement! is Vowel {
-                    vKey = "\(last!.rawValue)\(suffix.rawValue)"
-                }
-                else {
-                    vKey = "\(nextToLast!.rawValue)\(last!.rawValue)\(suffix.rawValue)"
-                }
-                
+                // Try to find a blend using the last element combined with the new suffix
+                vKey = "\(lastElement!.id)\(suffix.rawValue)"
                 vowelBlend = vowelBlendMap[vKey]
                 
                 // Didn't find a blend with this combination of vowels, should only fail for most triple blends

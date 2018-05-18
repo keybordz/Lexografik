@@ -121,8 +121,6 @@ class ConsonantBlend: LexicalBlend, PhoneticFollowers {
         else {
             self.verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return false }
         }
-        
-        self.verifyPlural = { (phonemes:PhoneticElementArray) -> Bool in return canPlural }
     }
     
     // By default, blends that are combinations of sounds should only follow single vowels
@@ -221,7 +219,7 @@ let BR = ConsonantBlend(first: .B, second: .R, third: nil,
 let CH = ConsonantBlend(first: .C, second: .H, third: nil,
                         initBlend: [.R],
                         initVowels: allVowels,
-                        midBlend: [.R],
+                        midBlend: [.R, .T],
                         midVowels: allVowels,
                         finFollowers: [],    
                         canPlural: false,
@@ -258,11 +256,13 @@ let CH = ConsonantBlend(first: .C, second: .H, third: nil,
                                 if lastElement!.id == "A" {
                                     followers += [.E, .O]
                                 }
-                            
+                                
+                                // Approve final T for YACHT
+                                if pea.matchesSet(["YA"]) {
+                                    followers += [.T]
+                                }
                             }
-                            
                             return followers
-
                         },
                         verifyEnd: nil)
 
@@ -280,6 +280,22 @@ let CHR = ConsonantBlend(first: .C, second: .H, third: .R,
                         followerTable: [:],
                         dynFollowers: nil,
                         verifyEnd: nil)
+
+// For YACHT, any others?
+let CHT = ConsonantBlend(first: .C, second: .H, third: .T,
+                         initBlend: [],
+                         initVowels: [],
+                         midBlend: [],
+                         midVowels: [.E, .I],
+                         finFollowers: [],
+                         canPlural: true,
+                         blendsWithY: false,
+                         single: false,
+                         endOfWord: true,
+                         preceders: [],
+                         followerTable: [:],
+                         dynFollowers: nil,
+                         verifyEnd: nil)
 
 let CK = ConsonantBlend(first: .C, second: .K, third: nil,
                         initBlend: [],
@@ -353,7 +369,7 @@ let CT = ConsonantBlend(first: .C, second: .T, third: nil,
                         followerTable: [
                             "A":[.E, .I, .O, .S],       // ACTED, ACTING, ACTOR, ACTS
                             "E":[.O],                   // ECTOPLASM
-                            "O":[.A]],                  // OCTANE, OCTAVE
+                            "O":[.A, .E]],              // OCTANE/OCTAVE, OCTET
                         dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
                             
                             // Allow final I follower for CACTI and A for RECTA
@@ -361,7 +377,7 @@ let CT = ConsonantBlend(first: .C, second: .T, third: nil,
                                 if pea.matchesString("CA", matchFull: true) {
                                     return [.I]
                                 }
-                                else if pea.matchesString("RE", matchFull: true) {
+                                else if pea.matchesSet(["DI", "RE"]) {
                                     return [.A]
                                 }
                                 else {
@@ -945,7 +961,17 @@ let MB = ConsonantBlend(first: .M, second: .M, third: nil,
                             "I":[.U],
                             "E":[.A, .E, .L, .O, .R],       // EMBALM, EMBER, EMBLEM, EMBOLDEN, EMBRACE
                             "U":[.E]],                      // UMBER
-                        dynFollowers: nil,
+                        dynFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+                            var followers: [Letter] = []
+                            
+                            if pos == .positionLAST {
+                                if phonemes.matchesString("RU", matchFull: true) {
+                                    followers += [.A]
+                                }
+                            }
+                            
+                            return followers
+                        },
                         verifyEnd: nil)
 
 let MP = ConsonantBlend(first: .M, second: .P, third: nil,
@@ -1194,20 +1220,27 @@ let NT = ConsonantBlend(first: .N, second: .T, third: nil,
                         endOfWord: true,
                         preceders: ["A", "AI", "E", "EI", "I", "O", "OI", "U"],
                         followerTable: [
-                            "A":[.E, .H, .I, .O, .R],       // ANTE, ANTHEM, ANTI, ANTONYM, ANTHRAX
+                            "A":[.E, .H, .I, .O, .R, .S],   // ANTE, ANTHEM, ANTI, ANTONYM, ANTHRAX, ANTS
                             "E":[.A, .E, .H, .O, .R],       // ENTAIL, ENTER, ENTHRALL, ENTOMB, ENTROPY
                             "I":[.A, .E, .I, .O],           // INTANGIBLE, INTENT, INTONE,
                             "O":[.O],                       // ONTO
                             "U":[.H, .I, .O, .R]],          // UNTHINKABLE, UNTIMELY, UNTO, UNTRIED
                         dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+                            var followers: [Letter] = []
                             
-                            // Allow final I for ANTI, VENTI
-                            if pos == .positionLAST && pea.matchesSet(["A", "VE"]) {
-                                return [.I]
+                            if pos == .positionLAST {
+                                
+                                // Approve final I for ANTI, VENTI
+                                if pea.matchesSet(["A", "VE"]) {
+                                    followers += [.I]
+                                }
+                                
+                                // Approve final A for MANTA
+                                if pea.matchesString("MA", matchFull: true) {
+                                    followers += [.A]
+                                }
                             }
-                            else {
-                                return []
-                            }
+                            return followers
                         },
                         verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in return true })
 
@@ -1359,7 +1392,7 @@ let QU = ConsonantBlend(first: .Q, second: .U, third: nil,
                         endOfWord: false,
                         preceders: ["A", "E", "I", "O", "OU", "U"],
                         followerTable: [
-                            "A":[.A],               // AQUA
+                            "A":[.A, .I],           // AQUA, AQUIFER
                             "E":[.A, .E, .I]],      // EQUAL, EQUESTRIAN, EQUINE
                         dynFollowers: nil,
                         verifyEnd: nil)
@@ -1376,6 +1409,7 @@ let RB = ConsonantBlend(first: .R, second: .B, third: nil,
                         endOfWord: true,
                         preceders: ["A", "E", "O", "OO", "U"],
                         followerTable: [
+                            "A":[.O],           // ARBOR
                             "O":[.S],           // ORBS
                             "U":[.A]],          // URBAN
                         dynFollowers: nil,
@@ -1481,7 +1515,7 @@ let RG = ConsonantBlend(first: .R, second: .G, third: nil,
                         endOfWord: true,
                         preceders: ["A", "E", "I", "O", "U"],
                         followerTable: [
-                            "A":[.O, .U, .Y],       // ARGON, ARGUE, ARGYLE
+                            "A":[.I, .O, .U, .Y],   // ARGIL, ARGON, ARGUE, ARGYLE
                             "E":[.O, .S],           // ERGO, ERGS
                             "O":[.A, .I, .Y],       // ORGAN, ORGIES, ORGY
                             "U":[.E, .I]],          // URGENT/URGES, URGING
@@ -1579,7 +1613,7 @@ let RN = ConsonantBlend(first: .R, second: .N, third: nil,
 let RP = ConsonantBlend(first: .R, second: .P, third: nil,
                         initBlend: [],
                         initVowels: [],
-                        midBlend: [.L],
+                        midBlend: [.L, .R],
                         midVowels: allVowels,
                         finFollowers: [],
                         canPlural: true,
@@ -1960,7 +1994,7 @@ let SQU = ConsonantBlend(first: .S, second: .Q, third: .U,
 let ST = ConsonantBlend(first: .S, second: .T, third: nil,
                         initBlend: [.R],
                         initVowels: allVowels,
-                        midBlend: [.L, .R],
+                        midBlend: [.H, .L, .R],     // H for ASTHMA, ISTHMUS
                         midVowels: allVowels,
                         finFollowers: [.E, .O],     // PESTO, MANIFESTO
                         canPlural: true,
@@ -1969,10 +2003,28 @@ let ST = ConsonantBlend(first: .S, second: .T, third: nil,
                         endOfWord: true,
                         preceders: ["A", "AU", "E", "EA", "EI", "I", "IE", "O", "OA", "OI", "OO", "OU", "U", "UE"],
                         followerTable: [
-                            "A":[.A, .E, .I, .O, .R],   // ASTAR, ASTER, ASTIR, ASTOR, ASTRIDE
+                            "A":[.A, .E, .H, .I, .O, .R],   // ASTAR, ASTER, ASTIR, ASTOR, ASTRIDE
                             "E":[.E],                   // ESTER
                             "I":[.H],                   // ISTHMUS
                             "O":[.E, .R]],              // OSTER, OSTRICH
+                        dynFollowers: nil,
+                        verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in return true })     // allow all cases
+
+
+let STH = ConsonantBlend(first: .S, second: .T, third: .H,
+                        initBlend: [],
+                        initVowels: [],
+                        midBlend: [],    
+                        midVowels: [.A, .U],
+                        finFollowers: [],
+                        canPlural: false,
+                        blendsWithY: false,
+                        single: false,
+                        endOfWord: false,
+                        preceders: ["A", "I"],
+                        followerTable: [
+                            "A":[.M],                    // ASTHMA
+                            "I":[.M]],                   // ISTHMUS
                         dynFollowers: nil,
                         verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in return true })     // allow all cases
 
@@ -2159,7 +2211,7 @@ let XT = ConsonantBlend(first: .X, second: .T, third: nil,
                         blendsWithY: false,
                         single: false,
                         endOfWord: true,
-                        preceders: [],
+                        preceders: ["E"],
                         followerTable: [
                             "E":[.A, .E, .I, .O, .R, .U],   // EXTANT, EXTENT, EXTINGUISH, EXTOL, EXTRA, EXTUNT
                             "O":[.A]],                      // OXTAIL
@@ -2276,7 +2328,7 @@ let FF = ConsonantBlend(first: .F, second: .F, third: nil,
                         preceders: ["A", "I", "O", "U"],
                         followerTable: [
                             "A":[.A, .E, .I, .L, .O],           // AFFABLE, AFFECT, AFFIRM, AFFLUENT, AFFORD
-                            "E":[.E, .I, .O],                   // EFFECT, EFFICIENT, EFFORT
+                            "E":[.A, .E, .I, .O],               // EFFACE, EFFECT, EFFICIENT, EFFORT
                             "O":[.A, .B, .E, .H, .I, .L, .S]],  // OFFAL, OFFBASE, OFFER, OFFHAND, OFFICE, OFFLINE, OFFSET
                         dynFollowers: nil,
                         verifyEnd: nil)
@@ -2485,24 +2537,24 @@ let ZZ = ConsonantBlend(first: .Z, second: .Z, third: nil,
                         blendsWithY: true,
                         single: true,
                         endOfWord: true,
-                        preceders: [],
+                        preceders: ["A", "I", "O", "U"],
                         followerTable: [
                             "O":[.L, .Y],
                             "U":[.L]],
                         dynFollowers: nil,
-                        verifyEnd: nil)         // BUZZ, FIZZ, FUZZ
+                        verifyEnd: nil)
 
-let consonantBlendMap = ["BL":BL, "BR":BR, "CH":CH, "CHR":CHR, "CK":CK, "CL":CL, "CR":CR, /*"CS":CS,*/ "CT":CT,
+let consonantBlendMap = ["BL":BL, "BR":BR, "CH":CH, "CHR":CHR, "CHT":CHT, "CK":CK, "CL":CL, "CR":CR, "CT":CT,
                          "DG":DG, "DL":DL, "DR":DR, "FL":FL, "FR":FR, "FT":FT, "GH":GH, "GHT":GHT, "GN":GN, "GL":GL, "GR":GR,
-                         /* "KL":KL,*/ "KN":KN, "KR":KR, "LB":LB, "LC":LC, "LCH":LCH, "LD":LD, "LF":LF, "LG":LG, "LK":LK, "LM":LM,
+                         "KN":KN, "KR":KR, "LB":LB, "LC":LC, "LCH":LCH, "LD":LD, "LF":LF, "LG":LG, "LK":LK, "LM":LM,
                          "LN":LN, "LP":LP, "LPH":LPH, "LS":LS, "LSH":LSH, "LT":LT, "LTH":LTH, "LV":LV,
                          "MB":MB, "MP":MP, "MPH":MPH, "MPT":MPT,
-    "NC":NC, "NCH":NCH, "ND":ND, "NG":NG, "NK":NK, "NQ":NQ, "NQU":NQU, "NS":NS, "NT":NT,
-    "NTH":NTH, /* "NZ":NZ,*/ "PH":PH, "PHL":PHL, "PHR":PHR, "PL":PL, "PR":PR, "PS":PS, "PT":PT,
-    "QU":QU, "RB":RB, "RC":RC, "RCH":RCH, "RD":RD, "RF":RF, "RG":RG, "RH":RH, "RK":RK, "RL":RL,
-    "RM":RM, "RN":RN, "RP":RP, "RS":RS, "RSH":RSH, "RST":RST, "RT":RT, "RTH":RTH, "RV":RV, /* "RZ":RZ, */
-    "SC":SC, "SCH":SCH, "SCR":SCR, "SH":SH, "SHR":SHR, "SK":SK, "SL":SL, "SM":SM, "SN":SN, "SP":SP,
-    "SPH":SPH, "SPL":SPL, "SPR":SPR, "SQ":SQ, "SQU":SQU, "ST":ST, "STR":STR, "SW":SW,
-    "TC":TC, "TCH":TCH, "TH":TH, "THR":THR, "TL":TL, "TR":TR, "TW":TW, "TZ":TZ,
-    "WH":WH, "WR":WR, "XT":XT, "BB":BB, "CC":CC, "DD":DD, "FF":FF, "GG":GG, /* "KK":KK, */ "LL":LL, "MM":MM,
-    "NN":NN, "PP":PP, "RR":RR, "SS":SS, "TT":TT, "VV":VV, "ZZ":ZZ]
+                         "NC":NC, "NCH":NCH, "ND":ND, "NG":NG, "NK":NK, "NQ":NQ, "NQU":NQU, "NS":NS, "NT":NT,
+                         "NTH":NTH, "PH":PH, "PHL":PHL, "PHR":PHR, "PL":PL, "PR":PR, "PS":PS, "PT":PT,
+                         "QU":QU, "RB":RB, "RC":RC, "RCH":RCH, "RD":RD, "RF":RF, "RG":RG, "RH":RH, "RK":RK, "RL":RL,
+                         "RM":RM, "RN":RN, "RP":RP, "RS":RS, "RSH":RSH, "RST":RST, "RT":RT, "RTH":RTH, "RV":RV,
+                         "SC":SC, "SCH":SCH, "SCR":SCR, "SH":SH, "SHR":SHR, "SK":SK, "SL":SL, "SM":SM, "SN":SN, "SP":SP,
+                         "SPH":SPH, "SPL":SPL, "SPR":SPR, "SQ":SQ, "SQU":SQU, "ST":ST, "STH":STH, "STR":STR, "SW":SW,
+                         "TC":TC, "TCH":TCH, "TH":TH, "THR":THR, "TL":TL, "TR":TR, "TW":TW, "TZ":TZ,
+                         "WH":WH, "WR":WR, "XT":XT, "BB":BB, "CC":CC, "DD":DD, "FF":FF, "GG":GG, "LL":LL, "MM":MM,
+                         "NN":NN, "PP":PP, "RR":RR, "SS":SS, "TT":TT, "VV":VV, "ZZ":ZZ]
