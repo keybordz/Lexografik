@@ -13,7 +13,6 @@ protocol PhoneticFollowers {
     func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter]
     func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter]
     func lastFollowers(pea: PhoneticElementArray) -> [Letter]
-    func verifyFinal(pea: PhoneticElementArray) -> Bool
 }
 
 enum PositionIndicator: Int {
@@ -60,6 +59,19 @@ class PhoneticElement {
         self.canEnd = canEnd
         self.canPlural = canPlural
         self.dynFollowers = dynFollowers
+    }
+    
+    // Returns the last letter of the identifier 
+    func lastLetter() -> String {
+        if second == nil {
+            return first.rawValue
+        }
+        else if third == nil {
+            return second!.rawValue
+        }
+        else {
+            return third!.rawValue
+        }
     }
 }
 

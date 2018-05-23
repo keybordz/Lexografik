@@ -88,10 +88,6 @@ class Consonant: LexicalLetter, PhoneticFollowers {
         return lastFollowers
     }
     
-    func verifyFinal(pea: PhoneticElementArray) -> Bool {
-        return true;
-    }
-    
     init(id: Letter,
          blendStart: [Letter],
          blendInto: [Letter],
@@ -289,9 +285,14 @@ let F = Consonant( id: .F,
     dynamicFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) in
         var followers:[Letter] = []
         
-        // Allow final U for SNAFU, TOFU
         if posIndicator == .positionLAST {
             
+            // Approve final A for SOFA
+            if phonemes.matchesString("SO", matchFull: true) {
+                followers += [.A]
+            }
+            
+            // Allow final U for SNAFU, TOFU
             if phonemes.matchesString("SNA", matchFull: true) || phonemes.matchesString("TO", matchFull: true) {
                 followers += [.U]
             }
@@ -313,7 +314,7 @@ let G = Consonant( id: .G,
     dipthong: false,
     liquidBlend: true,
     followerTable: [
-        "A":[.A, .E, .G, .L, .I, .O, .R, .U],
+        "A":[.A, .E, .G, .H, .L, .I, .O, .R, .U],
         "AE":[.I],              // AEGIS
         "AU":[.E],              // AUGER
         "E":[.A, .G, .O, .R],   // EGAD, EGGS, EGOS, EGRET
@@ -341,6 +342,11 @@ let G = Consonant( id: .G,
         // GN followers for EI blend: DEIGN, REIGN, FEIGN, PEIGNOIR
         else if lastElement!.id == "EI" &&
             (prevElement!.id == "D" || prevElement!.id == "F" || prevElement!.id == "R" || prevElement!.id == "P") {
+            followers += [.N]
+        }
+        
+        // GN followers for U vowel: IMPUGN
+        else if lastElement!.id == "U" && prevElement!.id == "MP" {
             followers += [.N]
         }
         
@@ -497,8 +503,8 @@ let L = Consonant( id: .L,
                 followers += [.N]
             }
             
-            // Approve final O for HALO, KILO, SILO, SOLO, VELO
-            if phonemes.matchesSet(["HA", "KI", "SO", "SI", "VE"]) {
+            // Approve final O for HALO, KILO, SILO, SOLO
+            if phonemes.matchesSet(["HA", "KI", "SO", "SI"]) {
                 followers += [.O]
             }
             
@@ -527,7 +533,7 @@ let M = Consonant( id: .M,
         "A":[.A, .B, .E, .H, .I, .M, .O, .P, .U, .Y],
         "AI":[.E, .I, .S],
         "E":[.A, .B, .C, .E, .I, .M, .O, .P, .U],
-        "I":[.A, .B, .I, .M],
+        "I":[.A, .B, .I, .M, .P],
         "O":[.E, .I, .N],
         "OH":[.S],
         "U":[.B]],
@@ -561,7 +567,9 @@ let N = Consonant( id: .N,
     blendStart: [.Y],
     blendInto: [.C, .D, .K, .N, .S, .T],
     defFinal: [.D, .E, .K],
-    hardStops: [.B, .F, .J, .L, .M, .P, .R, .V, .W, .Z],   // INBRED, INFER, BANJO, INLET, INMATE, INPUT, UNRIG, INVITE, ENZYME, WAINWRIGHT
+
+    // INBRED, INFER, BANJO, INLET, INMATE, INPUT, UNRIG, INVITE, ENZYME, WAINWRIGHT
+    hardStops: [.B, .F, .J, .L, .M, .P, .R, .V, .W, .Z],
     allowedVowels: allVowels,
     blendsWithY: true,
     canStart: true,
@@ -572,7 +580,7 @@ let N = Consonant( id: .N,
     followerTable: [
         "A":[.A, .C, .D, .G, .E, .I, .K, .N, .O, .S, .T, .U, .V, .Y],
         "AW":[.I, .S],                   // AWNING, AWNS
-        "E":[.A, .C, .D, .E, .G, .I, .L, .M, .N, .O, .S, .T, .U, .V, .Z],
+        "E":[.A, .C, .D, .E, .G, .I, .J, .L, .M, .N, .O, .S, .T, .U, .V, .Z],
         "EO":[.S],                       // EONS
         "EU":[.U],                       // EUNUCH
         "I":[.A, .C, .D, .E, .F, .G, .I, .J, .K, .L, .N, .O, .P, .S, .T, .V],
@@ -642,7 +650,7 @@ let N = Consonant( id: .N,
 
 let P = Consonant( id: .P,
     blendStart: [.H, .L, .R, .S],
-    blendInto: [.P, .S, .T],
+    blendInto: [.P, .H, .L, .S, .T],
     defFinal: [.E, .H],
     hardStops: [.F],
     allowedVowels: allVowels,
@@ -660,7 +668,9 @@ let P = Consonant( id: .P,
         "U":[.B, .D, .E, .L, .O, .R, .S, .T, .V]],
     dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
         var followers: [Letter] = []
-        if phonemes.matchesSet(["KE", "LEA", "RA"]) {
+        
+        // Approve T follower for ERUPT, KEPT, LEAPT, RAPT, WEPT
+        if phonemes.matchesSet(["ERU", "KE", "LEA", "RA", "WE"]) {
             followers += [.T]
         }
         return followers
@@ -697,10 +707,10 @@ let R = Consonant( id: .R,
         "A":[.A, .B, .C, .D, .E, .F, .G, .I, .K, .L, .M, .O, .P, .R, .S, .T, .U],
         "AA":[.D],                                  // AARDVARK
         "AE":[.A, .I, .O],                          // AERATE, AERIE, AEROBIC
-        "AI":[.E, .S, .Y],                          // AIRE, AIRS, AIRY
+        "AI":[.E, .I, .S, .Y],                      // AIRED, AIRING, AIRS, AIRY
         "AO":[.T],                                  // AORTA(L)
         "AU":[.A, .O],                              // AURA, AURORA
-        "E":[.A, .E, .G, .I, .O, .R, .S],           // ERASE, ERECT, ERGS, ERIN, EROTIC, ERRS, ERST
+        "E":[.A, .E, .G, .I, .O, .R, .S, .U],       // ERASE, ERECT, ERGS, ERIN, EROTIC, ERRS, ERST, ERUPT
         "EA":[.G, .L, .N, .S, .T],                  // EAGER, EARL, EARN, EARS, EARTH
         "EE":[.I],                                  // EERIE
         "I":[.A, .E, .I, .K, .O, .R],               // IRATE, IRES, IRIDESCENT, IRKS, IRON, IRRITATE
@@ -715,8 +725,8 @@ let R = Consonant( id: .R,
         
         if pos == .positionLAST {
             
-            // Approve final A for LIRA, TIARA, others?
-            if phonemes.matchesSet(["LI", "TIA"]) {
+            // Approve final A for LIRA, TIARA, OPERA, SERA, others?
+            if phonemes.matchesSet(["LI", "TIA", "OPE", "SE"]) {
                 followers += [.A]
             }
             
@@ -743,9 +753,8 @@ let R = Consonant( id: .R,
                 followers += [.G]
             }
             
-            // Final RL words: GIRL, CURL, WHORL, PEARL
-            if (lastElement is Vowel && (lastElement!.id == "I" || lastElement!.id == "O" || lastElement!.id == "U")) ||
-                (lastElement! is VowelBlend && lastElement!.id == "EA") {
+            // Final RL words: GIRL, GNARL, FURL, CURL, WHORL, PEARL
+            if phonemes.matchesSet(["CU", "FU", "GI", "GNA", "PEA", "WHO"]) {
                 followers += [.L]
             }
             
@@ -1011,7 +1020,7 @@ let Y = Consonant( id: .Y,
         "GL":[.P],                  // GLYPH
         "GR":[.P],                  // GRYPHON
         "H":[.A, .E, .M],           // HYACINTH, HYENA, HYMN, HYSTERIA
-        "L":[.E, .I, .M, .R],       // LYES, LYING, LYME, LYRIC
+        "L":[.E, .I, .M, .N, .R],   // LYES, LYING, LYME, LYNCH, LYRIC
         "M":[.N, .O, .S],           // MYNA, MYOPIA, MYSTERY
         "N":[.L],                   // NYLON
         "P":[.L, .R, .T],           // PYLON, PYROTECHNIC/PYRRIC?, PYTHON

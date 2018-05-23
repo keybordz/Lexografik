@@ -182,14 +182,7 @@ class WordStorm {
                 }
                 
                 // Make a new copy of the current word
-                let newPartialWord = LetterArray(initLetters: partialWord.letters)
-
-                newPartialWord.sylState = partialWord.sylState
-                newPartialWord.nextBias = partialWord.nextBias
-                newPartialWord.expecting = partialWord.expecting
-                newPartialWord.phonemes.replaceElements(partialWord.phonemes)
-                newPartialWord.filterStops = partialWord.filterStops
-                newPartialWord.exactMatches = partialWord.exactMatches
+                let newPartialWord = LetterArray(sourceArray: partialWord)
                 
                 // Does adding the new character maintain the "wordability" of the array
                 if newPartialWord.testLexical(c, remainingLetters: length) {
@@ -217,7 +210,7 @@ class WordStorm {
         
         for word in allWords {
             word.printLetters()
-            print(" (\(word.phonemes.numSyllables()) syllables)")
+            print(" (\(word.numSyllables()) syllables)")
         }
         print("\(wordCount) words in total", terminator: "\n")
     }

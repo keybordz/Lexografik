@@ -52,10 +52,6 @@ class VowelBlend: LexicalBlend, PhoneticFollowers {
         return lastFollowers
     }
     
-    func verifyFinal(pea: PhoneticElementArray) -> Bool {
-        return true;
-    }
-    
     init(first: Letter, second: Letter, third: Letter?,
         initCons: [Letter],     // Consonants which can follow immediately if this blend starts the word (empty if cannot start)
         interCons: [Letter],    // Consonants which follow when the blend occurs in the middle of a word
@@ -223,6 +219,7 @@ let EA = VowelBlend(first: .E, second: .A, third: nil,
                         "PR":[.C],                                          // PREACH
                         "QU":[.S],                                          // QUEASY
                         "R":[.C, .D, .L, .M, .P, .R],                       // REACH/REACT, READ, REAL, REAM, REAP, REAR
+                        "RH":[.S],                                          // RHEAS
                         "S":[.L, .M, .N, .R, .S, .T],                       // SEAL, SEAM, SEAN, SEAR, SEAS, SEAT
                         "SH":[.F, .R, .T, .V],                              // SHEAF, SHEAR, SHEATH, SHEAVE
                         "SM":[.R],                                          // SMEAR
@@ -411,7 +408,7 @@ let IE = VowelBlend(first: .I, second: .E, third: nil,
                     glottal: false,
                     followerTable: [
                         "B":[.N, .R],           // BIENNIAL, BIER
-                        "BR":[.F],              // BRIEF
+                        "BR":[.F, .R],          // BRIEF, BRIER
                         "CH":[.F],              // CHIEF
                         "CR":[.D, .R, .S],      // CRIED, CRIER, CRIES
                         "D":[.D, .S, .T],       // DIED, DIES, DIET
@@ -494,7 +491,7 @@ let IO = VowelBlend(first: .I, second: .O, third: nil,
                     finalCons: [.D, .N, .R, .S, .T],
                     blendInto: [.U],        // xIOUS ending
                     canPlural: true,
-                    glottal: false,
+                    glottal: true,
                     followerTable: [
                         "B":[.D, .G, .L, .S],   // BIODOME, BIOGRAPHY, BIOLOGY, BIOSPHERE
                         "BR":[.S],              // BRIOS
@@ -561,7 +558,7 @@ let OE = VowelBlend(first: .O, second: .E, third: nil,
                         "FL":[.S],              // FLOES
                         "G":[.R, .S],           // GOER, GOES
                         "H":[.D, .I, .R, .S],   // HOED, HOEING, HOER, HOES
-                        "J":[.L, .S],           // JOEL, JOES
+                        "J":[.S, .Y],           // JOES, JOEY
                         "N":[.S],               // NOES
                         "P":[.M, .T],           // POEM, POET(RY)
                         "PH":[.N],              // PHOENIX
@@ -687,7 +684,7 @@ let OU = VowelBlend(first: .O, second: .U, third: nil,
                         "ST":[.T],                      // STOUT
                         "T":[.C, .G, .R],               // TOUCH, TOUGH, TOUR
                         "TH":[.G],                      // THOUGHT
-                        "TR":[.G, .N, .S],              // TROUGH, TROUNCE, TROUSERS
+                        "TR":[.G, .N, .P, .S],          // TROUGH, TROUNCE, TROUPE, TROUSERS
                         "V":[.C],                       // VOUCH
                         "W":[.L, .N],                   // WOULD, WOUND
                         "WR":[.G],                      // WROUGHT

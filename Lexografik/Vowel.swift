@@ -46,10 +46,6 @@ class Vowel: LexicalLetter, PhoneticFollowers {
         return lastFollowers
     }
     
-    func verifyFinal(pea: PhoneticElementArray) -> Bool {
-        return true;
-    }
-    
     init(id: Letter, blendStart: [Letter], blendInto: [Letter], defFinal: [Letter],
          followerTable: [String:[Letter]],
          dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?) {
@@ -79,13 +75,16 @@ let A = Vowel(id: .A,
                                                         // BLAB, BLACK, BLADE, BLAME, BLAND/BLANCHE, BLARE, BLAST, BLATHER, BLAZE
                                 
                 "GH":[.S],                              // GHASTLY
-                "GN":[.R, .S, .T, .W],                  // GNARLY, GNASH, GNAT, GNAW
+                "GN":[.R, .S, .T, .W],                  // GNARL, GNASH, GNAT, GNAW
+                "N":[.B, .D, .G, .I, .K, .M, .N, .P, .S, .T, .U, .V, .Y],
+                                                        // NABS, NADIR, NAGS, NAIL, NAKED, NAME, NANO, NAPS, NASTY, NAUTICAL, NAVY, NAYS
                 "PH":[.L, .N, .R, .S],                  // PHALANX, PHANTOM, PHARISEE, PHASE
                 "QU":[.C, .D, .F, .G, .I, .K, .L, .N, .R, .S, .V, .Y],
                                                         // QUACK, QUAD, QUAFF, QUAGMIRE, QUAIL, QUAKE, QUALITY,
                                                         // QUANT(ITY), QUARTER/QUARRY, QUASH, QUAVER, QUAY
                 "RH":[.P],                              // RHAPSODY
-                "SC":[.B, .D, .L, .M, .N, .R, .T],      // SCAB, SCAD, SCALAWAG, SCAM, SCAN, SCAR(F/V), SCAT
+                "SH":[.B, .C, .D, .F, .G, .H, .K, .L, .M, .N, .P, .R, .S, .T, .V, .W, .Y],
+                "SC":[.B, .D, .F, .L, .M, .N, .R, .T],   // SCAB, SCAD, SCAFFOLD, SCALAWAG, SCAM, SCAN, SCAR(F/V), SCAT
                 "SM":[.C, .L, .R, .S, .T],              // SMACK, SMALL, SMART, SMASH, SMATTER
                 "SN":[.C, .F, .G, .I, .P, .R, .T],      // SNACK, SNAFU, SNAG, SNAIL, SNAP, SNARE, SNATCH
                 "SQU":[.B, .D, .L, .N, .R, .S, .T, .W], // SQUABBLE, SQUAD, SQUALOR, SQUANDER, SQUARE, SQUASH, SQUAT, SQUAWK
@@ -133,6 +132,8 @@ let E = Vowel( id: .E,
     followerTable: [
         "AH":[.E],                      // AHEM
         "BL":[.A, .D, .E, .N, .S, .W],  // BLEAK, BLED, BLEED, BLEND, BLESS/T, BLEW
+        "N":[.A, .C, .E, .G, .M, .O, .P, .R, .S, .T, .U, .V, .W],
+                                        // NEAT, NECK, NEED, NEGATE, NEMATODE, NEON, NEPHEW, NERD, NEST, NETS, NEURAL, NEVER, NEWS
         "PH":[.N],                      // PHENTONOL,
         "QU":[.A, .E, .L, .R, .S, .U],  // QUEASY, QUEEN, QUELL, QUERY, QUEST(ION), QUEUE
         "RH":[.A],                      // RHEA
@@ -147,16 +148,17 @@ let E = Vowel( id: .E,
         
         if pos == .positionLAST {
             
-            // Final EA words: ASEA, FLEA, PLEA, RHEA, UREA
-            if pea.matchesSet(["AS", "FL", "PL", "RH", "UR"]) {
+            // Final EA words: ASEA, FLEA, IDEA, PLEA, RHEA, UREA
+            if pea.matchesSet(["AS", "FL", "ID", "PL", "RH", "UR"]) {
                 followers += [.A]
             }
             
-            // Final EE words...rying to cast a wide net here with many possibilities:
-            // APOGEE, OVERSEE, FLEE, CAREFREE, AGREE & PEDIGREE, GLEE, KNEE, THEE, TREE & THREE
-            if lastElement!.id == "G" || lastElement!.id == "P" || lastElement!.id == "S" ||
-                lastElement!.id == "FL" || lastElement!.id == "FR" || lastElement!.id == "GR" || lastElement!.id == "GL" ||
-                lastElement!.id == "KN" || lastElement!.id == "TH" || lastElement!.id == "TR" || lastElement!.id == "THR" {
+            // Final EE words...trying to cast a wide net here with many possibilities:
+            if lastElement!.id == "G" ||                               // OGEE, APOGEE, PERIGEE
+                lastElement!.id == "P" || lastElement!.id == "S" ||    // RUPEE, OVERSEE
+                lastElement!.id == "KN" || lastElement!.id == "TH" ||  // KNEE, THEE
+                lastElement!.id.contains("R") ||                       // FREE, AGREE/PEDIGREE, TREE, THREE, PUREE
+                lastElement!.id.contains("L") {                        // GLEE, FLEE, ALEE
                 followers += [.E]
             }
             
@@ -196,6 +198,8 @@ let I = Vowel( id: .I,
     defFinal: [.C, .D, .L, .M, .N, .O, .P, .S, .T],
     followerTable: [
         "BL":[.N, .P, .S, .T],          // BLIND/K, BLIP, BLISS, BLITHE
+        "N":[.B, .C, .E, .G, .L, .M, .N, .P, .T],
+                                        // NIBS, NICHE, NIECE, NIGH, NILS, NIMBLE, NINE, NIPS, NITS
         "QU":[.B, .C, .D, .E, .F, .L, .N, .P, .R, .T, .V],
                                         // QUIBBLE, QUICK, QUID, QUIET, QUIFF, QUILL, QUINT, QUIP, QUIRE, QUIT, QUIVER
         "RH":[.N],                      // RHINO
@@ -211,11 +215,13 @@ let I = Vowel( id: .I,
         
         if pos == .positionLAST {
             
-            // Trying to cover typical IA enders: MEDIA/ENCYCLOPEDIA, MANIA/CRANIA, GLIA/GANGLIA, ILIA, ZINNIA, CRITERIA, ATRIA
-            if (lastElement!.id == "D" && penElement!.id == "E") ||
-                (lastElement!.id == "N" && penElement!.id == "A") ||
-                 lastElement!.id == "GL" || lastElement!.id == "L" ||
-                 lastElement!.id == "NN" || lastElement!.id == "R" || lastElement!.id == "TR" {
+            // Trying to cover typical IA enders
+            if (lastElement!.id == "D" && penElement!.id == "E") ||     // MEDIA, ENCYCLOPEDIA
+                (lastElement!.id == "N" && penElement!.id == "A") ||    // MANIA, CRANIA
+                (lastElement!.id == "M" && penElement!.id == "E") ||    // ANEMIA
+                  lastElement!.id == "GL" || lastElement!.id == "L" ||  // GLIA, GANGLIA, ILIA
+                  lastElement!.id == "NN" || lastElement!.id == "R" || lastElement!.id == "TR" ||   // ZINNIA, CRITERIA, ATRIA
+                  pea.matchesString("MAF", matchFull: true) {           // MAFIA
                 followers += [.A]
             }
 
@@ -260,6 +266,8 @@ let O = Vowel( id: .O,
         "BL":[.A, .B, .C, .G, .N, .O, .T, .V, .W],  // BLOAT, BLOB, BLOCK, BLOG, BLOND, BLOOD, BLOT, BLOVIATE, BLOW
         "GH":[.S],                              // GHOST
         "GN":[.C, .M],                          // GNOCCHI, GNOME
+        "N":[.B, .C, .D, .E, .M, .N, .O, .U, .V, .W, .Z],
+                                                // NOBS, NOCTURNE, NODS, NOES, NOMINAL, NONE, NOON, NOUN, NOVEL, NOWS, NOZZLE
         "PH":[.E, .N, .O, .S],                  // PHOENIX, PHONE, PHOOEY, PHOSPHORUS
         "PS":[.R],                              // PSORIASIS
         "QU":[.T],                              // QUOTE
@@ -267,7 +275,7 @@ let O = Vowel( id: .O,
         "SC":[.F, .L, .N, .O, .P, .R, .U, .W],  // SCOFF, SCOLL, SCONE, SCOOT, SCOPE, SCORE, SCOUT, SCOWL
         "SM":[.C, .G, .K, .O, .T],              // SMOCK, SMOG, SMOKE, SMOOTH, SMOTE/SMOTHER
         "SN":[.B, .O, .R, .T, .U, .W],          // SNOB, SNOOT, SNORE, SNOT, SNOUT, SNOW
-        "Y": [.D, .G, .L, .N, .U, .W, .Y]],     // YODEL, YOGA, YOLK, YON, YOUR, YOWS, YOYO
+        "Y": [.D, .G, .L, .N, .R, .U, .W, .Y]], // YODEL, YOGA, YOLK, YON, YORE, YOUR, YOWS, YOYO
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
         let lastElement = pea.lastElement()
@@ -334,6 +342,8 @@ let U = Vowel( id: .U,
     defFinal: [.E, .B, .D, .G, .L, .M, .N, .P, .S, .T],
     followerTable: [
         "BL":[.B, .E, .F, .I, .N, .R, .S],  // BLUBBER, BLUE, BLUFF, BLUISH, BLUNDER/BLUNT, BLUR, BLUSTER
+        "N":[.B, .C, .D, .K, .L, .M, .N, .P, .R, .T],
+                                        // NUBS, NUCLEAR, NUDE, NUKE, NULL, NUMBER, NUNS, NUPTIAL, NURSE, NUTS
         "GN":[.S],                      // GNUS
         "RH":[.M],                      // RHUMBA
         "SC":[.D, .F, .M, .R],          // SCUD, SCUFF, SCUM, SCURVY

@@ -67,7 +67,8 @@ let AH = DiphthongBlend(vowel: .A, consonant: .H, start: true, end: true,
                         finFollowers: [.N, .S],
                         followerTable: [
                             "BL":[.S],          // BLAHS
-                            "S":[.I]])          // SAHIB
+                            "S":[.I],           // SAHIB
+                            "SH":[.S]])         // SHAHS
 
 let EH = DiphthongBlend(vowel: .E, consonant: .H, start: false, end: false,
                         initFollowers: [],
@@ -75,6 +76,7 @@ let EH = DiphthongBlend(vowel: .E, consonant: .H, start: false, end: false,
                         finFollowers: [],
                         followerTable: [
                             "B":[.E],                   // BEHEMOTH
+                            "D":[.U],                   // DEHUMIDIFY
                             "R":[.A, .E, .I, .O, .U]])  // REHEAT
 
 let OH = DiphthongBlend(vowel: .O, consonant: .H, start: true, end: false,
