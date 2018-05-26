@@ -110,7 +110,7 @@ let AW = DiphthongBlend(vowel: .A, consonant: .W, start: true, end: true,
                             "R":[.E],               // RAWER
                             "S":[.E, .I, .N, .S],   // SAWED, SAWING, SAWN, SAWS
                             "SCR":[.L],             // SCRAWL
-                            "SH":[.L],              // SHAWL
+                            "SH":[.L, .M],          // SHAWL, SHAWM
                             "SL":[.E, .I, .S],      // SLAWED, SLAWING, SLAWS
                             "SP":[.N],              // SPAWN
                             "SPR":[.L],             // SPRAWL
@@ -168,7 +168,7 @@ let OW = DiphthongBlend(vowel: .O, consonant: .W, start: true, end: true,
                             "G":[.N],
                             "GL":[.E, .I, .S],
                             "GR":[.I, .L, .N],
-                            "H":[.L],
+                            "H":[.L, .S],
                             "J":[.E],
                             "L":[.E, .I, .L, .S],
                             "M":[.E, .I, .N, .S],

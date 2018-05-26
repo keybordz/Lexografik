@@ -30,17 +30,24 @@
 		C93C90511C6AABB00033B3E4 /* PhoneticElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93C904F1C6AABB00033B3E4 /* PhoneticElement.swift */; };
 		C95BF34C1C6C26C10051F725 /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95BF34B1C6C26C10051F725 /* Letter.swift */; };
 		C95BF34D1C6C270B0051F725 /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95BF34B1C6C26C10051F725 /* Letter.swift */; };
+		C96A46BD20B895C000B10E4B /* 2016.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A46BC20B895C000B10E4B /* 2016.swift */; };
 		C9A352831BA85A5D006FB539 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A352821BA85A5D006FB539 /* AppDelegate.swift */; };
 		C9A352851BA85A5D006FB539 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A352841BA85A5D006FB539 /* ViewController.swift */; };
 		C9A352881BA85A5D006FB539 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A352861BA85A5D006FB539 /* Main.storyboard */; };
 		C9A3528A1BA85A5D006FB539 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9A352891BA85A5D006FB539 /* Images.xcassets */; };
 		C9A3528D1BA85A5D006FB539 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9A3528B1BA85A5D006FB539 /* LaunchScreen.xib */; };
-		C9A352991BA85A5D006FB539 /* LexografikTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A352981BA85A5D006FB539 /* LexografikTests.swift */; };
+		C9A352991BA85A5D006FB539 /* 2014.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A352981BA85A5D006FB539 /* 2014.swift */; };
 		C9AC0B3620B339B4001A30F1 /* SyllabicStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0B3520B339B4001A30F1 /* SyllabicStart.swift */; };
 		C9AC0B3820B33CD7001A30F1 /* SyllabicEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0B3720B33CD7001A30F1 /* SyllabicEnd.swift */; };
 		C9AC0B3920B474B8001A30F1 /* SyllabicElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C924BC2F20B0AADF00D03EE8 /* SyllabicElement.swift */; };
 		C9AC0B3A20B474BF001A30F1 /* SyllabicStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0B3520B339B4001A30F1 /* SyllabicStart.swift */; };
 		C9AC0B3B20B474C2001A30F1 /* SyllabicEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0B3720B33CD7001A30F1 /* SyllabicEnd.swift */; };
+		C9AC0B3D20B6FD9E001A30F1 /* Undated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0B3C20B6FD9E001A30F1 /* Undated.swift */; };
+		C9AC0B3F20B6FFB6001A30F1 /* 2011.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0B3E20B6FFB6001A30F1 /* 2011.swift */; };
+		C9AC0B4120B70414001A30F1 /* 2012.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0B4020B70414001A30F1 /* 2012.swift */; };
+		C9AC0B4320B70A46001A30F1 /* 2013.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC0B4220B70A46001A30F1 /* 2013.swift */; };
+		C9AF037720B744D80080761E /* 2017.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AF037620B744D80080761E /* 2017.swift */; };
+		C9AF037920B747E70080761E /* 2015.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AF037820B747E70080761E /* 2015.swift */; };
 		C9B1E8D820A903F8009D74F9 /* WordMatchDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1E8D720A903F8009D74F9 /* WordMatchDictionary.swift */; };
 		C9B1E8D920A903F8009D74F9 /* WordMatchDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1E8D720A903F8009D74F9 /* WordMatchDictionary.swift */; };
 		C9B1E8DB20A944A0009D74F9 /* PhoneticFollower.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1E8DA20A944A0009D74F9 /* PhoneticFollower.swift */; };
@@ -75,6 +82,7 @@
 		C92FB5871C6AB9B300BD269C /* LetterArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetterArray.swift; sourceTree = "<group>"; };
 		C93C904F1C6AABB00033B3E4 /* PhoneticElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneticElement.swift; sourceTree = "<group>"; };
 		C95BF34B1C6C26C10051F725 /* Letter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
+		C96A46BC20B895C000B10E4B /* 2016.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2016.swift; sourceTree = "<group>"; };
 		C9762D1B1BAB800000A4E25D /* LetterArray (OLD).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LetterArray (OLD).swift"; sourceTree = "<group>"; };
 		C9A3527D1BA85A5D006FB539 /* Lexografik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lexografik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A352811BA85A5D006FB539 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -85,9 +93,15 @@
 		C9A3528C1BA85A5D006FB539 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C9A352921BA85A5D006FB539 /* LexografikTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LexografikTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A352971BA85A5D006FB539 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C9A352981BA85A5D006FB539 /* LexografikTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexografikTests.swift; sourceTree = "<group>"; };
+		C9A352981BA85A5D006FB539 /* 2014.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2014.swift; sourceTree = "<group>"; };
 		C9AC0B3520B339B4001A30F1 /* SyllabicStart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyllabicStart.swift; sourceTree = "<group>"; };
 		C9AC0B3720B33CD7001A30F1 /* SyllabicEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyllabicEnd.swift; sourceTree = "<group>"; };
+		C9AC0B3C20B6FD9E001A30F1 /* Undated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Undated.swift; sourceTree = "<group>"; };
+		C9AC0B3E20B6FFB6001A30F1 /* 2011.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2011.swift; sourceTree = "<group>"; };
+		C9AC0B4020B70414001A30F1 /* 2012.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2012.swift; sourceTree = "<group>"; };
+		C9AC0B4220B70A46001A30F1 /* 2013.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2013.swift; sourceTree = "<group>"; };
+		C9AF037620B744D80080761E /* 2017.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2017.swift; sourceTree = "<group>"; };
+		C9AF037820B747E70080761E /* 2015.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2015.swift; sourceTree = "<group>"; };
 		C9B1E8D720A903F8009D74F9 /* WordMatchDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordMatchDictionary.swift; sourceTree = "<group>"; };
 		C9B1E8DA20A944A0009D74F9 /* PhoneticFollower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneticFollower.swift; sourceTree = "<group>"; };
 		C9B6D8A41CB586B0004032EE /* YBlend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YBlend.swift; sourceTree = "<group>"; };
@@ -198,7 +212,14 @@
 		C9A352951BA85A5D006FB539 /* LexografikTests */ = {
 			isa = PBXGroup;
 			children = (
-				C9A352981BA85A5D006FB539 /* LexografikTests.swift */,
+				C9AC0B3C20B6FD9E001A30F1 /* Undated.swift */,
+				C9AC0B3E20B6FFB6001A30F1 /* 2011.swift */,
+				C9AC0B4020B70414001A30F1 /* 2012.swift */,
+				C9AC0B4220B70A46001A30F1 /* 2013.swift */,
+				C9A352981BA85A5D006FB539 /* 2014.swift */,
+				C9AF037820B747E70080761E /* 2015.swift */,
+				C96A46BC20B895C000B10E4B /* 2016.swift */,
+				C9AF037620B744D80080761E /* 2017.swift */,
 				C9A352961BA85A5D006FB539 /* Supporting Files */,
 			);
 			path = LexografikTests;
@@ -350,17 +371,24 @@
 				C90C53671C571F6C00FD7550 /* LexicalLetter.swift in Sources */,
 				C92FB5891C6AB9B300BD269C /* LetterArray.swift in Sources */,
 				C9045F3C1C70FC0200958455 /* Vowel.swift in Sources */,
+				C9AF037920B747E70080761E /* 2015.swift in Sources */,
+				C9AF037720B744D80080761E /* 2017.swift in Sources */,
 				C9B1E8DC20A944A0009D74F9 /* PhoneticFollower.swift in Sources */,
 				C9AC0B3A20B474BF001A30F1 /* SyllabicStart.swift in Sources */,
-				C9A352991BA85A5D006FB539 /* LexografikTests.swift in Sources */,
+				C9A352991BA85A5D006FB539 /* 2014.swift in Sources */,
 				C9045F481C7101EA00958455 /* DiphthongBlend.swift in Sources */,
 				C9045F451C7101DA00958455 /* ConsonantBlend.swift in Sources */,
 				C9AC0B3B20B474C2001A30F1 /* SyllabicEnd.swift in Sources */,
+				C9AC0B4320B70A46001A30F1 /* 2013.swift in Sources */,
 				C9045F3F1C70FCA700958455 /* Consonant.swift in Sources */,
+				C9AC0B3D20B6FD9E001A30F1 /* Undated.swift in Sources */,
 				C93C90511C6AABB00033B3E4 /* PhoneticElement.swift in Sources */,
 				C90C53621C568B1000FD7550 /* WordStorm.swift in Sources */,
 				C9EB4A691C65A78300F0D877 /* LexicalBlend.swift in Sources */,
 				C9AC0B3920B474B8001A30F1 /* SyllabicElement.swift in Sources */,
+				C9AC0B4120B70414001A30F1 /* 2012.swift in Sources */,
+				C9AC0B3F20B6FFB6001A30F1 /* 2011.swift in Sources */,
+				C96A46BD20B895C000B10E4B /* 2016.swift in Sources */,
 				C9045F421C7101CB00958455 /* VowelBlend.swift in Sources */,
 				C9B1E8D920A903F8009D74F9 /* WordMatchDictionary.swift in Sources */,
 			);

@@ -53,7 +53,7 @@ let wordMatchDictionary: [String:[String]] = [
     "ELA": ["ND+s", "TE+vn"],
     "ELI": ["DE+vn", "MINATE"],
     "ELO": ["NGATE+v", "PE+v", "PEMENT"],
-    "ELU": ["DE+v", "TE+vn"],
+    "ELU": ["DE+v", "SIVE+l", "TE+vn"],
     "EMA": ["NATE+vn"],                        // EMASCULATE is too long
     "EMI": ["NENT", "NENCE", "R+s", "RATE+s", "SSION+s", "T+vr"],
     "EMO": ["LLIENT", "TE+vn"],
@@ -78,9 +78,11 @@ let wordMatchDictionary: [String:[String]] = [
     "ICO": ["N+s"],
     "IDE": ["A+s", "AL+sl", "S"],
     "IDO": ["L+s", "LATRY"],
+    "IKO": ["N+s"],
     "INA": ["NE", "CTION+s", "NIMATE"],
     "IRA": ["TE+l"],
     "IRE": ["S"],
+    "IRI": ["DIUM", "S", "ES"],         // IRIDESCENT is too long
     "IRO": ["N+vry"],
     "ITA": ["LIC+s"],
     "ITE": ["M+s", "RATE+vn"],
@@ -92,6 +94,8 @@ let wordMatchDictionary: [String:[String]] = [
     "OLI": ["O+s", "VE+s"],
     "OME": ["LET+s", "N+s"],
     "ONE": ["S"],
+    "ONI": ["ON+s"],
+    "ONU": ["S", "ES"],
     "OPA": ["L+s", "QUE"],
     "OPI": ["NE+v", "NION+s", "NIONED"],
     "ORA": ["L+sl", "NGE+s", "NGUTAN", "TE+vn", "TOR"],
@@ -107,7 +111,7 @@ let wordMatchDictionary: [String:[String]] = [
     "URI": ["C", "NE+s"],
     "URO": ["LOGIST", "LOGY"],
     "USA": ["BLE", "GE+s"],
-    "USE": ["D", "R", "S"],
+    "USE": ["D", "R+s", "S"],
     "USI": ["NG"],
-    "USU": ["AL+l"]
+    "USU": ["AL+l", "RP+v"]
 ]

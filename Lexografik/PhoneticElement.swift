@@ -8,13 +8,6 @@
 
 import Foundation
 
-protocol PhoneticFollowers {
-    func initialFollowers(nRemain: Int) -> [Letter]
-    func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter]
-    func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter]
-    func lastFollowers(pea: PhoneticElementArray) -> [Letter]
-}
-
 enum PositionIndicator: Int {
     case positionFIRST = 0
     case positionMIDDLE = 1
@@ -62,15 +55,15 @@ class PhoneticElement {
     }
     
     // Returns the last letter of the identifier 
-    func lastLetter() -> String {
+    func lastLetter() -> Letter {
         if second == nil {
-            return first.rawValue
+            return first
         }
         else if third == nil {
-            return second!.rawValue
+            return second!
         }
         else {
-            return third!.rawValue
+            return third!
         }
     }
 }

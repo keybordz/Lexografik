@@ -73,7 +73,8 @@ let A = Vowel(id: .A,
               followerTable: [
                 "BL":[.B, .C, .D, .H, .M, .N, .R, .S, .T, .Z],
                                                         // BLAB, BLACK, BLADE, BLAME, BLAND/BLANCHE, BLARE, BLAST, BLATHER, BLAZE
-                                
+                "CL":[.C, .D, .I, .M, .N, .P, .R, .S, .T, .V, .W, .Y],
+                                                        // CLACK, CLAD, CLAIM, CLAM, CLAN, CLAP, CLASP, CLAVE, CLAW
                 "GH":[.S],                              // GHASTLY
                 "GN":[.R, .S, .T, .W],                  // GNARL, GNASH, GNAT, GNAW
                 "N":[.B, .D, .G, .I, .K, .M, .N, .P, .S, .T, .U, .V, .Y],
@@ -132,12 +133,14 @@ let E = Vowel( id: .E,
     followerTable: [
         "AH":[.E],                      // AHEM
         "BL":[.A, .D, .E, .N, .S, .W],  // BLEAK, BLED, BLEED, BLEND, BLESS/T, BLEW
+        "CL":[.A, .F, .N, .R],          // CLEAT, CLEF, CLENCH, CLERK
         "N":[.A, .C, .E, .G, .M, .O, .P, .R, .S, .T, .U, .V, .W],
                                         // NEAT, NECK, NEED, NEGATE, NEMATODE, NEON, NEPHEW, NERD, NEST, NETS, NEURAL, NEVER, NEWS
         "PH":[.N],                      // PHENTONOL,
         "QU":[.A, .E, .L, .R, .S, .U],  // QUEASY, QUEEN, QUELL, QUERY, QUEST(ION), QUEUE
         "RH":[.A],                      // RHEA
         "SC":[.N],                      // SCENE/T
+        "SH":[.A, .D, .E, .I, .L, .R],  // SHEAR, SHED, SHEET, SHEIK, SHELF/SHELL, SHERBERT
         "SM":[.G, .L],                  // SMEGMA, SMELL/SMELTER
         "SN":[.A, .E],                  // SNEAK, SNEER
         "SQU":[.A, .E],                 // SQUEAL, SQUEEZE
@@ -148,8 +151,8 @@ let E = Vowel( id: .E,
         
         if pos == .positionLAST {
             
-            // Final EA words: ASEA, FLEA, IDEA, PLEA, RHEA, UREA
-            if pea.matchesSet(["AS", "FL", "ID", "PL", "RH", "UR"]) {
+            // Final EA words: AREA, ASEA, FLEA, IDEA, PLEA, RHEA, UREA
+            if pea.matchesSet(["AR", "AS", "FL", "ID", "PL", "RH", "UR"]) {
                 followers += [.A]
             }
             
@@ -182,8 +185,8 @@ let E = Vowel( id: .E,
                 followers += [.O]
             }
             
-            // X follower: need words like ANNEX, FLEX, CODEX, INDEX, ROLODEX, VORTEX
-            if pea.matchesSet(["ANN", "FL"]) || lastElement!.id == "D" || lastElement!.id == "RT" {
+            // X follower: need words like ANNEX, FLEX, CODEX, INDEX, ROLODEX, VORTEX, COMPLEX
+            if pea.matchesSet(["ANN", "FL"]) || lastElement!.id == "D" || lastElement!.id == "RT" || lastElement!.id == "PL" {
                 followers += [.X]
             }
         }
@@ -198,12 +201,14 @@ let I = Vowel( id: .I,
     defFinal: [.C, .D, .L, .M, .N, .O, .P, .S, .T],
     followerTable: [
         "BL":[.N, .P, .S, .T],          // BLIND/K, BLIP, BLISS, BLITHE
+        "CL":[.C, .F, .N, .P, .Q, .T],  // CLICK, CLIFF, CLINCH, CLIP, CLIQUE
         "N":[.B, .C, .E, .G, .L, .M, .N, .P, .T],
                                         // NIBS, NICHE, NIECE, NIGH, NILS, NIMBLE, NINE, NIPS, NITS
         "QU":[.B, .C, .D, .E, .F, .L, .N, .P, .R, .T, .V],
                                         // QUIBBLE, QUICK, QUID, QUIET, QUIFF, QUILL, QUINT, QUIP, QUIRE, QUIT, QUIVER
         "RH":[.N],                      // RHINO
         "SC":[.N, .O],                  // SCINTILLATE, SCION
+        "SH":[.E, .L, .M, .N, .P, .R, .T, .V],  // SHIES, SHILL, SHIM, SHIN(E), SHIP, SHIRK, SHITE, SHIVER,
         "SM":[.L, .R, .T],              // SMILE, SMIRK, SMITE/SMITH
         "SN":[.C, .D, .F, .P, .T],      // SNICKER, SNIDE, SNIFF, SNIP, SNIT(CH)
         "SQU":[.D, .R],                 // SQUID, SQUIRE/SQUIRM/SQUIRT
@@ -219,9 +224,9 @@ let I = Vowel( id: .I,
             if (lastElement!.id == "D" && penElement!.id == "E") ||     // MEDIA, ENCYCLOPEDIA
                 (lastElement!.id == "N" && penElement!.id == "A") ||    // MANIA, CRANIA
                 (lastElement!.id == "M" && penElement!.id == "E") ||    // ANEMIA
-                  lastElement!.id == "GL" || lastElement!.id == "L" ||  // GLIA, GANGLIA, ILIA
-                  lastElement!.id == "NN" || lastElement!.id == "R" || lastElement!.id == "TR" ||   // ZINNIA, CRITERIA, ATRIA
-                  pea.matchesString("MAF", matchFull: true) {           // MAFIA
+                lastElement!.id == "GL" || lastElement!.id == "L" ||  // GLIA, GANGLIA, ILIA
+                lastElement!.id == "NN" || lastElement!.id == "R" || lastElement!.id == "TR" ||   // ZINNIA, CRITERIA, ATRIA
+                pea.matchesSet(["MAF", "TIB"]) {           // MAFIA, TIBIA
                 followers += [.A]
             }
 
@@ -241,14 +246,19 @@ let I = Vowel( id: .I,
                 followers += [.G]
             }
             
-            // Only allow final R for EMIR, NADIR, STIR, TAPIR
-            if pea.matchesSet(["EM", "NAD", "ST", "TAP"]) {
+            // Only allow final R for EMIR, NADIR, STIR, TAPIR, ASTIR
+            if pea.matchesSet(["EM", "NAD", "ST", "TAP", "AST"]) {
                 followers += [.R]
             }
             
             // X followers: AFFIX, REMIX
             if lastElement!.id == "F" || lastElement!.id == "FF" || lastElement!.id == "M" {
                 followers += [.X]
+            }
+            
+            // Z followers: FRIZ
+            if pea.matchesSet(["FR"]) {
+                followers += [.Z]
             }
         }
 
@@ -264,17 +274,22 @@ let O = Vowel( id: .O,
     followerTable: [
         "AH":[.Y],                              // AHOY
         "BL":[.A, .B, .C, .G, .N, .O, .T, .V, .W],  // BLOAT, BLOB, BLOCK, BLOG, BLOND, BLOOD, BLOT, BLOVIATE, BLOW
+        "CL":[.A, .B, .C, .D, .G, .N, .P, .S, .T, .U, .V, .W, .Y],
+                                                // CLOAK, CLOBBER, CLOCK, CLOD, CLOG, CLONE, CLOP, CLOSE, CLOT, CLOUT, CLOWN, CLOY
         "GH":[.S],                              // GHOST
         "GN":[.C, .M],                          // GNOCCHI, GNOME
-        "N":[.B, .C, .D, .E, .M, .N, .O, .U, .V, .W, .Z],
+        "N":[.B, .C, .D, .E, .I, .M, .N, .O, .S, .T, .U, .V, .W, .Z],
                                                 // NOBS, NOCTURNE, NODS, NOES, NOMINAL, NONE, NOON, NOUN, NOVEL, NOWS, NOZZLE
         "PH":[.E, .N, .O, .S],                  // PHOENIX, PHONE, PHOOEY, PHOSPHORUS
         "PS":[.R],                              // PSORIASIS
         "QU":[.T],                              // QUOTE
         "RH":[.M],                              // RHOMBUS(OID)
         "SC":[.F, .L, .N, .O, .P, .R, .U, .W],  // SCOFF, SCOLL, SCONE, SCOOT, SCOPE, SCORE, SCOUT, SCOWL
+        "SH":[.A, .B, .C, .D, .E, .N, .O, .P, .R, .T, .U, .V, .W],
+                                                // SHOAL, SHOBBY, SHOCK, SHOD, SHOE, SHONE, SHOOT, SHOP, SHORE, SHOT, SHOUT, SHOVE, SHOW
         "SM":[.C, .G, .K, .O, .T],              // SMOCK, SMOG, SMOKE, SMOOTH, SMOTE/SMOTHER
         "SN":[.B, .O, .R, .T, .U, .W],          // SNOB, SNOOT, SNORE, SNOT, SNOUT, SNOW
+        "THR":[.B, .E, .N, .U, .W],             // THROB, THROE, THRONE, THROUGH, THROW
         "Y": [.D, .G, .L, .N, .R, .U, .W, .Y]], // YODEL, YOGA, YOLK, YON, YORE, YOUR, YOWS, YOYO
     dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
@@ -321,8 +336,9 @@ let O = Vowel( id: .O,
                 followers += [.O]
             }
             
-            // Only allow final P for CHOP, CLOP, CROP, DROP, FLOP, PLOP, PROP, SHOP, SLOP, STOP
-            if pea.matchesSet(["CH", "CL", "CR", "DR", "FL", "PL", "PR", "SH", "SL", "ST"]) {
+            // Final P after O vowel for CHOP, CLOP, CROP, DROP, FLOP, PLOP, PROP, SHOP, SLOP, STOP, BISHOP, TABLETOP
+            if lastElement!.id == "SH" || lastElement!.id == "ST" || lastElement!.id == "T" ||
+                lastElement!.lastLetter().isLiquid() {
                 followers += [.P]
             }
             
@@ -342,11 +358,13 @@ let U = Vowel( id: .U,
     defFinal: [.E, .B, .D, .G, .L, .M, .N, .P, .S, .T],
     followerTable: [
         "BL":[.B, .E, .F, .I, .N, .R, .S],  // BLUBBER, BLUE, BLUFF, BLUISH, BLUNDER/BLUNT, BLUR, BLUSTER
+        "CL":[.B, .C, .E, .M, .N, .S],      // CLUB, CLUCK, CLUE, CLUMSY, CLUNK, CLUSTER
         "N":[.B, .C, .D, .K, .L, .M, .N, .P, .R, .T],
                                         // NUBS, NUCLEAR, NUDE, NUKE, NULL, NUMBER, NUNS, NUPTIAL, NURSE, NUTS
         "GN":[.S],                      // GNUS
         "RH":[.M],                      // RHUMBA
         "SC":[.D, .F, .M, .R],          // SCUD, SCUFF, SCUM, SCURVY
+        "SH":[.C, .N, .T],              // SHUCK, SHUN, SHUT
         "SM":[.G, .T],                  // SMUG, SMUT
         "SN":[.B, .C, .F, .G],          // SNUB, SNUCK, SNUFF, SNUG
         "Y": [.C, .L, .M, .P, .R]],     // YUCCA, YULE, YUMMY, YUPS, YURT

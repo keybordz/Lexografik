@@ -108,38 +108,42 @@ let AI = VowelBlend(first: .A, second: .I, third: nil,
                     canPlural: false,
                     glottal: false,
                     followerTable: [
-                        "B":[.L, .T],           // BAIL, BAIT
-                        "BL":[.N],              // BLAINE
-                        "BR":[.D, .N],          // BRAID, BRAIN
-                        "C":[.N, .R],           // CAIN, CAIRN
-                        "CH":[.N, .R, .S],      // CHAIN, CHAIR, CHAISE
-                        "D":[.L, .N, .R, .S],   // DAILY, DAINTY, DAIRY, DAIS
-                        "DR":[.N],              // DRAIN
-                        "F":[.L, .N, .R],       // FAIL, FAINT, FAIR(Y)
-                        "FL":[.L, .R],          // FLAIL, FLAIR
-                        "G":[.L, .N, .T],       // GAIL, GAIN, GAIT
-                        "GR":[.L, .N],          // GRAIL, GRAIN
-                        "H":[.K, .L, .R],       // HAIKU, HAIL, HAIR(Y)
-                        "K":[.S],               // KAISER
-                        "L":[.C, .D, .N, .R],   // LAIC, LAID, LAIN, LAIR
+                        "B":[.L, .T],             // BAIL, BAIT
+                        "BL":[.N],                // BLAINE
+                        "BR":[.D, .N, .S],        // BRAID, BRAIN, BRAISE
+                        "C":[.N, .R],             // CAIN, CAIRN
+                        "CH":[.N, .R, .S],        // CHAIN, CHAIR, CHAISE
+                        "CL":[.M, .R],            // CLAIM, (E)CLAIR
+                        "D":[.L, .N, .R, .S],     // DAILY, DAINTY, DAIRY, DAIS
+                        "DR":[.N],                // DRAIN
+                        "F":[.L, .N, .R],         // FAIL, FAINT, FAIR(Y)
+                        "FL":[.L, .R],            // FLAIL, FLAIR
+                        "FR":[.D, .L, .N],        // (A)FRAID, FRAIL, (RE)FRAIN
+                        "G":[.L, .N, .T],         // GAIL, GAIN, GAIT
+                        "GR":[.L, .N],            // GRAIL, GRAIN
+                        "H":[.K, .L, .R],         // HAIKU, HAIL, HAIR(Y)
+                        "K":[.S],                 // KAISER
+                        "L":[.C, .D, .N, .R],     // LAIC, LAID, LAIN, LAIR
                         "M":[.D, .L, .M, .N, .Z], // MAID, MAIL, MAIM, MAIN(TAIN), MAIZE
-                        "N":[.F, .L, .V],       // NAIF, NAIL, NAIVE
-                        "P":[.D, .L, .N, .R],   // PAID, PAIL, PAIN, PAIR
-                        "PL":[.N, .T],          // PLAIN, PLAIT
-                        "PR":[.S],              // PRAISE
-                        "QU":[.L],              // QUAIL
-                        "R":[.D, .L, .N, .S],   // RAID, RAIL, RAIN, RAISE
-                        "S":[.D, .L],           // SAID, SAIL
-                        "SL":[.N],              // SLAIN
-                        "SPR":[.N],             // SPRAIN
-                        "ST":[.D],              // STAID
-                        "STR":[.G, .N],         // STRAIGHT, STRAIN
-                        "SW":[.N],              // SWAIN
-                        "T":[.L],               // TAIL
-                        "TR":[.L, .N],          // TRAIL, TRAIN
-                        "V":[.L, .N],           // VAIL, VAIN
-                        "W":[.F, .L, .N, .S],   // WAIF, WAIL, WAIN, WAIST
-                        "WR":[.T]],             // WRAITH
+                        "N":[.F, .L, .R, .V],     // NAIF, NAIL, (DEBO)NAIR, NAIVE
+                        "P":[.D, .L, .N, .R],     // PAID, PAIL, PAIN, PAIR
+                        "PL":[.D, .N, .T],        // PLAID, PLAIN, PLAIT
+                        "PR":[.R, .S],            // PRAIRIE, PRAISE
+                        "QU":[.L],                // QUAIL
+                        "R":[.D, .L, .N, .S],     // RAID, RAIL, RAIN, RAISE
+                        "S":[.D, .L, .N],         // SAID, SAIL, SAINT
+                        "SL":[.N],                // SLAIN
+                        "SN":[.L],                // SNAIL
+                        "SP":[.N, .R],            // SPAIN, (DE)SPAIR
+                        "SPR":[.N],               // SPRAIN
+                        "ST":[.D, .N, .R],        // STAID, STAIN, STAIR
+                        "STR":[.G, .N, .T],       // STRAIGHT, STRAIN, STRAIT
+                        "SW":[.N],                // SWAIN
+                        "T":[.L],                 // TAIL
+                        "TR":[.L, .N, .T],        // TRAIL, TRAIN, TRAIT
+                        "V":[.L, .N],             // VAIL, VAIN
+                        "W":[.F, .L, .N, .S],     // WAIF, WAIL, WAIN, WAIST
+                        "WR":[.T]],               // WRAITH
                     dynFollowers: nil)
 
 let AO = VowelBlend(first: .A, second: .O, third: nil,
@@ -196,38 +200,41 @@ let EA = VowelBlend(first: .E, second: .A, third: nil,
                     followerTable: [
                         "B":[.C, .D, .G, .K, .M, .N, .R, .S, .T, .U, .V],   // BEACH, BEAD, BEAGLE, BEAK, BEAL, BEAM,
                                                                             // BEAN, BEAR, BEAST, BEAT, BEAUTY, BEAVER
-                        "BL":[.C, .R],                                      // BLEACH, BLEARY
+                        "BL":[.C, .K, .R, .T],                              // BLEACH, BLEAK, BLEARY, BLEAT
                         "BR":[.C, .D, .K, .S],                              // BREACH, BREAD, BREAK, BREAST
+                        "C":[.S],                                           // CEASE
                         "CH":[.P, .T],                                      // CHEAP, CHEAT
-                        "CL":[.N, .R, .T, .V],                              // CLEAN, CLEAR, CLEAT, CLEAVE
-                        "CR":[.K, .T],                                      // CREAK, CREATE
+                        "CL":[.N, .R, .T, .V],                              // CLEAN(SE), CLEAR, CLEAT, CLEAVE
+                        "CR":[.K, .M, .T],                                  // CREAK, CREAM, CREATE
                         "D":[.D, .F, .L, .N, .R, .T],                       // DEAD, DEAF, DEAL, DEAN, DEAR(TH), DEATH
                         "DR":[.D, .M],                                      // DREAD, DREAM
                         "F":[.L, .R, .S, .T],                               // FEALTY, FEAR, FEAST, FEAT/HER
                         "FL":[.S],                                          // FLEAS
                         "G":[.R],                                           // GEAR
-                        "GL":[.N],                                          // GLEAN
+                        "GL":[.M, .N],                                      // GLEAM, GLEAN
                         "GR":[.S, .T],                                      // GREASE, GREAT
-                        "H":[.D, .L, .P, .R, .T],                           // HEAD, HEALTH, HEAP, HEAR(TH)/HEARSE, HEATH
+                        "H":[.D, .L, .P, .R, .T, .V],                       // HEAD, HEAL(TH), HEAP, HEAR(TH)/HEARSE, HEATH, HEAVE
                         "KN":[.D],                                          // KNEAD
                         "L":[.C, .D, .F, .G, .K, .N, .P, .R, .S, .V],       // LEACH, LEAD, LEAF, LEAGUE, LEAK, LEAN,
-                                                                            // LEAP, LEAR(N), LEAS(H/T), LEAVE
+                                                                            // LEAP, LEAR(N), LEAS(E/H/T), LEAVE
                         "M":[.D, .L, .N, .T],                               // MEAD, MEAL, MEAN, MEAT
                         "N":[.P, .R, .T],                                   // NEAP, NEAR, NEAT
                         "P":[.C, .K, .L, .N, .R,. S, .T],                   // PEACH, PEAK, PEAL, PEAN, PEAR(L), PEAS, PEAT
-                        "PL":[.S, .T],                                      // PLEAS/E, PLEAT
+                        "PL":[.D, .S, .T],                                  // PLEAD, PLEAS/E, PLEAT
                         "PR":[.C],                                          // PREACH
                         "QU":[.S],                                          // QUEASY
                         "R":[.C, .D, .L, .M, .P, .R],                       // REACH/REACT, READ, REAL, REAM, REAP, REAR
                         "RH":[.S],                                          // RHEAS
                         "S":[.L, .M, .N, .R, .S, .T],                       // SEAL, SEAM, SEAN, SEAR, SEAS, SEAT
+                        "SCR":[.M],                                         // SCREAM
                         "SH":[.F, .R, .T, .V],                              // SHEAF, SHEAR, SHEATH, SHEAVE
                         "SM":[.R],                                          // SMEAR
                         "SP":[.K, .R],                                      // SPEAK, SPEAR
                         "SPR":[.D],                                         // SPREAD
-                        "SQU":[.L, .M],                                     // SQUEAL, SQUEAMISH
+                        "SQU":[.K, .L, .M],                                 // SQUEAK, SQUEAL, SQUEAMISH
                         "ST":[.D, .K, .L, .M],                              // STEAD, STEAK, STEAL, STEAM
                         "STR":[.K, .M],                                     // STREAK, STREAM
+                        "SW":[.R, .T],                                      // SWEAR, SWEAT
                         "T":[.C, .K, .L, .M, .R, .S, .T],                   // TEACH, TEAK, TEAL, TEAM, TEAR, TEAS, TEAT
                         "THR":[.D, .T],                                     // THREAD, THREAT
                         "TR":[.T],                                          // TREAT
@@ -255,7 +262,8 @@ let EAU = VowelBlend(first: .E, second: .A, third: .U,
                     blendInto: [],
                     canPlural: true,
                     glottal: false,
-                    followerTable: [:],
+                    followerTable: [
+                        "B":[.T]],
                     dynFollowers: nil)
 
 let EE = VowelBlend(first: .E, second: .E, third: nil,
@@ -266,12 +274,12 @@ let EE = VowelBlend(first: .E, second: .E, third: nil,
                     canPlural: true,
                     glottal: false,
                     followerTable: [
-                        "B":[.C, .N, .R, .S, .T],           // BEECH, BEEN, BEER, BEES, BEET
+                        "B":[.C, .F, .N, .P, .R, .S, .T],   // BEECH, BEEF, BEEN, BEEP, BEER, BEES, BEET
                         "BL":[.D, .P],                      // BLEED, BLEEP,
                         "BR":[.D, .Z],                      // BREED, BREEZE
                         "CH":[.P, .R, .S, .T],              // CHEEP, CHEER, CHEESE, CHEETAH
-                        "CR":[.D, .K, .L, .S],              // CREED, CREEK, CREEL, CREES
-                        "D":[.D, .M, .R],                   // DEED, DEEM, DEER
+                        "CR":[.D, .K, .L, .P, .S],          // CREED, CREEK, CREEL, CREEP, CREES
+                        "D":[.D, .M, .P, .R],               // DEED, DEEM, DEEP, DEER
                         "F":[.D, .L, .S, .T],               // FEED, FEEL, FEES, FEET
                         "FL":[.C, .I, .R, .S, .T],          // FLEECE, FLEEING, FLEER, FLEES, FLEET
                         "FR":[.D, .I, .L, .S, .Z],          // FREED, FREEING, FREELY, FREES, FREEZE
@@ -285,12 +293,13 @@ let EE = VowelBlend(first: .E, second: .E, third: nil,
                         "L":[.C, .K, .R, .S],               // LEECH, LEEK, LEER, LEES
                         "M":[.L],                           // MEELY
                         "N":[.D],                           // NEED
-                        "P":[.D, .K, .L, .N, .R, .S],       // PEED, PEEK, PEEL, PEEN, PEER, PEES
+                        "P":[.D, .K, .L, .N, .P, .R, .S, .V], // PEED, PEEK, PEEL, PEEN, PEEP, PEER, PEES, PEEVE
                         "PR":[.N],                          // PREEN
                         "QU":[.N, .R],                      // QUEEN, QUEER
                         "R":[.D, .F, .K, .L, .S],           // REED, REEF, REEK, REEL, REES
                         "S":[.D, .I, .K, .M, .N, .P, .R, .S, .T],
                                                             // SEED, SEEING, SEEK, SEEM, SEEN, SEEP, SEER, SEES, SEETHE
+                        "SCR":[.C, .D, .N, .S],             // SCREED, SCREECH, SCREEN, SCREES
                         "SH":[.N, .P, .R, .T],              // SHEEN, SHEEP, SHEER, SHEET
                         "SL":[.K, .P, .T, .V],              // SLEEK, SLEEP, SLEET, SLEEVE
                         "SK":[.T],                          // SKEET
@@ -313,7 +322,7 @@ let EE = VowelBlend(first: .E, second: .E, third: nil,
 let EI = VowelBlend(first: .E, second: .I, third: nil,
                     initCons: [.G, .T],        // EIGHT, EITHER
                     interCons: [.C, .G, .K, .L, .N, .R, .S, .T, .V, .Z],
-                    finalCons: [.D, .K, .L, .N, .R, .S],
+                    finalCons: [.D, .K, .L, .N, .R, .S, .T],
                     blendInto: [],
                     canPlural: false,
                     glottal: false,
@@ -337,7 +346,7 @@ let EI = VowelBlend(first: .E, second: .I, third: nil,
                         "SP":[.G],          // SPEIGHT
                         "ST":[.N],          // STEIN
                         "TH":[.S],          // THEISM/T
-                        "V":[.L, .N],       // VEIL, VEIN
+                        "V":[.G, .L, .N],   // (IN)VEIGH, VEIL, VEIN
                         "W":[.G, .R]],      // WEIGHT, WEIR(D)
                     dynFollowers: nil)
 
@@ -384,6 +393,7 @@ let IA = VowelBlend(first: .I, second: .A, third: nil,
                     glottal: true,          // could be false in some cases?
                     followerTable: [
                         "B":[.N, .S],       // BIANNUAL, BIAS
+                        "BR":[.R],          // BRIAR
                         "D":[.L, .R],       // DIAL, DIARY
                         "DR":[.D],          // DRIAD
                         "F":[.T],           // FIAT
@@ -428,6 +438,7 @@ let IE = VowelBlend(first: .I, second: .E, third: nil,
                         "S":[.G, .V],           // SIEGE, SIEVE
                         "SH":[.D, .L, .R, .S],  // SHIED, SHIELD, SHIER, SHIES
                         "SHR":[.K],             // SHRIEK
+                        "SK":[.R, .S],          // SKIER, SKIES
                         "SP":[.D, .L, .R, .S],  // SPIED, SPIEL, SPIER, SPIES
                         "SPR":[.R, .S],         // SPRIER, SPRIEST
                         "ST":[.S],              // STIES
@@ -537,7 +548,7 @@ let OA = VowelBlend(first: .O, second: .A, third: nil,
                         "P":[.C],                       // POACH
                         "R":[.C, .D, .M, .N, .R, .S],   // ROACH, ROAD, ROAM, ROAN, ROAR, ROAST
                         "S":[.K, .P, .R],               // SOAK, SOAP, SOAR
-                        "SH":[.T],                      // SHOAT
+                        "SH":[.L, .T],                  // SHOAL, SHOAT
                         "ST":[.T],                      // STOAT
                         "T":[.D, .S],                   // TOAD, TOAST
                         "THR":[.T],                     // THROAT
@@ -552,21 +563,21 @@ let OE = VowelBlend(first: .O, second: .E, third: nil,
                     canPlural: true,
                     glottal: false,
                     followerTable: [
-                        "C":[.X],               // COEXIST
+                        "C":[.D, .R, .S, .X],   // COED, COERCE, COES, COEXIST
                         "D":[.R, .S],           // DOER, DOES
                         "F":[.S],               // FOES
                         "FL":[.S],              // FLOES
                         "G":[.R, .S],           // GOER, GOES
                         "H":[.D, .I, .R, .S],   // HOED, HOEING, HOER, HOES
                         "J":[.S, .Y],           // JOES, JOEY
-                        "N":[.S],               // NOES
+                        "N":[.L, .S],           // NOEL, NOES
                         "P":[.M, .T],           // POEM, POET(RY)
                         "PH":[.N],              // PHOENIX
                         "R":[.S],               // ROES
                         "SH":[.D, .R, .S],      // SHOED, SHOER, SHOES
                         "SL":[.S],              // SLOES
                         "T":[.D, .I, .S],       // TOED, TOEING, TOES
-                        "THR":[.S],             // THROES,
+                        "THR":[.S],             // THROES
                         "W":[.S]],              // WOES
                     dynFollowers: nil)
 
@@ -591,7 +602,7 @@ let OI = VowelBlend(first: .O, second: .I, third: nil,
                         "J":[.N, .S],           // JOIN(T), JOIST
                         "L":[.N, .T],           // LOIN, LOITER
                         "M":[.R, .S],           // MOIRE, MOIST
-                        "N":[.R],               // NOIRE
+                        "N":[.R, .S],           // NOIRE, NOISE
                         "P":[.N, .S],           // POINT, POISE
                         "R":[.L],               // ROIL
                         "S":[.L, .R],           // SOIL, SOIREE
@@ -712,7 +723,7 @@ let UE = VowelBlend(first: .U, second: .E, third: nil,
                     canPlural: true,
                     glottal: false,
                     followerTable: [
-                        "BL":[.D, .R, .S],          // BLUED, BLUER, BLUES
+                        "BL":[.D, .R, .S, .Y],      // BLUED, BLUER, BLUES, BLUEY
                         "C":[.D, .I, .R, .S],       // CUED, CUEING, CUER, CUES
                         "CL":[.D, .I, .R, .S],      // CLUED, CLUEING, CLUER, CLUES
                         "CR":[.L],                  // CRUEL
@@ -741,12 +752,12 @@ let UI = VowelBlend(first: .U, second: .I, third: nil,
                         "BR":[.N],              // BRUIN
                         "DR":[.D],              // DRUID
                         "FL":[.D],              // FLUID
-                        "G":[.D, .L, .S],       // GUIDE, GUILD/GUILT, GUISE
+                        "G":[.D, .L, .R, .S],   // GUIDE, GUILD/GUILT, GUIRO, GUISE
                         "J":[.C],               // JUICE
                         "R":[.N],               // RUIN
                         "S":[.C, .N, .T],       // SUICIDE, SUING, SUIT(E)
                         "SL":[.C],              // SLUICE
-                        "TR":[.S]],             // TRUISM
+                        "TR":[.N, .S]],         // TRUING, TRUISM
                     dynFollowers: nil)
 
 let UO = VowelBlend(first: .U, second: .O, third: nil,

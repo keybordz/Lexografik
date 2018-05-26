@@ -37,6 +37,7 @@ class LetterArray: Equatable {
     var expecting: [Letter] = []
     var exactMatches: [String] = []
     var filterStops: Bool = true
+    var oneSyllableWords: Bool = false
     var phonemes: PhoneticElementArray = PhoneticElementArray()
     var syllables: [SyllabicElement] = []
     
@@ -62,13 +63,9 @@ class LetterArray: Equatable {
         self.expecting = sourceArray.expecting
         self.phonemes.replaceElements(sourceArray.phonemes)
         self.filterStops = sourceArray.filterStops
+        self.oneSyllableWords = sourceArray.oneSyllableWords
         self.exactMatches = sourceArray.exactMatches
         self.syllables = sourceArray.syllables
-        
-        // have to deep copy syllable array elements
-//        for syllable in sourceArray.syllables {
-//            self.syllables.append(SyllabicElement(source: syllable))
-//        }
     }
     
     static func == (rhs: LetterArray, lhs: LetterArray) -> Bool {
@@ -359,12 +356,15 @@ class LetterArray: Equatable {
                 
                 // Adding a vowel to a consonant that is stopped, have to create a new syllable
                 else {
+                    let blendElement = syllables[currentIndex].finalConsonant as? ConsonantBlend
                     
                     // Check if adding a final (silent) E in one of the last 2 positions in the word
                     // (If this is in the penultimate position, then the last letter could be an S or D which would still be
                     // part of the same syllable, but if it's anything else like R, N, or L then will just delay creating
                     // the new syllabe until certain)
-                    if nRemain <= 2 && newElement.id == "E" {
+                    // EXCEPTION: Always have to split if the preceding blend ends in a liquid (L or R) like TABLE or CADRE
+                    if nRemain <= 2 && newElement.id == "E" &&
+                        !(blendElement != nil && (blendElement?.lastLetter().isLiquid())!) {
                         syllables[currentIndex].silentE = newElement
                     }
                         

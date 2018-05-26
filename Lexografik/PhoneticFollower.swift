@@ -8,6 +8,13 @@
 
 import Foundation
 
+protocol PhoneticFollowers {
+    func initialFollowers(nRemain: Int) -> [Letter]
+    func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter]
+    func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter]
+    func lastFollowers(pea: PhoneticElementArray) -> [Letter]
+}
+
 class PhoneticFollower {
     let element: PhoneticElement
     let tokens: String

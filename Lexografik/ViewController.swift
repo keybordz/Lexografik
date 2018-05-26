@@ -35,7 +35,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var mask7: UITextField!
     @IBOutlet weak var mask8: UITextField!
     @IBOutlet weak var mask9: UITextField!
-    
+    @IBOutlet weak var oneSyllable: UISwitch!
     
     @IBAction func clearFields(_ sender: Any) {
         self.letter1!.text = ""
@@ -267,6 +267,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             let storm = WordStorm(outer: letters, center: letterKey!.text!, mask: maskLetters)
             storm.filterStops = filterStops!.isOn
+            storm.oneSyllableWords = oneSyllable!.isOn
             storm.wordSize = wordLength
             storm.gatherWords(storm.wordSize)
             

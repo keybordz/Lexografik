@@ -38,7 +38,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="center" axis="vertical" distribution="equalSpacing" alignment="top" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="KZR-QX-w5V" userLabel="Top Stack">
-                                <rect key="frame" x="18.5" y="102.5" width="338.5" height="462"/>
+                                <rect key="frame" x="18.5" y="74.5" width="338.5" height="518"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="GeT-gl-lD3" userLabel="Top Label Stack">
                                         <rect key="frame" x="0.0" y="0.0" width="123" height="20.5"/>
@@ -312,8 +312,21 @@
                                             </switch>
                                         </subviews>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="h9t-BB-7hb" userLabel="SyllableStack">
+                                        <rect key="frame" x="0.0" y="428" width="193" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 Syllable Words" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgZ-rF-2B0" userLabel="1 Syllable">
+                                                <rect key="frame" x="0.0" y="0.0" width="134" height="31"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QkK-yr-OMP" userLabel="One Syllable">
+                                                <rect key="frame" x="144" y="0.0" width="51" height="31"/>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RW2-0l-vYQ">
-                                        <rect key="frame" x="0.0" y="428" width="75" height="34"/>
+                                        <rect key="frame" x="0.0" y="484" width="75" height="34"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <state key="normal" title="Generate">
@@ -359,6 +372,7 @@
                         <outlet property="mask7" destination="cD6-Er-GPX" id="jdZ-nh-dmI"/>
                         <outlet property="mask8" destination="iNP-tx-CGN" id="wbo-iq-OAe"/>
                         <outlet property="mask9" destination="1Bn-Mq-UFP" id="fqG-Oi-2b2"/>
+                        <outlet property="oneSyllable" destination="QkK-yr-OMP" id="EJO-XI-R4E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

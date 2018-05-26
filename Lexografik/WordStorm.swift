@@ -17,8 +17,8 @@ class WordStorm {
     var sectionIndices = [String: Int]()
     var sectionTotals = [String:Int]()
     let filterVowels: Bool = false
-    let filterUncommon: Bool = true
     var filterStops: Bool = true
+    var oneSyllableWords: Bool = false
     var wordSize = 4
     var wordCount: Int = 0
     var allWords: [LetterArray] = []
@@ -186,6 +186,9 @@ class WordStorm {
                 
                 // Does adding the new character maintain the "wordability" of the array
                 if newPartialWord.testLexical(c, remainingLetters: length) {
+                    if newPartialWord.oneSyllableWords && newPartialWord.syllables.count > 1 {
+                        continue
+                    }
                     newPartialWord.appendLetters([c])
                     newPartialWord.phonemes.final = true
                 }
@@ -206,6 +209,7 @@ class WordStorm {
         
         let partialWord = LetterArray()
         partialWord.filterStops = filterStops
+        partialWord.oneSyllableWords = oneSyllableWords
         recurseWords(full, partialWord: partialWord, length: wordLength)
         
         for word in allWords {
