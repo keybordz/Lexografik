@@ -369,7 +369,6 @@ class LexografikTests_2012: XCTestCase {
         
         storm.gatherWords(5)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ALGAE")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "GLEAN")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CLANG")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LARGE")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "REGAL")))
@@ -1152,8 +1151,6 @@ class LexografikTests_2012: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "NAGS")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SAGS")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TAGS")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "STAG")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "NAGS")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SATI")))
         
         storm.gatherWords(5)

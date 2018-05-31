@@ -8,6 +8,11 @@
 
 import Foundation
 
+func - <Element: Hashable>(lhs: [Element], rhs: [Element]) -> [Element]
+{
+    return Array(Set<Element>(lhs).subtracting(Set<Element>(rhs)))
+}
+
 enum Phonetic {
     case consonant
     case vowel
@@ -101,6 +106,7 @@ enum Letter: String {
     }
 }
 
+let allLetters: [Letter] = [.A, .B, .C, .D, .E, .F, .G, .H, .I, .J, .K, .L, .M, .N, .O, .P, .Q, .R, .S, .T, .U, .V, .W, .X, .Y, .Z]
 let allVowels: [Letter] = [.A, .E, .I, .O, .U]
 let allConsonants: [Letter] = [.B, .C, .D, .E, .F, .G, .H, .J, .K, .L, .M, .N, .P, .Q, .R, .S, .T, .V, .W, .X, .Y, .Z]
 let followerConsonants: [Letter] = [.B, .C, .D, .F, .G, .K, .L, .M, .N, .P, .R, .S, .T, .V, .Y]

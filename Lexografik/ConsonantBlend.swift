@@ -234,7 +234,7 @@ let BR = ConsonantBlend(first: .B, second: .R, third: nil,
                         endOfWord: false,
                         preceders: [],
                         followerTable: [
-                            "A":[.A, .E, .U, .Y]],   // ABRASIVE, ABREAST, ABRUPT
+                            "A":[.A, .E, .O, .U, .Y]],   // ABRASIVE, ABREAST, ABROAD, ABRUPT
                         dynFollowers: nil,
                         verifyEnd: nil)
 
@@ -625,20 +625,22 @@ let GH = ConsonantBlend(first: .G, second: .H, third: nil,          // this is r
                             "A":[.A],        // AGHAST
                             "EI":[.T]],      // EIGHT
                         dynFollowers: { (phonemes:PhoneticElementArray, pos:PositionIndicator) -> [Letter] in
+                            var followers: [Letter] = []
+                            
                             let lastElement = phonemes.lastElement()
                             
                             if pos != .positionFIRST {
                                 if lastElement!.id == "I" || lastElement!.id == "EI" ||
                                     lastElement!.id == "AU" || lastElement!.id == "OU" {
-                                    return [.T]
-                                }
-                                else {
-                                    return []
+                                    followers += [.T]
                                 }
                             }
-                            else {
-                                return []
+                            
+                            // Final Y only for DINGHY
+                            if pos == .positionLAST && phonemes.matchesString("DIN", matchFull: true) {
+                                followers += [.Y]
                             }
+                            return followers
                         },
                         verifyEnd: { (phonemes:PhoneticElementArray) -> Bool in return true })
 
@@ -955,7 +957,16 @@ let LL = ConsonantBlend(first: .L, second: .L, third: nil,
                             "A":[.A, .E, .I, .O, .Y],    // ALLAY, ALLEN, ALLIES, ALLOY, ALLY
                             "I":[.E, .I, .O, .S, .U],    // ILLEGIBLE, ILLOGICAL, ILLICIT, ILLS, ILLUSTRATE
                             "O":[.A]],                   // OLLA
-                        dynFollowers: nil,
+                        dynFollowers: {(pea:PhoneticElementArray, pos:PositionIndicator) -> [Letter] in
+                            
+                            // Return final O follower for HALLO, HELLO
+                            if pos == .positionLAST && pea.matchesSet(["HA", "HE"]) {
+                                return [.O]
+                            }
+                            else {
+                                return []
+                            }
+                        },
                         verifyEnd: nil)
 
 let LM = ConsonantBlend(first: .L, second: .M, third: nil,
@@ -1163,8 +1174,15 @@ let MB = ConsonantBlend(first: .M, second: .M, third: nil,
                             var followers: [Letter] = []
                             
                             if pos == .positionLAST {
-                                if phonemes.matchesString("RU", matchFull: true) {
+                                
+                                // Final A followers for R(H)UMBA and SAMBA
+                                if phonemes.matchesSet(["RHU", "RU", "SA"]) {
                                     followers += [.A]
+                                }
+                                
+                                // Final O follower for DUMBO, JUMBO, MAMBO
+                                if phonemes.matchesSet(["DU", "JU", "MA"]) {
+                                    followers += [.O]
                                 }
                             }
                             
@@ -1231,7 +1249,16 @@ let MP = ConsonantBlend(first: .M, second: .P, third: nil,
                             "E":[.A, .E, .H, .R, .T],       // EMPATHY, EMPEROR, EMPHATIC, EMPRESS, EMPTY
                             "I":[.A, .E, .O, .R, .S, .U],   // IMPART, IMPERIAL, IMPORTANT, IMPRESS, IMPS, IMPULSE
                             "U":[.I, .S, .T]],              // UMPING, UMPS, UMPTEEN
-                        dynFollowers: nil,
+                        dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+                            
+                            // Allow final O follower for TEMPO
+                            if pos == .positionLAST && pea.matchesSet(["TE"]) {
+                                return [.O]
+                            }
+                            else {
+                                return []
+                            }
+                        },
                         verifyEnd: nil)
 
 // OOMPH, LYMPH
@@ -1282,6 +1309,7 @@ let NC = ConsonantBlend(first: .N, second: .C, third: nil,
                         preceders: ["A", "I", "O", "U"],
                         followerTable: [
                             "A":[.H],                         // ANCHOR
+                            "E":[.A, .R],                     // ENCASE, ENCRUST
                             "I":[.A, .E, .H, .I, .O, .R, .U], // INCAPABLE, INCELIBATE, INCH, INCISION, INCOMPLETE, INCREDIBLE, INCUR
                             "O":[.E, .O],                     // ONCE, ONCOLOGY
                             "OU":[.E],                        // OUNCE
@@ -1332,12 +1360,12 @@ let ND = ConsonantBlend(first: .N, second: .D, third: nil,
                             "I":[.A, .E, .I, .O, .U, .Y],   // INDEPDENDENT, INDICATE, INDOLENT, INDULGE, INDY
                             "U":[.A, .E, .I, .R, .U]],      // UNDAUNTED, UNDER, UNDIES, UNDRESS, UNDUE
                         dynFollowers: nil,
-                        verifyEnd: nil)
+                        verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in return true })
 
 let NG = ConsonantBlend(first: .N, second: .G, third: nil,
                         initBlend: [],
                         initVowels: [],
-                        midBlend: [.L],
+                        midBlend: [.L],         // H is for DINGHY
                         midVowels: allVowels,
                         finFollowers: [.E],
                         canPlural: true,
@@ -1366,6 +1394,12 @@ let NG = ConsonantBlend(first: .N, second: .G, third: nil,
                                     followers += [.O]
                                 }
                             }
+                            
+                            else if pos == .positionMIDDLE {
+                                if phonemes.matchesString("DI", matchFull: true) {
+                                    followers += [.H]
+                                }
+                            }
                             return followers
                         },
                         verifyEnd: nil)
@@ -1386,14 +1420,18 @@ let NK = ConsonantBlend(first: .N, second: .K, third: nil,
                             "I":[.E, .I, .S],       // INKED, INKING, INKS
                             "U":[.E, .I]],          // UNKEMPT, UNKIND
                         dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
-    
+                            var followers: [Letter] = []
+                            
                             // Approve H follower for ANKH
                             if pea.matchesString("A", matchFull: true) {
-                                return [.H]
+                                followers += [.H]
                             }
-                            else {
-                                return []
+                            
+                            // Approve E follower for MINKE
+                            if pea.matchesString("MI", matchFull: true) {
+                                followers += [.E]
                             }
+                            return followers
                         },
                         verifyEnd: nil)
 
@@ -1462,7 +1500,7 @@ let NS = ConsonantBlend(first: .N, second: .S, third: nil,
                         preceders: ["A", "E", "I", "O", "U"],
                         followerTable: [
                             "E":[.I, .L, .U],                       // ENSIGN, ENSLAVE, ENSURE/ENSUING
-                            "I":[.A, .E, .I, .O, .T, .U],           // INSANE, INSENSITIVE, INSOLENT, INSULAR
+                            "I":[.A, .C, .E, .I, .O, .T, .U],       // INSANE, INSCRIBE, INSENSITIVE, INSOLENT, INSULAR
                             "O":[.E],                               // ONSET
                             "U":[.A, .E, .H, .I, .O, .P, .T, .U]],  // UNSHAKEN, UNSOLD, UNSTABLE, UNSUNG
                         dynFollowers: nil,
@@ -1945,7 +1983,16 @@ let RR = ConsonantBlend(first: .R, second: .R, third: nil,
                             "A":[.A, .E, .I, .O],       // ARRAY, ARREARS, ARRIVE, ARROW
                             "E":[.A, .E, .I, .O, .S],   // ERRATA, ERRED, ERRING, ERROR, ERRS
                             "I":[.E]],                  // IRRESISTABLE
-                        dynFollowers: nil,
+                        dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+                            var followers: [Letter] = []
+                            
+                            // Approve final E for BARRE
+                            if pos == .positionLAST && pea.matchesString("BA", matchFull: true) {
+                                followers += [.E]
+                            }
+
+                            return followers
+                        },
                         verifyEnd: { (phonemes: PhoneticElementArray) -> Bool in return true })
 
 let RS = ConsonantBlend(first: .R, second: .S, third: nil,

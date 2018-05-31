@@ -155,16 +155,7 @@ class LexografikTests_Undated: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AERIE")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "OSIER")))
     }
-    
-    func test_justifiEd() {
-        storm = WordStorm(outer: ["J", "U", "S", "T", "I", "F", "I", "D"], center: "E")
         
-        storm.gatherWords(4)
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FEUD")))
-        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "ITEF")))
-    }
-    
-    
     func test_triyearlY() {
         storm = WordStorm(outer: ["T", "R", "I", "Y", "E", "A", "R", "L"], center: "Y")
         
@@ -275,9 +266,6 @@ class LexografikTests_Undated: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "UGHN")))
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "UGHR")))
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "UGHT")))
-        
-        storm.gatherWords(5)
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "EIGHT")))
     }
     
     func test_fUntastic() {

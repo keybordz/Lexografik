@@ -47,7 +47,7 @@ class Consonant: LexicalLetter, PhoneticFollowers {
             midFollowers = allowedVowels
         }
         else {
-            midFollowers = blendInto + allowedVowels + hardStops
+            midFollowers = blendInto + allowedVowels
         }
         
         if blendsWithY {
@@ -220,9 +220,9 @@ let C = Consonant( id: .C,
 
 let D = Consonant( id: .D,
     blendStart: [.R],
-    blendInto: [.D, .G, .J, .L, .R],
+    blendInto: [.D, .G, .L, .R],
     defFinal: [.E],
-    hardStops: [.B, .F, .H, .N],            // CARDBOARD, GADFLY, BLOODHOUND, GOODNESS
+    hardStops: [.B, .F, .H, .J, .N],            // CARDBOARD, GADFLY, BLOODHOUND, GOODNESS
     allowedVowels: allVowels,
     blendsWithY: true,
     canStart: true,
@@ -252,8 +252,8 @@ let D = Consonant( id: .D,
                 followers += [.I]
             }
             
-            // Approve final O for KUDO, LIDO, REDO, UNDO, OUTDO
-            if phonemes.matchesSet(["KU", "LI", "RE", "UN", "OUT"]) {
+            // Approve final O for DADO, KUDO, LIDO, REDO, UNDO, OUTDO
+            if phonemes.matchesSet(["DA", "KU", "LI", "RE", "UN", "OUT"]) {
                 followers += [.O]
             }
             
@@ -335,9 +335,10 @@ let G = Consonant( id: .G,
             followers += [.H]
         }
         
-        // GN followers for I vowel: ALIGN, ASSIGN, SIGN, DESIGN, RESIGN, BENIGN
+        // GN followers for I vowel: ALIGN, ASSIGN, SIGN, DESIGN, RESIGN, BENIGN, DIGNIFY
         if lastElement!.id == "I" &&
-            (prevElement!.id == "L" || prevElement!.id == "N" || prevElement!.id == "S" || prevElement!.id == "SS") {
+            (prevElement!.id == "D" || prevElement!.id == "L" || prevElement!.id == "N" ||
+                prevElement!.id == "S" || prevElement!.id == "SS") {
             followers += [.N]
         }
             
@@ -370,9 +371,9 @@ let G = Consonant( id: .G,
 
 let H = Consonant( id: .H,
     blendStart: [],
-    blendInto: [.M, .R, .T],              // M blend only for OHM
-    defFinal: [.M, .N, .T],               // JOHN, may need other blends with L, R
-    hardStops: [.D, .F, .H, .M, .S],      // WITHDRAWN, MOUTHFUL, WITHHOLD, ASTHMA, WITHSTOOD
+    blendInto: [.M, .R, .T],                      // M blend only for OHM
+    defFinal: [.M, .N, .T],                       // JOHN, may need other blends with L, R
+    hardStops: [.B, .D, .F, .H, .L, .M, .S],      // DASHBOARD, WITHDRAWN, MOUTHFUL, WITHHOLD, ASTHMA, RICHLY, WITHSTOOD
     allowedVowels: allVowels,
     blendsWithY: true,
     canStart: true,
@@ -404,7 +405,7 @@ let K = Consonant( id: .K,
     blendStart: [.L, .N, .R],
     blendInto: [.L, .N, .R],
     defFinal: [.E],
-    hardStops: [],
+    hardStops: [.M],
     allowedVowels: allVowels,
     blendsWithY: true,
     canStart: true,
@@ -414,6 +415,7 @@ let K = Consonant( id: .K,
     liquidBlend: true,
     followerTable: [
         "A":[.I],       // AKIN
+        "E":[.E],       // EKES/EKED
         "I":[.O],       // IKON (yes)
         "O":[.A, .R],   // OKAY, OKRA
         "OA":[.E, .S],  // OAKEN, OAKS
@@ -450,7 +452,7 @@ let K = Consonant( id: .K,
 let L = Consonant( id: .L,
     blendStart: [.L],                   // only for LLAMA
     blendInto: [.B, .C, .D, .F, .G, .K, .L, .M, .P, .S, .T, .V],
-    defFinal: [.E, .F, .L, .M, .T],
+    defFinal: [.E, .F, .K, .L, .M, .T],
     hardStops: [.N],                    // ULNA
     allowedVowels: allVowels,
     blendsWithY: true,
@@ -465,8 +467,8 @@ let L = Consonant( id: .L,
         "AW":[.S],
         "E":[.A, .B, .D, .E, .F, .G, .I, .K, .L, .M, .O, .P, .S, .T, .U, .V],
         "EE":[.S, .Y],                      // EELS, EELY
-        "I":[.I, .L],                       // ILIA, ILLS
-        "O":[.D, .E, .I, .L],               // OLDER, OLEANDER, OLIO, OLLA
+        "I":[.I, .K, .L],                   // ILIA, ILKS, ILLS
+        "O":[.D, .E, .F, .I, .L],           // OLDER, OLEANDER, OLFACTORY, OLIO, OLLA
         "OI":[.E, .I, .S, .Y],              // OILED, OILING, OILS, OILY
         "U":[.C, .N, .S, .T]],
     dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
@@ -481,9 +483,10 @@ let L = Consonant( id: .L,
                 followers += [.A, .C]
             }
             
-            // Other A followers: COLA, GALA, VIOLA and any BOLA (EBOLA, PARABOLA, HYPERBOLA)
+            // Other A followers: COLA, GALA, VIOLA and any BOLA (EBOLA, PARABOLA, HYPERBOLA), NILA (MANILA, VANILLA)
             if phonemes.matchesSet(["CO", "GA", "VIO"]) ||
-                (lastElement!.id == "O" && prevElement!.lastLetter() == .B) {
+                (lastElement!.id == "O" && prevElement!.lastLetter() == .B) ||
+                (lastElement!.id == "I" && prevElement!.lastLetter() == .N) {
                 followers += [.A]
             }
             
@@ -502,11 +505,6 @@ let L = Consonant( id: .L,
                 followers += [.I]
             }
             
-            // Only allow LN blend at end for KILN
-            if phonemes.matchesString("KI", matchFull: true) {
-                followers += [.N]
-            }
-            
             // Approve final O for HALO, KILO, SILO, SOLO
             if phonemes.matchesSet(["HA", "KI", "SO", "SI"]) {
                 followers += [.O]
@@ -518,6 +516,11 @@ let L = Consonant( id: .L,
             }
         }
         
+        // Only allow LN blend for KILN
+        if phonemes.matchesString("KI", matchFull: true) {
+            followers += [.N]
+        }
+
         return followers
     })
 
@@ -570,7 +573,7 @@ let M = Consonant( id: .M,
 let N = Consonant( id: .N,
     blendStart: [.Y],
     blendInto: [.C, .D, .K, .N, .S, .T],
-    defFinal: [.D, .E, .K],
+    defFinal: [.E, .K],
 
     // INBRED, INFER, BANJO, INLET, INMATE, INPUT, UNRIG, INVITE, ENZYME, WAINWRIGHT
     hardStops: [.B, .F, .J, .L, .M, .P, .R, .V, .W, .Z],
@@ -599,15 +602,21 @@ let N = Consonant( id: .N,
         let lastElement = phonemes.lastElement()
         
         if pos == .positionLAST {
-            
-            // Final NA words: CHINA, CORONA, HYENA, MYNA, SAUNA, VINA (might need to make this more general)
-            if phonemes.matchesSet(["CHI", "CORO", "HYE", "MY", "SAU", "VI"]) {
+                
+            // Final A after vowels E (ARENA, HYENA), I (CHINA, VINA, PATINA), O (KONA, CORONA), AU (FAUNA, SAUNA), and Y (MYNA)
+            if lastElement!.id == "E" || lastElement!.id == "I" || lastElement!.id == "O" ||
+                lastElement!.id == "AU" || lastElement!.id == "Y" {
                 followers += [.A]
             }
             
             // Only NC ender is ZINC
             if phonemes.matchesSet(["ZI"]) {
                 followers += [.C]
+            }
+            
+            // Final D's for all vowels plus IE for FIEND, FRIEND
+            if lastElement is Vowel || lastElement!.id == "IE" {
+                followers += [.D]
             }
 
             // Approve final I for RANI
@@ -643,7 +652,7 @@ let N = Consonant( id: .N,
         // Approve G followers for any preceding vowels, and for certain blends using EI, II, OI, UI
         if lastElement is Vowel ||
                 (lastElement!.id == "EI" && phonemes.matchesSet(["ANTEI", "BEI"])) ||           // ANTEING, BEING
-                (lastElement!.id == "II" && phonemes.matchesSet(["SKII"])) ||                   // SKIING
+                (lastElement!.id == "II" && phonemes.matchesSet(["SKII", "TAXII"])) ||          // SKIING, TAXIING
                 (lastElement!.id == "OI" && phonemes.matchesSet(["BOI", "DOI", "GOI"])) ||      // BOING, DOING, GOING
                 (lastElement!.id == "UI" && phonemes.matchesSet(["ENSUI", "IMBUI", "RUI", "SUI", "TRUI"])) {
                                                                                     // ENSUING, IMBUING, RUING, SUING, TRUING
@@ -676,8 +685,8 @@ let P = Consonant( id: .P,
         
         if pos == .positionLAST {
             
-            // Approve final T for KEPT, LEAPT, RAPT, WEPT
-            if phonemes.matchesSet(["ERU", "KE", "LEA", "RA", "WE"]) {
+            // Approve final T for KEPT, LEAPT, RAPT, WEPT, INAPT, INEPT
+            if phonemes.matchesSet(["ERU", "INA", "INE", "KE", "LEA", "RA", "WE"]) {
                 followers += [.T]
             }
             
@@ -714,7 +723,7 @@ let R = Consonant( id: .R,
     blendStart: [.H],                       // RH can only generate Y followers, ex. RHYME, RHYTHM
     blendInto: [.B, .C, .D, .F, .H, .K, .L, .M, .N, .P, .R, .S, .T, .V],
     defFinal: [.E, .K, .M, .N, .P, .T],
-    hardStops: [],
+    hardStops: [.W],
     allowedVowels: allVowels,
     blendsWithY: true,
     canStart: true,
@@ -808,7 +817,7 @@ let S = Consonant(id: .S,
     blendStart: [.C, .H, .K, .L, .M, .N, .P, .Q, .T, .W],
     blendInto: [.C, .H, .K, .L, .M, .N, .P, .Q, .S, .T, .W],
     defFinal: [.E, .H, .K, .T],
-    hardStops: [],
+    hardStops: [.D, .F],                    // MISDIAL, MISFIT
     allowedVowels: allVowels,
     blendsWithY: true,
     canStart: true,
@@ -1000,20 +1009,19 @@ let X = Consonant( id: .X,
         "E":[.A, .C, .E, .I, .O, .P, .T, .U],
         "O":[.E, .I, .T, .Y]],
     dynamicFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) in
+        var followers: [Letter] = []
         
-        // Allow final I for TAXI
-        if pos == .positionLAST && phonemes.matchesString("TA", matchFull: true)  {
-            return [.I]
+        // Allow I follower for TAXI
+        if phonemes.matchesString("TA", matchFull: true)  {
+            followers += [.I]
         }
             
         // Allow final T only for NEXT, SEXT, TEXT
-        else if pos == .positionLAST && phonemes.matchesSet(["NE", "SE", "TE"]) {
-            return [.T]
+        if phonemes.matchesSet(["NE", "SE", "TE"]) {
+            followers += [.T]
         }
         
-        else {
-            return []
-        }
+        return followers
     })
 
 let Y = Consonant( id: .Y,
@@ -1055,10 +1063,10 @@ let Y = Consonant( id: .Y,
         "SC":[.T],                  // SCYTHE
         "SH":[.E, .I, .L],          // SHYER, SHYING, SHYLY
         "SP":[.I],                  // SPYING
-        "ST":[.E, .R],              // STYE, STYROFOAM
+        "ST":[.E, .M, .R],          // STYE, STYMIE, STYROFOAM
         "T":[.I, .P, .R],           // TYING, TYPE, TYRANT
         "TH":[.M],                  // THYME
-        "TR":[.I],                  // TRYING
+        "TR":[.I, .S],              // TRYING
         "V":[.I],                   // VYING
         "W":[.V],                   // WYVERN
         "Z":[.G]],                  // ZYGOTE

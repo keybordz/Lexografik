@@ -288,7 +288,6 @@ class LexografikTests_2013: XCTestCase {
         storm.gatherWords(4)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DEAD")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DEAL")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LEAN")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LEAD")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AGED")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LADE")))
@@ -481,7 +480,6 @@ class LexografikTests_2013: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TEAL")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TEED")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "VALE")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "VEAL")))
         
         storm.gatherWords(5)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DELTA")))
@@ -597,6 +595,4 @@ class LexografikTests_2013: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FORDING")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DOFFING")))
     }
-    
-
 }

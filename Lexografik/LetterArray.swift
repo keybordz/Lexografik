@@ -196,8 +196,16 @@ class LetterArray: Equatable {
     }
     
     func printLetters() {
-        for ch in self.letters {
-            print(ch.rawValue, terminator: "")
+//        for ch in self.letters {
+//            print(ch.rawValue, terminator: "")
+//        }
+        for x in 0 ..< syllables.count {
+            if x != syllables.count - 1 {
+                print(syllables[x].letters(), terminator: "-")
+            }
+            else {
+                print(syllables[x].letters(), terminator: "")
+            }
         }
     }
     
@@ -888,6 +896,11 @@ class LetterArray: Equatable {
                     // Somewhere in the middle
                     else {
                         expecting = conBlend!.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                        
+                        // If filterStops is turned off, then allow prescribed letters which follow a hard stop
+                        if !filterStops {
+                            expecting += lexSuffix!.hardStops
+                        }
                     }
                     
                     if expecting.isEmpty {
@@ -906,6 +919,11 @@ class LetterArray: Equatable {
                 if nLetters == 1 && !suffix.isDipthong() {
                     
                     expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                    
+                    // If filterStops is turned off, then allow prescribed letters which follow a hard stop
+                    if !filterStops {
+                        expecting += lexSuffix!.hardStops
+                    }
                     
                     if !expecting.isEmpty {
                         processNewLetter(newElement: lexSuffix!, newState: .articulateStop, bias: .expectSubset,
@@ -990,6 +1008,11 @@ class LetterArray: Equatable {
                 }
                 else {
                     expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                    
+                    // If filterStops is turned off, then allow prescribed letters which follow a hard stop
+                    if !filterStops {
+                        expecting += lexSuffix!.hardStops
+                    }
                 }
                 
                 if expecting == [] {
