@@ -337,7 +337,7 @@ class LexografikTests_2014: XCTestCase {
         storm.gatherWords(4)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ADDS")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DRYS")))
-        //        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TSAR")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TSAR")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SLAT")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SLAY")))
 
@@ -387,8 +387,32 @@ class LexografikTests_2014: XCTestCase {
     func test_2015Apr29_Requiting() {
         storm = WordStorm(outer: ["E", "Q", "U", "I", "T", "I", "N", "G"], center: "R")
         
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "RENT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TERN")))
+        
         storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TIGER")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "INURE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TUNER")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "QUIRE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "QUIRT")))
+        
+        // No final E after Q
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "RINQE")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "URGENT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TRIUNE")))
+        
+        storm.gatherWords(7)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "INQUIRE")))
+        
+        storm.gatherWords(8)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "INTRIGUE")))
+        
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "REQUITING")))
     }
     
     func test_2014Jul02_binOcular() {

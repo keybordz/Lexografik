@@ -87,14 +87,14 @@ files.forEach( (file, index) => {
           } else if (line.search(wordHeader) >= 0) {
 
             // Actual word is inside the double quotes
-			 			let lineTokens = line.split('"');
+            let lineTokens = line.split('"');
 
-			 			// The middle token is the word to add to the dictionary
+            // The middle token is the word to add to the dictionary
             let newWord = lineTokens[1];
 
             // Add the new word if not already present
             if (!lexStats.dictionary.includes(newWord)) {
-			 			  lexStats.dictionary.push(newWord);
+              lexStats.dictionary.push(newWord);
 
               // Increment the appropriate word length counter
               let wordLength = newWord.length

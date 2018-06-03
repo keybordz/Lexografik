@@ -722,6 +722,11 @@ class LetterArray: Equatable {
                             expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
                         }
                         
+                        // Probably shouldn't have to make this exception but for now so we don't have interior Y's all over the place
+                        if !filterStops {
+                            expecting += lexSuffix!.hardStops
+                        }
+                        
                         if expecting == [] {
                             return false
                         }
@@ -936,7 +941,9 @@ class LetterArray: Equatable {
                 }
                     
                 // Special case for vowels followed by H, W, and Y
-                else if suffix.isDipthong() && lastElement! is Vowel {
+                else if suffix.isDipthong() && (lastElement! is Vowel || lastElement! is VowelBlend) {
+                    
+                    // NOTE: If following a vowel blend, only grab the last letter to match with
                     let dKey = "\(last!.rawValue)\(suffix.rawValue)"
                     let dipBlend = diphthongBlendMap[dKey]
                     
@@ -964,7 +971,8 @@ class LetterArray: Equatable {
                         
                     // Here, adding the diphthong doesn't add a new element so any consonant entity (single or blend)
                     // paired with the succeeding vowel means there will already be 2 elements present before calling secondFollowers
-                    else if phonemes.numElements() == 2 {
+                    // (However, if the last element is a vowel blend, then this doesn't work ex. VIEW)
+                    else if phonemes.numElements() == 2 && lastElement is Vowel {
                         expecting = dipBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
                     }
                         
@@ -1110,7 +1118,7 @@ class LetterArray: Equatable {
                 var vowelBlend: VowelBlend?
                 
                 // For vowels following QU, need to treat them as single vowels after a consonant
-                if lastElement!.id == "QU" || lastElement!.id == "SQU" {
+                if lastElement!.id.contains("QU") {
                     
                     // First vowel added after initial consonant/consonant blend
                     if phonemes.numElements() == 1 {

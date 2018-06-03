@@ -1149,4 +1149,158 @@ class LexografikTests_2015: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SCREENS")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ENCASES")))
     }
+    
+    func test_2015Apr01_oBscurity() {
+        storm = WordStorm(outer: ["O", "S", "C", "U", "R", "I", "T", "Y"], center: "B")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BOYS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TUBS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "STUB")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CUBS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BUST")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BUOY")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BURST")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BOUTS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SCRUB")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ORBIT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BUOYS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CURBS")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ORBITS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CUBITS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TURBOS")))
+        
+        storm.filterStops = false
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "OBSCURITY")))
+    }
+    
+    func test_2015Apr04_phOsphate() {
+        storm = WordStorm(outer: ["P", "H", "S", "P", "H", "A", "T", "E"], center: "O")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "OPTS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "STOP")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TOPS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "POTS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "POPS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "POST")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "POPE")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "OATHS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HOPES")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "POPES")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "POETS")))
+        
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PHOSPHATE")))
+    }
+    
+    func test_2015Apr05_hardbackS() {
+        storm = WordStorm(outer: ["H", "A", "R", "D", "B", "A", "C", "K"], center: "S")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CARS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SACK")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SCAR")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ARCS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BASK")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CASH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CASK")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ARKS")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CRABS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CARDS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SHARK")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CRASH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HACKS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BARKS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BACKS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SHACK")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "RACKS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HARKS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CHARS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BRADS")))
+        
+        storm.filterStops = false
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HARDBACKS")))
+    }
+
+    func test_2015Apr20_faNtastic() {
+        storm = WordStorm(outer: ["F", "A", "T", "A", "S", "T", "I", "C"], center: "N")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TINT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FANS")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TINTS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "STINT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TAINT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CANTS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ACTIN")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FAINTS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ANTICS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TAINTS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CAFTAN")))
+        
+        storm.gatherWords(7)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FANATIC")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CAFTANS")))
+        
+        storm.gatherWords(8)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FANATICS")))
+        
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FANTASTIC")))
+    }
+
+    func test_2015Apr24_forMalism() {
+        storm = WordStorm(outer: ["F", "O", "R", "A", "L", "I", "S", "M"], center: "M")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MISO")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MOIL")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FORM")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FROM")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FARM")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FOAM")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ARMS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MARS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "RAMS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LIMO")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MILS")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MOILS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FARMS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FORMS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FILMS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FOAMS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LIMOS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MOLAR")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MORAL")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ROAMS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FIRMS")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MOLARS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MORALS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FORMAL")))
+        
+        storm.gatherWords(7)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FORMALS")))
+        
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FORMALISM")))
+    }
 }

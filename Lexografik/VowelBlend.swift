@@ -123,6 +123,7 @@ let AI = VowelBlend(first: .A, second: .I, third: nil,
                         "G":[.L, .N, .T],         // GAIL, GAIN, GAIT
                         "GR":[.L, .N],            // GRAIL, GRAIN
                         "H":[.K, .L, .R],         // HAIKU, HAIL, HAIR(Y)
+                        "J":[.L],                 // JAIL
                         "K":[.S],                 // KAISER
                         "L":[.C, .D, .N, .R],     // LAIC, LAID, LAIN, LAIR
                         "M":[.D, .L, .M, .N, .Z], // MAID, MAIL, MAIM, MAIN(TAIN), MAIZE
@@ -140,7 +141,7 @@ let AI = VowelBlend(first: .A, second: .I, third: nil,
                         "ST":[.D, .N, .R],        // STAID, STAIN, STAIR
                         "STR":[.G, .N, .T],       // STRAIGHT, STRAIN, STRAIT
                         "SW":[.N],                // SWAIN
-                        "T":[.L],                 // TAIL
+                        "T":[.L, .N],             // TAIL, TAINT
                         "TR":[.L, .N, .T],        // TRAIL, TRAIN, TRAIT
                         "V":[.L, .N],             // VAIL, VAIN
                         "W":[.F, .L, .N, .S],     // WAIF, WAIL, WAIN, WAIST
@@ -203,7 +204,7 @@ let EA = VowelBlend(first: .E, second: .A, third: nil,
                         "B":[.C, .D, .G, .K, .M, .N, .R, .S, .T, .U, .V],   // BEACH, BEAD, BEAGLE, BEAK, BEAL, BEAM,
                                                                             // BEAN, BEAR, BEAST, BEAT, BEAUTY, BEAVER
                         "BL":[.C, .K, .R, .T],                              // BLEACH, BLEAK, BLEARY, BLEAT
-                        "BR":[.C, .D, .K, .S],                              // BREACH, BREAD, BREAK, BREAST
+                        "BR":[.C, .D, .K, .M, .S],                          // BREACH, BREAD, BREAK, BREAM, BREAST
                         "C":[.S],                                           // CEASE
                         "CH":[.P, .T],                                      // CHEAP, CHEAT
                         "CL":[.N, .R, .T, .V],                              // CLEAN(SE), CLEAR, CLEAT, CLEAVE
@@ -322,7 +323,7 @@ let EE = VowelBlend(first: .E, second: .E, third: nil,
                     dynFollowers: nil)
 
 let EI = VowelBlend(first: .E, second: .I, third: nil,
-                    initCons: [.G, .T],        // EIGHT, EITHER
+                    initCons: [.D, .G, .T],        // EIDER, EIGHT, EITHER
                     interCons: [.C, .G, .K, .L, .N, .R, .S, .T, .V, .Z],
                     finalCons: [.D, .K, .L, .N, .R, .S, .T],
                     blendInto: [],
@@ -364,7 +365,7 @@ let EO = VowelBlend(first: .E, second: .O, third: nil,
                         "L":[.N],               // LEON
                         "M":[.W],               // MEOW
                         "N":[.L, .N, .S],       // NEOLIBERAL, NEON, NEOS
-                        "P":[.N],               // PEON(S/Y)
+                        "P":[.N, .P],           // PEON(S/Y), PEOPLE
                         "R":[.C, .P, .R],       // REOCCUR, REOPERATE, REORDER
                         "Y":[.M]],              // YEOMAN
                     dynFollowers: nil)
@@ -525,7 +526,8 @@ let IU = VowelBlend(first: .I, second: .U, third: nil,
                     blendInto: [],
                     canPlural: false,
                     glottal: false,
-                    followerTable: [:],
+                    followerTable: [            // TRIUNE
+                        "TR":[.N]],
                     dynFollowers: nil)
 
 let OA = VowelBlend(first: .O, second: .A, third: nil,
@@ -606,7 +608,7 @@ let OI = VowelBlend(first: .O, second: .I, third: nil,
                         "H":[.S],               // HOIST
                         "J":[.N, .S],           // JOIN(T), JOIST
                         "L":[.N, .T],           // LOIN, LOITER
-                        "M":[.R, .S],           // MOIRE, MOIST
+                        "M":[.L, .R, .S],       // MOIL, MOIRE, MOIST
                         "N":[.S],               // NOISE
                         "P":[.N, .S],           // POINT, POISE
                         "R":[.L],               // ROIL
@@ -628,7 +630,7 @@ let OO = VowelBlend(first: .O, second: .O, third: nil,
                         "B":[.B, .E, .G, .I, .K, .L, .M, .N, .R, .S, .T], // BOOB, BOOED, BOOING, BOOGER, BOOK, BOOLEAN,
                                                                           // BOOM, BOON, BOOR, BOOST, BOOT
                         "BL":[.D, .P],                          // BLOOD, BLOOP
-                        "BR":[.C, .D],                          // BROOCH, BROOD
+                        "BR":[.C, .D, .M],                      // BROOCH, BROOD, BROOM
                         "C":[.C, .E, .I, .K, .L, .N, .P, .S, .T],   // COOCH, COOED, COOING, COOK, COOL, COON, COOP, COOS, COOT
                         "CH":[.S],                              // CHOOSE
                         "D":[.M, .R, .S],                       // DOOM, DOOR, DOOS
@@ -638,7 +640,7 @@ let OO = VowelBlend(first: .O, second: .O, third: nil,
                         "G":[.C, .E, .F, .G, .N, .P, .S],       // GOOCH, GOOEY, GOOF, GOOGLE, GOON, GOOP, GOOS(E)
                         "GL":[.M],                              // GLOOM
                         "GR":[.M, .V],                          // GROOM, GROOVE
-                        "H":[.C, .F, .K, .P, .S, .T, .V],       // HOOCH, HOOF, HOOK, HOOP, HOOS, HOOT, HOOVES
+                        "H":[.C, .D, .F, .K, .P, .S, .T, .V],   // HOOCH, HOOD, HOOF, HOOK, HOOP, HOOS, HOOT, HOOVES
                         "L":[.F, .K, .M, .N, .P, .S, .T],       // (A)LOOF, LOOK, LOOM, LOON, LOOP, LOOS(E), LOOT
                         "M":[.C, .E, .I, .N, .R, .S, .T],       // MOOCH, MOOED, MOOING, MOOR, MOOS(E), MOOT
                         "N":[.K, .N, .S],                       // NOOK, NOON, NOOSE
@@ -692,21 +694,21 @@ let OU = VowelBlend(first: .O, second: .U, third: nil,
                         "PL":[.G],                      // PLOUGH
                         "R":[.G, .L, .N, .S, .T],       // ROUGE/ROUGH, ROULETTE, ROUND, ROUST, ROUT
                         "S":[.G, .L, .N, .P, .R, .S, .T],   // SOUGHT, SOUL, SOUND, SOUP, SOUR, SOUSE, SOUTH
-                        "SC":[.R],                      // SCOUR(GE)
+                        "SC":[.R, .T],                  // SCOUR(GE), SCOUT
                         "SH":[.L, .T],                  // SHOULD, SHOUT
                         "SHR":[.D],                     // SHROUD
-                        "SL":[.C],                      // SLOUCH
+                        "SL":[.C, .G],                  // SLOUCH, SLOUGH
                         "SN":[.T],                      // SNOUT
                         "SP":[.T],                      // SPOUT
                         "SPR":[.T],                     // SPROUT
                         "ST":[.T],                      // STOUT
-                        "T":[.C, .G, .R],               // TOUCH, TOUGH, TOUR
+                        "T":[.C, .G, .R, .T],           // TOUCH, TOUGH, TOUR, TOUT
                         "TH":[.G],                      // THOUGHT
-                        "TR":[.G, .N, .P, .S],          // TROUGH, TROUNCE, TROUPE, TROUSERS
+                        "TR":[.G, .N, .P, .S, .T],      // TROUGH, TROUNCE, TROUPE, TROUSERS, TROUT
                         "V":[.C],                       // VOUCH
                         "W":[.L, .N],                   // WOULD, WOUND
                         "WR":[.G],                      // WROUGHT
-                        "Y":[.R, .T]],                  // YOUR, YOUTH
+                        "Y":[.N, .R, .T]],              // YOUNG, YOUR, YOUTH
                     dynFollowers: nil)
 
 let UA = VowelBlend(first: .U, second: .A, third: nil,

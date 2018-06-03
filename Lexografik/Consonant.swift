@@ -219,8 +219,8 @@ let C = Consonant( id: .C,
     })
 
 let D = Consonant( id: .D,
-    blendStart: [.R],
-    blendInto: [.D, .G, .L, .R],
+    blendStart: [.R, .W],
+    blendInto: [.D, .G, .L, .R, .W],
     defFinal: [.E],
     hardStops: [.B, .F, .H, .J, .N],            // CARDBOARD, GADFLY, BLOODHOUND, GOODNESS
     allowedVowels: allVowels,
@@ -233,6 +233,7 @@ let D = Consonant( id: .D,
     followerTable: ["A":[.A, .B, .D, .E, .J, .O, .R, .U, .V, .Z],
                     "AI":[.E, .I, .S],                  // AIDE, AIDING, AIDS
                     "E":[.D, .G, .I, .U],               // EDDY, EDGE, EDIT/EDICT, EDUCATE
+                    "EI":[.E],                          // EIDER
                     "I":[.E, .I, .L, .O, .Y],           // IDES, IDIOT, IDLE, IDOL, IDYL(L)
                     "O":[.D, .E, .I, .O],               // ODDS, ODES, ODIOUS, ODOR/ODOMETER
                     "U":[.D]],                          // UDDER
@@ -305,7 +306,7 @@ let F = Consonant( id: .F,
 
 let G = Consonant( id: .G,
     blendStart: [.L, .N, .R],
-    blendInto: [.G],
+    blendInto: [.G, .L, .N, .R],
     defFinal: [.E],
     hardStops: [.M],
     allowedVowels: allVowels,
@@ -572,7 +573,7 @@ let M = Consonant( id: .M,
 
 let N = Consonant( id: .N,
     blendStart: [.Y],
-    blendInto: [.C, .D, .K, .N, .S, .T],
+    blendInto: [.C, .D, .K, .N, .Q, .S, .T],
     defFinal: [.E, .K],
 
     // INBRED, INFER, BANJO, INLET, INMATE, INPUT, UNRIG, INVITE, ENZYME, WAINWRIGHT
@@ -590,7 +591,7 @@ let N = Consonant( id: .N,
         "E":[.A, .C, .D, .E, .G, .I, .J, .L, .M, .N, .O, .S, .T, .U, .V, .Z],
         "EO":[.S],                       // EONS
         "EU":[.U],                       // EUNUCH
-        "I":[.A, .C, .D, .E, .F, .G, .I, .J, .K, .L, .N, .O, .P, .S, .T, .V],
+        "I":[.A, .C, .D, .E, .F, .G, .I, .J, .K, .L, .N, .O, .P, .Q, .S, .T, .U, .V],
         "IO":[.S],                       // IONS
         "O":[.C, .E, .L, .S, .T, .U],    // ONCE, ONES, ONLY, ONSET, ONTO, ONUS
         "OE":[.O],                       // OENOPHILE
@@ -619,8 +620,8 @@ let N = Consonant( id: .N,
                 followers += [.D]
             }
 
-            // Approve final I for RANI
-            if phonemes.matchesString("RA", matchFull: true) {
+            // Approve final I for MINI, RANI
+            if phonemes.matchesSet(["MI", "RA"]) {
                 followers += [.I]
             }
             
@@ -721,7 +722,7 @@ let Q = Consonant( id: .Q,
 
 let R = Consonant( id: .R,
     blendStart: [.H],                       // RH can only generate Y followers, ex. RHYME, RHYTHM
-    blendInto: [.B, .C, .D, .F, .H, .K, .L, .M, .N, .P, .R, .S, .T, .V],
+    blendInto: [.B, .C, .D, .F, .G, .H, .K, .L, .M, .N, .P, .R, .S, .T, .V],
     defFinal: [.E, .K, .M, .N, .P, .T],
     hardStops: [.W],
     allowedVowels: allVowels,
@@ -858,8 +859,8 @@ let S = Consonant(id: .S,
                 followers += [.M]
             }
             
-            // Approve O follower for PESO
-            if phonemes.matchesSet(["PE"]) {
+            // Approve O follower for MISO, PESO
+            if phonemes.matchesSet(["MI", "PE"]) {
                 followers += [.O]
             }
             
@@ -877,7 +878,7 @@ let S = Consonant(id: .S,
     })
 
 let T = Consonant( id: .T,
-    blendStart: [.H, .R, .W, .Y],
+    blendStart: [.H, .R, .S, .W, .Y],
     blendInto: [.C, .H, .L, .R, .T, .Z],
     defFinal: [.E, .H],
     hardStops: [],
@@ -1028,7 +1029,7 @@ let Y = Consonant( id: .Y,
     blendStart: [],
     blendInto: [.L, .M, .N, .R, .S, .T],
     defFinal: [],
-    hardStops: [.C, .P, .V, .W],
+    hardStops: [.C, .D, .P, .V, .W],
     allowedVowels: allVowels,
     blendsWithY: false,
     canStart: true,

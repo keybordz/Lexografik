@@ -89,7 +89,7 @@ let OH = DiphthongBlend(vowel: .O, consonant: .H, start: true, end: false,
 //let UH = DiphthongBlend(vowel: .A, consonant: .H, start: false, end: false)
 
 let AW = DiphthongBlend(vowel: .A, consonant: .W, start: true, end: true,
-                        initFollowers: [.A, .E, .L, .N, .O, .R],
+                        initFollowers: [.A, .E, .I, .L, .N, .O, .R],
                         interFollowers: [.A, .D, .E, .I, .L, .N, .R, .T],
                         finFollowers: [.L, .N, .S],
                         followerTable: [
@@ -109,6 +109,7 @@ let AW = DiphthongBlend(vowel: .A, consonant: .W, start: true, end: true,
                             "L":[.F, .L, .N, .S, .Y],   // LAWFUL, LAWLESS, LAWN, LAWS, LAWYER
                             "M":[.S],               // MAWS
                             "P":[.E, .I, .N, .S],   // PAWED, PAWING, PAWN, PAWS
+                            "PR":[.N],              // PRAWN
                             "R":[.E],               // RAWER
                             "S":[.E, .I, .N, .S],   // SAWED, SAWING, SAWN, SAWS
                             "SCR":[.L],             // SCRAWL
@@ -121,7 +122,7 @@ let AW = DiphthongBlend(vowel: .A, consonant: .W, start: true, end: true,
                             "T":[.N],               // TAWNY
                             "TH":[.E, .I, .N, .S],  // THAWED, THAWING, THAWN, THAWS
                             "TR":[.L],              // TRAWL
-                            "Y":[.N, .S]])          // YAWN, YAWS
+                            "Y":[.I, .N, .S]])      // YAWING, YAWN, YAWS
 
 let EW = DiphthongBlend(vowel: .E, consonant: .W, start: true, end: true,
                         initFollowers: [.E],
@@ -227,7 +228,7 @@ let AY = DiphthongBlend(vowel: .A, consonant: .Y, start: true, end: true,
                             "STR":[.E, .I, .S],         // STRAY, STRAYING, STRAYS
                             "SW":[.E, .I, .S],          // SWAYED, SWAYING, SWAYS
                             "TR":[.S],                  // TRAYS
-                            "W":[.S],                   // WAYS
+                            "W":[.F, .S],               // WAYFARING, WAYS
                             "WR":[.S],                  // WRAYS
                             "Y":[.S]])                  // YAYS
 

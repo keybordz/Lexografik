@@ -17,7 +17,7 @@ let vowelEnders: [PhoneticElement] = [A, AE, AH, AI, AO, AW, AY,
 
 let consonantEnders: [PhoneticElement] = [B, BT,
                                           C, CH, CHT, CK, CT,
-                                          D,
+                                          D, DT, DTH,
                                           FF, FT, FTH,
                                           G, GH, GHT, GM, GN,
                                           K,
