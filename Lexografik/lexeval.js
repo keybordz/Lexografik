@@ -58,12 +58,12 @@ files.forEach( (file, index) => {
 
 	if (stats.isFile()) {
 
-			// Get the file extension to make sure it's a Swift file
-			// ASSUME format is name.extension
-			let filetokens = file.split('.');
+      // Get the file extension to make sure it's a Swift file
+      // ASSUME format is name.extension
+        let filetokens = file.split('.');
 
-			if (filetokens.length > 1 && filetokens[1] === "swift") {
-			 	console.log(`confirmed Swift file: ${filetokens[0]}`);
+        if (filetokens.length > 1 && filetokens[1] === "swift") {
+            console.log(`confirmed Swift file: ${filetokens[0]}`);
 
 			 	// Open the file for reading
 			 	let fd = fs.openSync(testpath, "r");
@@ -127,7 +127,7 @@ files.forEach( (file, index) => {
               // Adverbs, past tense verbs, comparatives/actor nouns
               } else if (lastTwo === "LY" || lastTwo === "ED" ||
                          lastTwo === "ER" || lastTwo === "OR") {
-                  lexStats.endCounter[lastTwo] += 1;
+                lexStats.endCounter[lastTwo] += 1;
 
               // Plurals and other Y enders
               } else if ((lastChar === "S" && nextToLast !== "S") || lastChar === "Y") {

@@ -23,12 +23,12 @@ class PhoneticElement {
     let canStart: Bool
     let canEnd: Bool
     let canPlural: Bool
-    let dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?
+    let dynFollowers: ((SyllabicArray, PositionIndicator) -> [Letter])?
     var verifyEndOfWord: ((PhoneticElementArray) -> Bool)?
     
     init(first: Letter, second: Letter?, third: Letter?,
          canStart: Bool, canEnd: Bool, canPlural: Bool,
-         dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?)
+         dynFollowers: ((SyllabicArray, PositionIndicator) -> [Letter])?)
     {
         // Set identifier values
         self.first = first

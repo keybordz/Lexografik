@@ -28,6 +28,7 @@
 		C924BC3020B0AADF00D03EE8 /* SyllabicElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C924BC2F20B0AADF00D03EE8 /* SyllabicElement.swift */; };
 		C92FB5881C6AB9B300BD269C /* LetterArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92FB5871C6AB9B300BD269C /* LetterArray.swift */; };
 		C92FB5891C6AB9B300BD269C /* LetterArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92FB5871C6AB9B300BD269C /* LetterArray.swift */; };
+		C93086BD20C4BA20002AB81B /* SyllabicArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93086BC20C4BA20002AB81B /* SyllabicArray.swift */; };
 		C93C90501C6AABB00033B3E4 /* PhoneticElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93C904F1C6AABB00033B3E4 /* PhoneticElement.swift */; };
 		C93C90511C6AABB00033B3E4 /* PhoneticElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93C904F1C6AABB00033B3E4 /* PhoneticElement.swift */; };
 		C95BF34C1C6C26C10051F725 /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95BF34B1C6C26C10051F725 /* Letter.swift */; };
@@ -56,6 +57,7 @@
 		C9B1E8DC20A944A0009D74F9 /* PhoneticFollower.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1E8DA20A944A0009D74F9 /* PhoneticFollower.swift */; };
 		C9B6D8A51CB586B0004032EE /* YBlend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B6D8A41CB586B0004032EE /* YBlend.swift */; };
 		C9B6D8A61CB586B0004032EE /* YBlend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B6D8A41CB586B0004032EE /* YBlend.swift */; };
+		C9B6E81D20C5C9CB00D9E1B6 /* SyllabicArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93086BC20C4BA20002AB81B /* SyllabicArray.swift */; };
 		C9EB4A681C65A78200F0D877 /* LexicalBlend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB4A671C65A78200F0D877 /* LexicalBlend.swift */; };
 		C9EB4A691C65A78300F0D877 /* LexicalBlend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB4A671C65A78200F0D877 /* LexicalBlend.swift */; };
 /* End PBXBuildFile section */
@@ -83,6 +85,7 @@
 		C90DC2491BEFE2A70034CFB0 /* WordTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordTableViewController.swift; sourceTree = "<group>"; };
 		C924BC2F20B0AADF00D03EE8 /* SyllabicElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyllabicElement.swift; sourceTree = "<group>"; };
 		C92FB5871C6AB9B300BD269C /* LetterArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetterArray.swift; sourceTree = "<group>"; };
+		C93086BC20C4BA20002AB81B /* SyllabicArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyllabicArray.swift; sourceTree = "<group>"; };
 		C93C904F1C6AABB00033B3E4 /* PhoneticElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneticElement.swift; sourceTree = "<group>"; };
 		C95BF34B1C6C26C10051F725 /* Letter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		C96A46BC20B895C000B10E4B /* 2016.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2016.swift; sourceTree = "<group>"; };
@@ -133,16 +136,17 @@
 			isa = PBXGroup;
 			children = (
 				C95BF34B1C6C26C10051F725 /* Letter.swift */,
-				C90C53651C571F6C00FD7550 /* LexicalLetter.swift */,
 				C93C904F1C6AABB00033B3E4 /* PhoneticElement.swift */,
 				C9B1E8DA20A944A0009D74F9 /* PhoneticFollower.swift */,
+				C924BC2F20B0AADF00D03EE8 /* SyllabicElement.swift */,
+				C93086BC20C4BA20002AB81B /* SyllabicArray.swift */,
+				C90C53651C571F6C00FD7550 /* LexicalLetter.swift */,
 				C9EB4A671C65A78200F0D877 /* LexicalBlend.swift */,
 				C9045F3D1C70FCA700958455 /* Consonant.swift */,
 				C9045F431C7101DA00958455 /* ConsonantBlend.swift */,
 				C9045F3A1C70FC0200958455 /* Vowel.swift */,
 				C9045F401C7101CB00958455 /* VowelBlend.swift */,
 				C9045F461C7101EA00958455 /* DiphthongBlend.swift */,
-				C924BC2F20B0AADF00D03EE8 /* SyllabicElement.swift */,
 				C9AC0B3520B339B4001A30F1 /* SyllabicStart.swift */,
 				C9AC0B3720B33CD7001A30F1 /* SyllabicEnd.swift */,
 				C92FB5871C6AB9B300BD269C /* LetterArray.swift */,
@@ -350,6 +354,7 @@
 				C90C53661C571F6C00FD7550 /* LexicalLetter.swift in Sources */,
 				C90DC2481BEFDC2D0034CFB0 /* WordCellTableViewCell.swift in Sources */,
 				C9B1E8DB20A944A0009D74F9 /* PhoneticFollower.swift in Sources */,
+				C93086BD20C4BA20002AB81B /* SyllabicArray.swift in Sources */,
 				C9B6D8A51CB586B0004032EE /* YBlend.swift in Sources */,
 				C9045F3E1C70FCA700958455 /* Consonant.swift in Sources */,
 				C9EB4A681C65A78200F0D877 /* LexicalBlend.swift in Sources */,
@@ -372,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9B6E81D20C5C9CB00D9E1B6 /* SyllabicArray.swift in Sources */,
 				C9B6D8A61CB586B0004032EE /* YBlend.swift in Sources */,
 				C95BF34D1C6C270B0051F725 /* Letter.swift in Sources */,
 				C90C53671C571F6C00FD7550 /* LexicalLetter.swift in Sources */,

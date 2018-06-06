@@ -39,7 +39,7 @@ class LetterArray: Equatable {
     var filterStops: Bool = true
     var oneSyllableWords: Bool = false
     var phonemes: PhoneticElementArray = PhoneticElementArray()
-    var syllables: [SyllabicElement] = []
+    var syllables: SyllabicArray = SyllabicArray()
     
     init() {
         self.letters = []
@@ -65,7 +65,7 @@ class LetterArray: Equatable {
         self.filterStops = sourceArray.filterStops
         self.oneSyllableWords = sourceArray.oneSyllableWords
         self.exactMatches = sourceArray.exactMatches
-        self.syllables = sourceArray.syllables
+        self.syllables.replaceElements(sourceArray.syllables)
     }
     
     static func == (rhs: LetterArray, lhs: LetterArray) -> Bool {
@@ -89,7 +89,7 @@ class LetterArray: Equatable {
     }
     
     func numSyllables() -> Int {
-        return syllables.count
+        return syllables.numSyllables()
     }
     
     func firstLetter() -> Letter? {
@@ -196,15 +196,12 @@ class LetterArray: Equatable {
     }
     
     func printLetters() {
-//        for ch in self.letters {
-//            print(ch.rawValue, terminator: "")
-//        }
-        for x in 0 ..< syllables.count {
-            if x != syllables.count - 1 {
-                print(syllables[x].letters(), terminator: "-")
+        for x in 0 ..< syllables.elements.count {
+            if x != syllables.elements.count - 1 {
+                print(syllables.elements[x].letters(), terminator: "-")
             }
             else {
-                print(syllables[x].letters(), terminator: "")
+                print(syllables.elements[x].letters(), terminator: "")
             }
         }
     }
@@ -252,9 +249,9 @@ class LetterArray: Equatable {
     }
     
     func splitSyllables(newVowel: PhoneticElement) -> SyllabicElement {
-        var newSyllable = SyllabicElement(firstElement: newVowel)
-        let currentIndex = syllables.count - 1
-        let stopElement = syllables[currentIndex].finalConsonant!
+        var newSyllable: SyllabicElement
+        let currentIndex = syllables.elements.count - 1
+        let stopElement = syllables.elements[currentIndex].finalConsonant!
         let oldStopper: PhoneticElement?
         let newStarter: PhoneticElement
         
@@ -296,8 +293,12 @@ class LetterArray: Equatable {
             newStarter = stopElement
         }
         
-        syllables[currentIndex].finalConsonant = oldStopper
-        newSyllable.initialConsonant = newStarter
+        syllables.elements[currentIndex].finalConsonant = oldStopper
+        
+        // Have to wait to initialize newSyllable here with the new consonant and then assign the vowel separately
+        // This allows for Y's to work as vowel sounds
+        newSyllable = SyllabicElement(firstElement: newStarter)
+        newSyllable.vowelSound = newVowel
         return newSyllable
     }
     
@@ -307,42 +308,57 @@ class LetterArray: Equatable {
         // first syllable in the word 
         if sylState == .Empty {
             let newSyllable = SyllabicElement(firstElement: newElement)
-            syllables.append(newSyllable)
+            syllables.elements.append(newSyllable)
         }
         
         // either updating the current syllable or forced to split and create a new one
         else {
-            let currentIndex = syllables.count - 1
+            let currentIndex = syllables.elements.count - 1
             
-            // Updating an initial consonant sound with a blend, just a simple replacement
             if newState == .articulateStart {
-                syllables[currentIndex].initialConsonant = newElement
+                
+                // Updating an initial consonant sound with a blend, just a simple replacement
+                if newElement is ConsonantBlend {
+                    syllables.elements[currentIndex].initialConsonant = newElement
+                }
+                
+                // Single consonant which starts a new syllable after a hard stop
+                else {
+                    let newSyllable = SyllabicElement(firstElement: newElement)
+                    syllables.elements.append(newSyllable)
+                }
             }
             
             // all processing for vowel sounds
             else if newState == .articulateVowel {
                 
                 // Current syllable doesn't have a vowel yet
-                if !syllables[currentIndex].isComplete() {
-                    syllables[currentIndex].vowelSound = newElement
+                if !syllables.elements[currentIndex].isComplete() {
+                    syllables.elements[currentIndex].vowelSound = newElement
                 }
                 
                 // Updating the vowel with a blend (or diphthong), may have to split if the blend is a glottal
-                else if !syllables[currentIndex].isStopped() {
+                else if !syllables.elements[currentIndex].isStopped() {
                     
                     // Simple replacement for diphthongs
                     if newElement is DiphthongBlend {
-                        syllables[currentIndex].vowelSound = newElement
+                        syllables.elements[currentIndex].vowelSound = newElement
                     }
                         
                     // Adding a vowel after a diphthong, have to resplit so that the consonant part now starts the new syllable
-                    else if syllables[currentIndex].vowelSound! is DiphthongBlend {
-                        let oldVowel = vowelMap[syllables[currentIndex].vowelSound!.first]!
-                        let newStarter = consonantMap[syllables[currentIndex].vowelSound!.second!]
-                        syllables[currentIndex].vowelSound = oldVowel
+                    else if syllables.elements[currentIndex].vowelSound! is DiphthongBlend {
+                        let oldVowel = vowelMap[syllables.elements[currentIndex].vowelSound!.first]!
+                        let newStarter = consonantMap[syllables.elements[currentIndex].vowelSound!.second!]
+                        syllables.elements[currentIndex].vowelSound = oldVowel
                         var newSyllable = SyllabicElement(firstElement: newElement)
                         newSyllable.initialConsonant = newStarter
-                        syllables.append(newSyllable)
+                        syllables.elements.append(newSyllable)
+                    }
+                        
+                    // Adding a vowel after a simple Y operating as a vowel, just create a syllable with the new vowel
+                    else if syllables.elements[currentIndex].vowelSound!.id == "Y" {
+                        let newSyllable = SyllabicElement(firstElement: newElement)
+                        syllables.elements.append(newSyllable)
                     }
                     
                     else if newElement is VowelBlend {
@@ -350,21 +366,28 @@ class LetterArray: Equatable {
                         
                         // Simple replacement for blends that don't involve glottal stops
                         if !blendElement.glottalStop {
-                            syllables[currentIndex].vowelSound = newElement
+                            syllables.elements[currentIndex].vowelSound = newElement
                         }
                         
                         // Otherwise have to create a new syllable and split up the vowel blend
                         else {
                             let newVowel = vowelMap[newElement.second!]!
                             let newSyllable = SyllabicElement(firstElement: newVowel)
-                            syllables.append(newSyllable)
+                            syllables.elements.append(newSyllable)
                         }
+                    }
+                    
+                    // Adding a single vowel after a vowel blend (this is for cases like WOOING, RUEING, etc.)
+                    // Here the new vowel starts a new syllable
+                    else {
+                        let newSyllable = SyllabicElement(firstElement: newElement)
+                        syllables.elements.append(newSyllable)
                     }
                 }
                 
                 // Adding a vowel to a consonant that is stopped, have to create a new syllable
                 else {
-                    let blendElement = syllables[currentIndex].finalConsonant as? ConsonantBlend
+                    let blendElement = syllables.elements[currentIndex].finalConsonant as? ConsonantBlend
                     
                     // Check if adding a final (silent) E in one of the last 2 positions in the word
                     // (If this is in the penultimate position, then the last letter could be an S or D which would still be
@@ -373,13 +396,13 @@ class LetterArray: Equatable {
                     // EXCEPTION: Always have to split if the preceding blend ends in a liquid (L or R) like TABLE or CADRE
                     if nRemain <= 2 && newElement.id == "E" &&
                         !(blendElement != nil && (blendElement?.lastLetter().isLiquid())!) {
-                        syllables[currentIndex].silentE = newElement
+                        syllables.elements[currentIndex].silentE = newElement
                     }
                         
                     // Create a new syllable
                     else {
                         let newSyllable = splitSyllables(newVowel: newElement)
-                        syllables.append(newSyllable)
+                        syllables.elements.append(newSyllable)
                     }
                 }
             }
@@ -388,29 +411,29 @@ class LetterArray: Equatable {
             else {
                 
                 // No final consonant yet
-                if !syllables[currentIndex].isStopped() {
-                    syllables[currentIndex].finalConsonant = newElement
+                if !syllables.elements[currentIndex].isStopped() {
+                    syllables.elements[currentIndex].finalConsonant = newElement
                 }
                     
                 // General case for adding a consonant or consonant blend
-                else if nRemain > 1 || syllables[currentIndex].silentE == nil {
+                else if nRemain > 1 || syllables.elements[currentIndex].silentE == nil {
                     
                     // If new letter is a single consonant and the current syllable is already stopped, create a new syllable
                     // Cases for this included liquids (HASSLE) and interior hard stops (INLET)
-                    if syllables[currentIndex].isStopped() && newElement is Consonant {
+                    if syllables.elements[currentIndex].isStopped() && newElement is Consonant {
                         
                         // Exception for S plurals
                         if nRemain == 1 && newElement.id == "S" {
-                            syllables[currentIndex].ancillaryConsonant = newElement
+                            syllables.elements[currentIndex].ancillaryConsonant = newElement
                         }
                         
                         else {
                             let newSyllable = SyllabicElement(firstElement: newElement)
-                            syllables.append(newSyllable)
+                            syllables.elements.append(newSyllable)
                         }
                     }
                     else {
-                        syllables[currentIndex].finalConsonant = newElement
+                        syllables.elements[currentIndex].finalConsonant = newElement
                     }
                 }
                 
@@ -420,28 +443,29 @@ class LetterArray: Equatable {
                                                   "LS", "NS", "RS", "S", "SH", "SS",   // LENSES, VERSES, RAISES, LASHES, CLASSES
                                                   "LCH", "LSH", "NCH", "RCH", "RSH", "TCH"]
                     
-                    let voicedPastConsonants = ["D", "DD", "LD", "ND", "RD",         // CEDED, MOLDED, HANDED, CARDED
-                                                "T", "BT", "CT", "LT", "NT",         // RATED, DOUBTED, PASTED, RAT
+                    let voicedPastConsonants = ["D", "DD", "LD", "ND", "RD",           // CEDED, MOLDED, HANDED, CARDED
+                                                "T", "BT", "CT", "FT", "LT", "NT",     // RATED, DOUBTED,
                                                 "PT", "RT", "ST", "TT", "XT"]
                     
                     // If it's S or a D (with certain previous consonant stops) just tack it on the end
-                    if (newElement.id == "S" && !voicedPluralConsonants.contains(syllables[currentIndex].finalConsonant!.id)) ||
-                        (newElement.id == "D" && !voicedPastConsonants.contains(syllables[currentIndex].finalConsonant!.id)) {
-                        syllables[currentIndex].ancillaryConsonant = newElement
+                    if (newElement.id == "S" && !voicedPluralConsonants.contains(syllables.elements[currentIndex].finalConsonant!.id)) ||
+                        (newElement.id == "D" && !voicedPastConsonants.contains(syllables.elements[currentIndex].finalConsonant!.id)) {
+                        syllables.elements[currentIndex].ancillaryConsonant = newElement
                     }
                         
                     // Otherwise, have to create a new syllable...single consonants and blends that are unique phonemes (SH, CH)
                     // or liquid combinations (DL, STL) become the starter in the new syllable, other blends must be split so
                     // first letter still stops the first syllable, and the rest starts the new syllable
                     else {
-                        let newSyllable = splitSyllables(newVowel: syllables[currentIndex].silentE!)
-                        syllables[currentIndex].silentE = nil
-                        syllables.append(newSyllable)
+                        let newSyllable = splitSyllables(newVowel: syllables.elements[currentIndex].silentE!)
+                        syllables.elements[currentIndex].silentE = nil
+                        syllables.elements.append(newSyllable)
                     }
                 }
             }
         }
         
+        syllables.skipLast = false
         phonemes.appendElement(newElement)
         sylState = newState
         nextBias = bias
@@ -706,20 +730,21 @@ class LetterArray: Equatable {
                 else if suffix == .Y {
                 
                     if !endOfWord {
+                        // syllables.skipLast = true
                         
                         // First Y after initial consonant or consonant blend
                         if phonemes.numElements() == 1 {
-                            expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                            expecting = suffixProtocol.secondFollowers(syll: syllables, nRemain: remainingLetters)
                         }
                             
-                            // Just before the last letter
+                        // Just before the last letter
                         else if remainingLetters == 2 {
-                            expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                            expecting = suffixProtocol.lastFollowers(syll: syllables)
                         }
                             
-                            // Somewhere in the middle of the word
+                        // Somewhere in the middle of the word
                         else {
-                            expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                            expecting = suffixProtocol.midFollowers(syll: syllables, nRemain: remainingLetters)
                         }
                         
                         // Probably shouldn't have to make this exception but for now so we don't have interior Y's all over the place
@@ -741,11 +766,12 @@ class LetterArray: Equatable {
                 else if lastElement!.id == "Y" {
                     
                     if !endOfWord {
+                        // syllables.skipLast = true;
                         if remainingLetters == 2 {
-                            expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                            expecting = suffixProtocol.lastFollowers(syll: syllables)
                         }
                         else {
-                            expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                            expecting = suffixProtocol.midFollowers(syll: syllables, nRemain: remainingLetters)
                         }
                         if expecting.isEmpty {
                             return false
@@ -764,17 +790,18 @@ class LetterArray: Equatable {
                         // Then match a new blend with the preceding letter and the new one (fall thru to next section)
                         if last! == .W && (suffix == .R || suffix == .H) {
                             reBlend = vowelMap[nextToLast!]
+                            syllables.elements[syllables.elements.count-1].setVowel(reBlend!)
                             lastElement = consonantMap[last!]
                         }
                             
                         // Otherwise just add on the new letter separately
                         else {
-                            
+                            // syllables.skipLast = true
                             if remainingLetters == 2 {
-                                expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                                expecting = suffixProtocol.lastFollowers(syll: syllables)
                             }
                             else {
-                                expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                                expecting = suffixProtocol.midFollowers(syll: syllables, nRemain: remainingLetters)
                             }
                             
                             if expecting.isEmpty {
@@ -803,6 +830,9 @@ class LetterArray: Equatable {
                         cKey = "\(lexBlend.third!.rawValue)\(suffix.rawValue)"
                         reBlend = consonantBlendMap["\(lexBlend.first)\(lexBlend.second!)"]
                     }
+                    
+                    // Have to replace the previous final consonant now that the new blend is in effect
+                    syllables.elements[syllables.elements.count-1].setFinal(reBlend!)
                     conBlend = consonantBlendMap[cKey]
                 }
                 
@@ -862,6 +892,9 @@ class LetterArray: Equatable {
                     
                     // remove the first phoneme of the blend to make the test work right
                     phonemes.removeLastElement()
+                    if reBlend == nil {
+                        syllables.skipLast = true
+                    }
                     
                     if conBlend!.verifyEndOfWord!(phonemes) {
                         processNewLetter(newElement: conBlend!, newState: .articulateStop, bias: .expectSubset,
@@ -882,6 +915,9 @@ class LetterArray: Equatable {
                     if reBlend != nil {
                         phonemes.appendElement(reBlend!)
                     }
+                    else {
+                        syllables.skipLast = true
+                    }
                     
                     // Blend occurs at the start of the word
                     if nLetters == 1 {
@@ -890,20 +926,20 @@ class LetterArray: Equatable {
 
                     // Adding the blend after an initial vowel (make sure to ignore Y blends)
                     else if phonemes.numElements() == 1 {
-                        expecting = conBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                        expecting = conBlend!.secondFollowers(syll: syllables, nRemain: remainingLetters)
                     }
                         
                     // Blend immediately precedes the last letter
                     else if remainingLetters == 2 {
-                        expecting = conBlend!.lastFollowers(pea: phonemes)
+                        expecting = conBlend!.lastFollowers(syll: syllables)
                     }
                         
                     // Somewhere in the middle
                     else {
-                        expecting = conBlend!.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                        expecting = conBlend!.midFollowers(syll: syllables, nRemain: remainingLetters)
                         
                         // If filterStops is turned off, then allow prescribed letters which follow a hard stop
-                        if !filterStops {
+                        if !filterStops && sylState != .articulateStart {
                             expecting += lexSuffix!.hardStops
                         }
                     }
@@ -923,7 +959,7 @@ class LetterArray: Equatable {
                 // Appending a consonant after an initial vowel
                 if nLetters == 1 && !suffix.isDipthong() {
                     
-                    expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                    expecting = suffixProtocol.secondFollowers(syll: syllables, nRemain: remainingLetters)
                     
                     // If filterStops is turned off, then allow prescribed letters which follow a hard stop
                     if !filterStops {
@@ -954,6 +990,7 @@ class LetterArray: Equatable {
                     // Removing the previous single vowel element since new dipthong will replace it
                     if endOfWord {
                         phonemes.removeLastElement()
+                        // syllables.skipLast = true
                         if dipBlend!.verifyEndOfWord!(phonemes) {
                             processNewLetter(newElement: dipBlend!, newState: .articulateVowel, bias: .expectSubset,
                                              nRemain: remainingLetters)
@@ -964,6 +1001,8 @@ class LetterArray: Equatable {
                         }
                     }
                     
+                    // syllables.skipLast = true
+                    
                     // Blend occurs at the start of the word
                     if nLetters == 1 {
                         expecting = dipBlend!.initialFollowers(nRemain: remainingLetters)
@@ -973,17 +1012,17 @@ class LetterArray: Equatable {
                     // paired with the succeeding vowel means there will already be 2 elements present before calling secondFollowers
                     // (However, if the last element is a vowel blend, then this doesn't work ex. VIEW)
                     else if phonemes.numElements() == 2 && lastElement is Vowel {
-                        expecting = dipBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                        expecting = dipBlend!.secondFollowers(syll: syllables, nRemain: remainingLetters)
                     }
                         
                     // Blend immediately precedes the last letter
                     else if remainingLetters == 2 {
-                        expecting = dipBlend!.lastFollowers(pea: phonemes)
+                        expecting = dipBlend!.lastFollowers(syll: syllables)
                     }
                         
                     // Somewhere in the middle
                     else {
-                        expecting = dipBlend!.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                        expecting = dipBlend!.midFollowers(syll: syllables, nRemain: remainingLetters)
                     }
 
                     if expecting.isEmpty {
@@ -1008,14 +1047,16 @@ class LetterArray: Equatable {
                     }
                 }
                 
+                // syllables.skipLast = true
+                
                 if phonemes.numElements() == 1 {
-                    expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                    expecting = suffixProtocol.secondFollowers(syll: syllables, nRemain: remainingLetters)
                 }
                 else if remainingLetters == 2 {
-                    expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                    expecting = suffixProtocol.lastFollowers(syll: syllables)
                 }
                 else {
-                    expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                    expecting = suffixProtocol.midFollowers(syll: syllables, nRemain: remainingLetters)
                     
                     // If filterStops is turned off, then allow prescribed letters which follow a hard stop
                     if !filterStops {
@@ -1063,20 +1104,23 @@ class LetterArray: Equatable {
                         let conBlend = consonantBlendMap["\(lastElement!.id)U"]
 
                         if (nLetters == 1 && lastElement is Consonant) ||           // QU
-                            (nLetters == 2 && lastElement is ConsonantBlend) {      // SQU
+                            (nLetters == 2 && lastElement is ConsonantBlend) {      // SQU, NQU
                             expecting = conBlend!.initialFollowers(nRemain: remainingLetters)
                         }
                         else if remainingLetters == 2 {
-                            expecting = conBlend!.lastFollowers(pea: phonemes)
+                            expecting = conBlend!.lastFollowers(syll: syllables)
                         }
                         else {
-                            expecting = conBlend!.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                            expecting = conBlend!.midFollowers(syll: syllables, nRemain: remainingLetters)
                         }
                         if expecting == [] {
                             return false
                         }
-                        nextBias = .expectSubset
-                        phonemes.replaceLastElement(conBlend!)
+                        
+                        // Syllable state is unchanged going from Q to QU
+                        phonemes.removeLastElement()
+                        processNewLetter(newElement: conBlend!, newState: sylState, bias: .expectSubset,
+                                         nRemain: remainingLetters)
                     }
 
                     // All other cases
@@ -1084,7 +1128,7 @@ class LetterArray: Equatable {
                         
                         // First vowel added after initial consonant/consonant blend
                         if phonemes.numElements() == 1 {
-                            expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                            expecting = suffixProtocol.secondFollowers(syll: syllables, nRemain: remainingLetters)
                             if expecting != [] {
                                 processNewLetter(newElement: lexSuffix, newState: .articulateVowel, bias: .expectSubset,
                                                  nRemain: remainingLetters)
@@ -1094,12 +1138,12 @@ class LetterArray: Equatable {
                             
                         // Just before the last letter
                         if remainingLetters == 2 {
-                            expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                            expecting = suffixProtocol.lastFollowers(syll: syllables)
                         }
                         
                         // Somewhere in the middle of the word
                         else {
-                            expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                            expecting = suffixProtocol.midFollowers(syll: syllables, nRemain: remainingLetters)
                         }
                         
                         if expecting == [] {
@@ -1122,17 +1166,17 @@ class LetterArray: Equatable {
                     
                     // First vowel added after initial consonant/consonant blend
                     if phonemes.numElements() == 1 {
-                        expecting = suffixProtocol.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                        expecting = suffixProtocol.secondFollowers(syll: syllables, nRemain: remainingLetters)
                     }
                     
                     // Just before the last letter
                     else if remainingLetters == 2 {
-                        expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                        expecting = suffixProtocol.lastFollowers(syll: syllables)
                     }
                         
                     // Somewhere in the middle of the word
                     else {
-                        expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                        expecting = suffixProtocol.midFollowers(syll: syllables, nRemain: remainingLetters)
                     }
                     
                     if expecting == [] {
@@ -1157,15 +1201,15 @@ class LetterArray: Equatable {
                         
                         if lexLast.blendInto.contains(suffix) {
                             if remainingLetters == 2 {
-                                expecting = suffixProtocol.lastFollowers(pea: phonemes)
+                                expecting = suffixProtocol.lastFollowers(syll: syllables)
                             }
                             else {
-                                expecting = suffixProtocol.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                                expecting = suffixProtocol.midFollowers(syll: syllables, nRemain: remainingLetters)
                             }
                             if expecting == [] {
                                 return false
                             }
-                            processNewLetter(newElement: lexSuffix, newState: .articulateStart, bias: .expectSubset,
+                            processNewLetter(newElement: lexSuffix, newState: .articulateVowel, bias: .expectSubset,
                                              nRemain: remainingLetters)
                             return true
                         }
@@ -1180,6 +1224,7 @@ class LetterArray: Equatable {
                 }
                 
                 // Remove the first part of the blend to test correctly
+                syllables.skipLast = true
                 phonemes.removeLastElement()
                 
                 if endOfWord {
@@ -1200,32 +1245,24 @@ class LetterArray: Equatable {
                                         
                 // Adding the blend after an initial cononsant
                 else if phonemes.numElements() == 1 {
-                    expecting = vowelBlend!.secondFollowers(pea: phonemes, nRemain: remainingLetters)
+                    expecting = vowelBlend!.secondFollowers(syll: syllables, nRemain: remainingLetters)
                 }
                     
                 // Blend immediately precedes the last letter
                 else if remainingLetters == 2 {
-                    expecting = vowelBlend!.lastFollowers(pea: phonemes)
+                    expecting = vowelBlend!.lastFollowers(syll: syllables)
                 }
                     
                 // Somewhere in the middle
                 else {
-                    expecting = vowelBlend!.midFollowers(pea: phonemes, nRemain: remainingLetters)
+                    expecting = vowelBlend!.midFollowers(syll: syllables, nRemain: remainingLetters)
                 }
                 
                 if expecting.isEmpty {
                     return false
                 }
                 
-                // Start a new syllable if a glottal stop occurs in the blend
-                if vowelBlend!.glottalStop {
-                    processNewLetter(newElement: vowelBlend!, newState: .articulateStart, bias: .expectSubset,
-                                     nRemain: remainingLetters)
-                }
-                else {
-                    processNewLetter(newElement: vowelBlend!, newState: .articulateVowel, bias: .expectSubset,
-                                     nRemain: remainingLetters)
-                }
+                processNewLetter(newElement: vowelBlend!, newState: .articulateVowel, bias: .expectSubset, nRemain: remainingLetters)
                 return true
             }
                 

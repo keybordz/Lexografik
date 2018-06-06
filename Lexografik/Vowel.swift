@@ -19,8 +19,8 @@ class Vowel: LexicalLetter, PhoneticFollowers {
         return initFollowers
     }
     
-    func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
-        let firstElement = pea.firstElement()               // Should only be one element
+    func secondFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter] {
+        let firstElement = syll.firstElement()               // Should only be one element
         
         if let secondFollowers = followerTable[firstElement!.id] {
             return secondFollowers
@@ -30,25 +30,25 @@ class Vowel: LexicalLetter, PhoneticFollowers {
         }
     }
     
-    func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
+    func midFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter] {
         var midFollowers = blendInto + allConsonants
         if dynFollowers != nil {
-            midFollowers += self.dynFollowers!(pea, .positionMIDDLE)
+            midFollowers += self.dynFollowers!(syll, .positionMIDDLE)
         }
         return midFollowers
     }
     
-    func lastFollowers(pea: PhoneticElementArray) -> [Letter] {
+    func lastFollowers(syll: SyllabicArray) -> [Letter] {
         var lastFollowers = defFinal
         if dynFollowers != nil {
-            lastFollowers += self.dynFollowers!(pea, .positionLAST)
+            lastFollowers += self.dynFollowers!(syll, .positionLAST)
         }
         return lastFollowers
     }
     
     init(id: Letter, blendStart: [Letter], blendInto: [Letter], defFinal: [Letter],
          followerTable: [String:[Letter]],
-         dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?) {
+         dynFollowers: ((SyllabicArray, PositionIndicator) -> [Letter])?) {
         
         self.blendStart = blendStart
         self.blendInto = blendInto
@@ -135,33 +135,33 @@ let A = Vowel(id: .A,
                 "WR": [.C, .N, .P, .T],                    // WRACK, WRANGLE, WRAP, WRATH
                 "Y": [.C, .K, .M, .N, .P, .R, .W],          // YACHT, YAKS, YAMS, YANG, YAPS, YARD, YAWN
                 "Z": [.G, .N]],
-              dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+              dynFollowers: {(syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
                 var followers: [Letter] = []
                     
                 if pos == .positionLAST {
                         
                     // Final B enders: BLAB, CRAB, DRAB, FLAB, GRAB, REHAB, SCAB, SLAB, SQUAB, STAB, SWAB
-                    if pea.matchesSet(["BL", "CR", "DR", "FL", "GR", "REH", "SC", "SL", "SQU", "ST", "SW"]) {
+                    if syll.matchesSet(["BL", "CR", "DR", "FL", "GR", "REH", "SC", "SL", "SQU", "ST", "SW"]) {
                         followers += [.B]
                     }
                     
                     // C enders: COGNAC, LILAC, TARMAC, SUMAC
-                    if pea.matchesSet(["COGN", "LIL", "SUM", "TARM"]) {
+                    if syll.matchesSet(["COGN", "LIL", "SUM", "TARM"]) {
                         followers += [.C]
                     }
                     
                     // AE enders: ALGAE, MINUTAE
-                    if pea.matchesSet(["ALG", "MINUT"]) {
+                    if syll.matchesSet(["ALG", "MINUT"]) {
                         followers += [.E]
                     }
                     
                     // Only K ender is FLAK
-                    if pea.matchesString("FL", matchFull: true) {
+                    if syll.matchesString("FL", matchFull: true) {
                         followers += [.K]
                     }
                     
                     // All AO enders here: CACAO
-                    if pea.matchesString("CAC", matchFull: true) {
+                    if syll.matchesString("CAC", matchFull: true) {
                         followers += [.O]
                     }
                 }
@@ -206,14 +206,14 @@ let E = Vowel( id: .E,
         "SQU":[.A, .E],                                 // SQUEAL, SQUEEZE
         "WH": [.A, .E, .N, .R, .T, .Y],                 // WHEAT, WHEEL, WHEN/CE, WHERE, WHET, WHEY
         "Y": [.A, .G, .L, .N, .O, .P, .S, .T, .W]],     // YEAR, YEGG, YELL, YENS, YEOMAN, YEPS, YESTERDAY, YETI, YEWS
-    dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+    dynFollowers: {(syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
-        let lastElement = pea.lastElement()
+        let lastElement = syll.lastElement()
         
         if pos == .positionLAST {
             
             // Final EA words: AREA, ASEA, FLEA, IDEA, PLEA, RHEA, UREA
-            if pea.matchesSet(["AR", "AS", "FL", "ID", "PL", "RH", "UR"]) {
+            if syll.matchesSet(["AR", "AS", "FL", "ID", "PL", "RH", "UR"]) {
                 followers += [.A]
             }
             
@@ -227,27 +227,27 @@ let E = Vowel( id: .E,
             }
             
             // Only allow final F for CLEF
-            if pea.matchesString("CL", matchFull: true) {
+            if syll.matchesString("CL", matchFull: true) {
                 followers += [.F]
             }
             
             // Only allow final G for DREG
-            if pea.matchesString("DR", matchFull: true) {
+            if syll.matchesString("DR", matchFull: true) {
                 followers += [.G]
             }
                 
             // Only allow final K for TREK
-            if pea.matchesString("TR", matchFull: true) {
+            if syll.matchesString("TR", matchFull: true) {
                 followers += [.K]
             }
             
             // Approve EO ending for RODEO, VIDEO
-            if pea.matchesSet(["ROD", "VID"]) {
+            if syll.matchesSet(["ROD", "VID"]) {
                 followers += [.O]
             }
             
             // X follower: need words like ANNEX, FLEX, CODEX, INDEX, ROLODEX, VORTEX, COMPLEX
-            if pea.matchesSet(["ANN", "FL"]) || lastElement!.id == "D" || lastElement!.id == "RT" || lastElement!.id == "PL" {
+            if syll.matchesSet(["ANN", "FL"]) || lastElement!.id == "D" || lastElement!.id == "RT" || lastElement!.id == "PL" {
                 followers += [.X]
             }
         }
@@ -292,10 +292,10 @@ let I = Vowel( id: .I,
         "TR": [.A, .B, .C, .D, .E, .F, .G, .K, .L, .M, .N, .O, .P, .S, .T, .U, .V, .X],
         "WH": [.F, .G, .L, .M, .N, .P, .R, .S, .T, .Z],     // WHIFF, WHIG, WHILE, WHIM, WHINE, WHIP, WHIRR, WHIST, WHIT, WHIZ
         "Y": [.E, .N, .P]],                 // YIELD, YING, YIPS
-    dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+    dynFollowers: {(syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
-        let lastElement = pea.lastElement()
-        let penElement = pea.nextToLastElement()
+        let lastElement = syll.lastElement()
+        let penElement = syll.nextToLastElement()
         
         if pos == .positionLAST {
             
@@ -305,28 +305,28 @@ let I = Vowel( id: .I,
                 (lastElement!.id == "M" && penElement!.id == "E") ||    // ANEMIA
                 lastElement!.id == "GL" || lastElement!.id == "L" ||  // GLIA, GANGLIA, ILIA
                 lastElement!.id == "NN" || lastElement!.id == "R" || lastElement!.id == "TR" ||   // ZINNIA, CRITERIA, ATRIA
-                pea.matchesSet(["MAF", "TIB"]) {           // MAFIA, TIBIA
+                syll.matchesSet(["MAF", "TIB"]) {           // MAFIA, TIBIA
                 followers += [.A]
             }
 
             // Final B enders: CRIB, DRIB, GLIB, SAHIB
-            if pea.matchesSet(["CR", "DR", "GL", "SAH"]) {
+            if syll.matchesSet(["CR", "DR", "GL", "SAH"]) {
                 followers += [.B]
             }
             
             // Final IE words: AERIE, CADDIE, GENIE, STYMIE
-            if pea.matchesSet(["AER", "CADD", "GEN", "STYM"]) {
+            if syll.matchesSet(["AER", "CADD", "GEN", "STYM"]) {
                 followers += [.E]
             }
             
             // Final G enders: BRIG, PRIG, SPRIG, STIG, SWIG, TRIG, TWIG, and any RIG ender (UNRIG)
-            if pea.matchesSet(["BR", "PR", "SPR", "ST", "SW", "TR", "TW"]) ||
+            if syll.matchesSet(["BR", "PR", "SPR", "ST", "SW", "TR", "TW"]) ||
                 lastElement!.id == "R" {
                 followers += [.G]
             }
             
             // Only allow final R for EMIR, NADIR, STIR, TAPIR, ASTIR
-            if pea.matchesSet(["EM", "NAD", "ST", "TAP", "AST"]) {
+            if syll.matchesSet(["EM", "NAD", "ST", "TAP", "AST"]) {
                 followers += [.R]
             }
             
@@ -336,13 +336,13 @@ let I = Vowel( id: .I,
             }
             
             // Z followers: FRIZ
-            if pea.matchesSet(["FR"]) {
+            if syll.matchesSet(["FR"]) {
                 followers += [.Z]
             }
         }
         
         // I followers for SKI and TAXI gerunds
-        if pea.matchesSet(["SK", "TAX"]) {
+        if syll.matchesSet(["SK", "TAX"]) {
             followers += [.I]
         }
 
@@ -367,7 +367,7 @@ let O = Vowel( id: .O,
         "D": allLetters - [.A, .H, .K, .Q],
         "F": [.A, .B, .C, .D, .E, .G, .I, .L, .N, .O, .P, .R, .S, .U, .W, .X],
         "G": [.A, .B, .D, .E, .F, .G, .I, .L, .N, .O, .P, .R, .S, .T, .U, .V, .W, .Y],
-        "GH":[.S],                              // GHOST
+        "GH":[.S, .U],                          // GHOST, GHOUL
         "GN":[.C, .M],                          // GNOCCHI, GNOME
         "H": [.A, .B, .C, .D, .E, .G, .I, .L, .M, .N, .O, .P, .R, .S, .T, .U, .V, .W],
         "J": [.B, .C, .E, .G, .I, .K, .L, .S, .T, .U, .V, .W, .Y],
@@ -388,48 +388,48 @@ let O = Vowel( id: .O,
         "THR":[.B, .E, .N, .U, .W],             // THROB, THROE, THRONE, THROUGH, THROW
         "WH": [.A, .L, .M, .R, .S],             // WHOA, WHOLE, WHOM, WHORE/WHORL, WHOSE
         "Y": [.D, .G, .L, .N, .R, .U, .W, .Y]], // YODEL, YOGA, YOLK, YONDER, YORE, YOUR, YOWS, YOYO
-    dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+    dynFollowers: {(syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
-        let lastElement = pea.lastElement()
+        let lastElement = syll.lastElement()
         
         if pos == .positionLAST {
             
             // Words ending in OA: BOA, STOA, COCOA
-            if pea.matchesSet(["B", "ST", "COC"]) {
+            if syll.matchesSet(["B", "ST", "COC"]) {
                 followers += [.A]
             }
             
             // Final B enders: BLOB, GLOB, SLOB, SNOB
-            if pea.matchesSet(["BL", "GL", "SL", "SN"]) {
+            if syll.matchesSet(["BL", "GL", "SL", "SN"]) {
                 followers += [.B]
             }
             
             // Only allow final C for BLOC, CHOC, CROC
-            if pea.matchesSet(["BL", "CH", "CR"]) {
+            if syll.matchesSet(["BL", "CH", "CR"]) {
                 followers += [.C]
             }
             
             // Final E for all words ending in HOE, NOE, SHOE, TOE and also FLOE, SLOE, OBOE
             // 3 letter OE enders: DOE, FOE, JOE, NOE, ROE, WOE (POE? ZOE?)
             if lastElement!.id == "H" || lastElement!.id == "SH" || lastElement!.id == "N" || lastElement!.id == "T" ||
-                pea.matchesSet(["FL", "OB", "SL"]) {
+                syll.matchesSet(["FL", "OB", "SL"]) {
                 followers += [.E]
             }
             
             // Final G goes for any word ending in LOG (CATALOG) or NOG (EGGNOG)
             // plus AGOG, BLOG, CLOG, FLOG, FROG, GROG, PROG, SLOG, SMOG
             if lastElement!.id == "L" || lastElement!.id == "N" || lastElement!.id == "CL" ||
-                pea.matchesSet(["AG", "BL", "FL", "FR", "GR", "PR", "SL", "SM"]) {
+                syll.matchesSet(["AG", "BL", "FL", "FR", "GR", "PR", "SL", "SM"]) {
                 followers += [.G]
             }
                 
             // Only allow final K for AMOK
-            if pea.matchesString("AM", matchFull: true) {
+            if syll.matchesString("AM", matchFull: true) {
                 followers += [.K]
             }
             
             // Final OO words: SHOO, IGLOO, TABOO, VOODOO
-            if pea.matchesSet(["SH", "IGL", "TAB", "VOOD"]) {
+            if syll.matchesSet(["SH", "IGL", "TAB", "VOOD"]) {
                 followers += [.O]
             }
             
@@ -478,33 +478,33 @@ let U = Vowel( id: .U,
         "WH":[.M, .R],                  // WHUMP, WHURL
         "Y": [.C, .L, .M, .P, .R]],     // YUCCA, YULE, YUMMY, YUPS, YURT
     
-    dynFollowers: {(pea: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+    dynFollowers: {(syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
-        let lastElement = pea.lastElement()
+        let lastElement = syll.lastElement()
 
         if pos == .positionLAST {
             
             // Final I for ENNUI
-            if pea.matchesString("ENN", matchFull: true) {
+            if syll.matchesString("ENN", matchFull: true) {
                 followers += [.I]
             }
             
             // Final UR restricted words: BLUR, INCUR, SLUR
-            if pea.matchesSet(["BL", "INC", "SL"]) {
+            if syll.matchesSet(["BL", "INC", "SL"]) {
                 followers += [.R]
             }
             
             // Final X for FLUX
-            if pea.matchesSet(["FL"]) {
+            if syll.matchesSet(["FL"]) {
                 followers += [.X]
             }
         }
         
-        // Allow blending into U only for VACUUM
-        if pea.matchesString("VACU", matchFull: false) {
-            followers += [.M]
+        // Approve double U for VACUUM
+        if syll.matchesString("VAC", matchFull: true) {
+            followers += [.U]
         }
-        
+
         return followers
     })
 

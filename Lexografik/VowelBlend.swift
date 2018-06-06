@@ -22,8 +22,8 @@ class VowelBlend: LexicalBlend, PhoneticFollowers {
         return initialFollowers
     }
     
-    func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
-        let firstElement = pea.firstElement()               // Should only be one element
+    func secondFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter] {
+        let firstElement = syll.firstElement()               // Should only be one element
         
         if let secondFollowers = followerTable[firstElement!.id] {
             return secondFollowers
@@ -33,21 +33,21 @@ class VowelBlend: LexicalBlend, PhoneticFollowers {
         }
     }
     
-    func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
+    func midFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter] {
         var midFollowers = interCons + blendInto
         if dynFollowers != nil {
-            midFollowers += self.dynFollowers!(pea, .positionMIDDLE)
+            midFollowers += self.dynFollowers!(syll, .positionMIDDLE)
         }
         return midFollowers
     }
     
-    func lastFollowers(pea: PhoneticElementArray) -> [Letter] {
+    func lastFollowers(syll: SyllabicArray) -> [Letter] {
         var lastFollowers = finalCons
         if canPlural {
             lastFollowers += [.S]
         }
         if dynFollowers != nil {
-            lastFollowers += self.dynFollowers!(pea, .positionLAST)
+            lastFollowers += self.dynFollowers!(syll, .positionLAST)
         }
         return lastFollowers
     }
@@ -62,7 +62,7 @@ class VowelBlend: LexicalBlend, PhoneticFollowers {
         
         followerTable: [String:[Letter]],
         
-        dynFollowers: ((PhoneticElementArray, PositionIndicator) -> [Letter])?)   // Callback for context-sensitive followers
+        dynFollowers: ((SyllabicArray, PositionIndicator) -> [Letter])?)   // Callback for context-sensitive followers
 
     {
         self.initCons = initCons
@@ -189,7 +189,7 @@ let AU = VowelBlend(first: .A, second: .U, third: nil,
                         "SL":[.G],              // SLAUGHTER
                         "ST":[.N],              // STAUNCH
                         "STR":[.G],             // (DIS)TRAUGHT
-                        "T":[.G, .N, .T],       // TAUGHT, TAUNT, TAUT
+                        "T":[.G, .N, .P, .T],   // TAUGHT, TAUNT, TAUPE, TAUT
                         "V":[.L, .N]],          // VAULT, VAUNT
                     dynFollowers: nil)
 
@@ -247,10 +247,10 @@ let EA = VowelBlend(first: .E, second: .A, third: nil,
                         "WR":[.T],                                          // WREATH
                         "Y":[.H, .R, .S],                                   // YEAH, YEAR, YEAS/T
                         "Z":[.L]],                                          // ZEAL
-                    dynFollowers: { (phonemes:PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+                    dynFollowers: { (syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
                         
                         // Allow for BEAU and all derivatives (BEAUTY, BEAUTIFUL, etc.)
-                        if phonemes.matchesString("B", matchFull: true) {
+                        if syll.matchesString("B", matchFull: false) {
                             return [.U]
                         }
                         else {
@@ -450,9 +450,9 @@ let IE = VowelBlend(first: .I, second: .E, third: nil,
                         "V":[.D, .R, .S, .W],       // VIED, VIES, VIER, VIEW
                         "W":[.L],                   // WIELD
                         "Y":[.L]],                  // YIELD
-                    dynFollowers: { (phonemes: PhoneticElementArray, pos: PositionIndicator) -> [Letter] in
+                    dynFollowers: { (syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
                         var followers: [Letter] = []
-                        let lastElement = phonemes.lastElement()
+                        let lastElement = syll.lastElement()
                         
                         // this allows for VIEW and related words (PREVIEW, REVIEW, OVERVIEW)
                         if lastElement != nil && lastElement!.id == "V" {
@@ -460,7 +460,7 @@ let IE = VowelBlend(first: .I, second: .E, third: nil,
                         }
                             
                         // this allows for LIEU only at the end of a word
-                        else if phonemes.matchesString("L", matchFull: true) {
+                        else if syll.matchesString("L", matchFull: true) {
                             followers += [.U]
                         }
                             
@@ -486,11 +486,11 @@ let II = VowelBlend(first: .I, second: .I, third: nil,
                     glottal: true,
                     followerTable: [
                         "SK":[.N]],             // SKIING
-                    dynFollowers: { (phonemes: PhoneticElementArray, posIndicator: PositionIndicator) -> [Letter] in
-                        let lastElement = phonemes.lastElement()
+                    dynFollowers: { (syll: SyllabicArray, posIndicator: PositionIndicator) -> [Letter] in
+                        let lastElement = syll.lastElement()
                         
                         // Double I words: SKIING, TAXIING
-                        if phonemes.matchesSet(["SK", "TAX"]) {
+                        if syll.matchesSet(["SK", "TAX"]) {
                             return [.N]
                         }
                         else {
@@ -511,7 +511,7 @@ let IO = VowelBlend(first: .I, second: .O, third: nil,
                         "D":[.D],               // DIODE
                         "F":[.R],               // FIORD
                         "L":[.N],               // LION
-                        "P":[.U],               // PIOUS
+                        "P":[.N, .U],           // PIONEER, PIOUS
                         "R":[.T],               // RIOT
                         "PR":[.R],              // PRIOR
                         "SC":[.N],              // SCION
@@ -594,7 +594,7 @@ let OI = VowelBlend(first: .O, second: .I, third: nil,
                     finalCons: [.C, .D, .L, .N, .R],
                     blendInto: [],
                     canPlural: false,       // but KOI perhaps?
-                    glottal: true,
+                    glottal: false,
                     followerTable: [
                         "B":[.L, .S],           // BOIL, BOISTEROUS
                         "BR":[.L],              // BROIL
@@ -682,8 +682,9 @@ let OU = VowelBlend(first: .O, second: .U, third: nil,
                         "CR":[.C, .T],                  // CROUCH, CROUTON
                         "D":[.B, .G, .R],               // DOUBT, DOUGH, DOUR
                         "F":[.G, .L, .N, .R],           // FOUGHT, FOUL, FOUND/FOUNT, FOUR(TH)
-                        "FL":[.C, .N, .R],              // FLOUNCE, FLOUNDER, FLOUR
+                        "FL":[.C, .N, .R, .T],          // FLOUNCE, FLOUNDER, FLOUR, FLOUT
                         "G":[.G, .R, .T],               // GOUGE, GOURD, GOUT
+                        "GH":[.L],                      // GHOUL
                         "GR":[.N, .P, .S, .T],          // GROUND, GROUP, GROUSE, GROUT
                         "H":[.N, .R, .S],               // HOUND, HOUR, HOUSE
                         "J":[.L, .R, .S],               // JOULE, JOURNEY, JOUST
@@ -702,7 +703,7 @@ let OU = VowelBlend(first: .O, second: .U, third: nil,
                         "SP":[.T],                      // SPOUT
                         "SPR":[.T],                     // SPROUT
                         "ST":[.T],                      // STOUT
-                        "T":[.C, .G, .R, .T],           // TOUCH, TOUGH, TOUR, TOUT
+                        "T":[.C, .G, .P, .R, .T],       // TOUCH, TOUGH, TOUPEE, TOUR, TOUT
                         "TH":[.G],                      // THOUGHT
                         "TR":[.G, .N, .P, .S, .T],      // TROUGH, TROUNCE, TROUPE, TROUSERS, TROUT
                         "V":[.C],                       // VOUCH
@@ -784,13 +785,22 @@ let UO = VowelBlend(first: .U, second: .O, third: nil,
 
 let UU = VowelBlend(first: .U, second: .U, third: nil,
                     initCons: [],
-                    interCons: [.M],       // VACUUM
-                    finalCons: [.M],
+                    interCons: [],       // VACUUM
+                    finalCons: [],
                     blendInto: [],
                     canPlural: false,
                     glottal: false,
                     followerTable: [:],
-                    dynFollowers: nil)
+                    dynFollowers: { (syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
+                        
+                        // Allow M follower after UU for VACUUM
+                        if syll.matchesString("VAC", matchFull: true) {
+                            return [.M]
+                        }
+                        else {
+                            return []
+                        }
+                    })
 
 let vowelBlendMap = ["AA":AA, "AE":AE, "AI":AI, "AO":AO, "AU":AU,
     "EA":EA, "EE":EE, "EI":EI, "EO":EO, "EU":EU, "EAU":EAU,

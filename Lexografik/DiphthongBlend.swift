@@ -18,8 +18,8 @@ class DiphthongBlend: LexicalBlend, PhoneticFollowers {
         return initFollowers
     }
     
-    func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
-        let firstElement = pea.firstElement()               // Should only be one element
+    func secondFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter] {
+        let firstElement = syll.firstElement()               // Should only be one element
         
         if let secondFollowers = followerTable[firstElement!.id] {
             return secondFollowers
@@ -29,15 +29,15 @@ class DiphthongBlend: LexicalBlend, PhoneticFollowers {
         }
     }
     
-    func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter] {
+    func midFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter] {
         return interFollowers
     }
     
-    func lastFollowers(pea: PhoneticElementArray) -> [Letter] {
+    func lastFollowers(syll: SyllabicArray) -> [Letter] {
         return finFollowers
     }
     
-    func verifyFinal(pea: PhoneticElementArray) -> Bool {
+    func verifyFinal(syll: SyllabicArray) -> Bool {
         return true;
     }
     

@@ -10,9 +10,9 @@ import Foundation
 
 protocol PhoneticFollowers {
     func initialFollowers(nRemain: Int) -> [Letter]
-    func secondFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter]
-    func midFollowers(pea: PhoneticElementArray, nRemain: Int) -> [Letter]
-    func lastFollowers(pea: PhoneticElementArray) -> [Letter]
+    func secondFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter]
+    func midFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter]
+    func lastFollowers(syll: SyllabicArray) -> [Letter]
 }
 
 class PhoneticFollower {

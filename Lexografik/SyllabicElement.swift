@@ -23,6 +23,7 @@ struct SyllabicElement {
         self.ancillaryConsonant = source.ancillaryConsonant
     }
     
+    // NOTE: This will always treat Y's as consonants!
     init(firstElement: PhoneticElement) {
         if firstElement is Vowel {
             self.vowelSound = firstElement
@@ -69,5 +70,34 @@ struct SyllabicElement {
             stringRep.append(ancillaryConsonant!.id)
         }
         return stringRep
+    }
+    
+    func numLetters() -> Int {
+        var letterCount: Int = 0
+        
+        if initialConsonant != nil {
+            letterCount += initialConsonant!.id.count
+        }
+        if vowelSound != nil {
+            letterCount += vowelSound!.id.count
+        }
+        if finalConsonant != nil {
+            letterCount += finalConsonant!.id.count
+        }
+        if silentE != nil {
+            letterCount += silentE!.id.count
+        }
+        if ancillaryConsonant != nil {
+            letterCount += ancillaryConsonant!.id.count
+        }
+        return letterCount
+    }
+    
+    mutating func setVowel(_ newVowel: PhoneticElement) {
+        self.vowelSound = newVowel
+    }
+    
+    mutating func setFinal(_ newFinal: PhoneticElement) {
+        self.finalConsonant = newFinal
     }
 }

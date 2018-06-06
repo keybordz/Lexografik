@@ -186,11 +186,11 @@ class WordStorm {
                 
                 // Does adding the new character maintain the "wordability" of the array
                 if newPartialWord.testLexical(c, remainingLetters: length) {
-                    if newPartialWord.oneSyllableWords && newPartialWord.syllables.count > 1 {
+                    if newPartialWord.oneSyllableWords && newPartialWord.numSyllables() > 1 {
                         continue
                     }
                     newPartialWord.appendLetters([c])
-                    newPartialWord.phonemes.final = true
+                    newPartialWord.syllables.final = true
                 }
                 else {
                     continue
