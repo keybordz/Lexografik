@@ -20,7 +20,7 @@ class YBlend: ConsonantBlend {
         super.init(first: first, second: .Y, third: nil,
                    initBlend: initBlend, initVowels: initVowels, midBlend: midBlend, midVowels: midVowels, finFollowers: finFollowers,
                    canPlural: false, blendsWithY: false, single: true, endOfWord: true, preceders: [],
-                   followerTable: [:], dynFollowers: nil, verifyEnd: nil)
+                   followerTable: [:], dynFollowers: nil)
     }
 }
 

@@ -104,7 +104,7 @@ let A = Vowel(id: .A,
                 "PH": [.L, .N, .R, .S],                  // PHALANX, PHANTOM, PHARISEE, PHASE
                 "PHR": [.S],                             // PHRASE
                 "PL": [.C, .I, .N, .Q, .T, .U, .Y],      // PLACE, PLAIN, PLAN, PLAQUE, PLATFORM, PLAUSIBLE, PLAY
-                "PR": [.I, .N, .T, .W, .Y],              // PRAISE, PRANK, PRATFALL, PRAWN, PRAY
+                "PR": [.I, .M, .N, .T, .W, .Y],          // PRAISE, PRAM, PRANK, PRATFALL, PRAWN, PRAY
                 "QU": [.C, .D, .F, .G, .I, .K, .L, .N, .R, .S, .V, .Y],
                                                         // QUACK, QUAD, QUAFF, QUAGMIRE, QUAIL, QUAKE, QUALITY,
                                                         // QUANT(ITY), QUARTER/QUARRY, QUASH, QUAVER, QUAY
@@ -179,10 +179,17 @@ let E = Vowel( id: .E,
         "AH":[.E],                                      // AHEM
         "B": allLetters - [.K, .O, .Q, .U, .W, .X, .Z],
         "BL":[.A, .D, .E, .N, .S, .W],                  // BLEAK, BLED, BLEED, BLEND, BLESS/T, BLEW
+        "BR":[.A, .D, .E, .T, .V, .W],                  // BREAK, BRED, BREED, BRETHREN, BREVE, BREW
+        "C": [.A, .D, .I, .L, .N, .R],                  // CEASE, CEDAR, CEILING, CELL, CENT, CERTIFY
+        "CH":[.A, .D, .E, .S, .V, .W],                  // CHEAT, CHEDDAR, CHEESE, CHEST, CHEVRON, CHEW
         "CL":[.A, .F, .N, .R],                          // CLEAT, CLEF, CLENCH, CLERK
+        "CR":[.A, .D, .E, .P, .S, .T, .V, .W],          // CREAK, CREDIT, CREEP, CREPT, CREST, CRETIN, CREVICE, CREW
         "D": allLetters - [.H, .K, .Y, .Z],
+        "DR":[.A, .C, .D, .G, .S, .W],                  // DREAM, DRECK, DREDGE, DREG, DRESS, DREW
         "DW": [.L],                                     // DWELL
         "F": [.A, .C, .D, .E, .I, .L, .M, .N, .R, .S, .T, .U, .W, .Y, .Z],
+        "FL":[.A, .C, .D, .E, .W, .X],
+        "FR":[.A, .C, .E, .T],
         "G": [.A, .C, .E, .L, .M, .N, .O, .R, .S, .T],
         "H": [.A, .C, .D, .E, .F, .I, .L, .M, .N, .R, .S, .T, .U, .W, .Y],
         "J": [.A, .E, .L, .R, .S, .T, .W],
@@ -204,6 +211,7 @@ let E = Vowel( id: .E,
         "SM":[.G, .L],                                  // SMEGMA, SMELL/SMELTER
         "SN":[.A, .E],                                  // SNEAK, SNEER
         "SQU":[.A, .E],                                 // SQUEAL, SQUEEZE
+        "TS":[.T],                                      // TSETSE
         "WH": [.A, .E, .N, .R, .T, .Y],                 // WHEAT, WHEEL, WHEN/CE, WHERE, WHET, WHEY
         "Y": [.A, .G, .L, .N, .O, .P, .S, .T, .W]],     // YEAR, YEGG, YELL, YENS, YEOMAN, YEPS, YESTERDAY, YETI, YEWS
     dynFollowers: {(syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
@@ -221,6 +229,7 @@ let E = Vowel( id: .E,
             if lastElement!.id == "G" || lastElement!.id == "GR" ||    // OGEE, APOGEE, PERIGEE, DEGREE, PEDIGREE
                 lastElement!.id == "P" || lastElement!.id == "S" ||    // RUPEE, OVERSEE
                 lastElement!.id == "KN" || lastElement!.id == "TH" ||  // KNEE, THEE
+                lastElement!.id == "Y" || lastElement!.id == "SS" ||   // PAYEE, EMPLOYEE, ADDRESSEE
                 lastElement!.id.contains("R") ||                       // FREE, AGREE/PEDIGREE, TREE, THREE, PUREE
                 lastElement!.id.contains("L") {                        // GLEE, FLEE, ALEE
                 followers += [.E]
@@ -314,8 +323,8 @@ let I = Vowel( id: .I,
                 followers += [.B]
             }
             
-            // Final IE words: AERIE, CADDIE, GENIE, STYMIE
-            if syll.matchesSet(["AER", "CADD", "GEN", "STYM"]) {
+            // Final IE words: AERIE, CADDIE, GENIE, STYMIE, UNTIE
+            if syll.matchesSet(["AER", "CADD", "GEN", "STYM", "UNT"]) {
                 followers += [.E]
             }
             
@@ -366,27 +375,50 @@ let O = Vowel( id: .O,
         "CR":[.A, .C, .F, .N, .P, .U, .W],      // CROAK, CROCK, CROFT, CRONY, CROP, CROUCH, CROW(N)
         "D": allLetters - [.A, .H, .K, .Q],
         "F": [.A, .B, .C, .D, .E, .G, .I, .L, .N, .O, .P, .R, .S, .U, .W, .X],
+        "FL": [.A, .C, .E, .G, .P, .R, .S, .T, .U, .W],
+        "FR": [.C, .G, .M, .N, .S, .T, .W],
         "G": [.A, .B, .D, .E, .F, .G, .I, .L, .N, .O, .P, .R, .S, .T, .U, .V, .W, .Y],
         "GH":[.S, .U],                          // GHOST, GHOUL
         "GN":[.C, .M],                          // GNOCCHI, GNOME
+        "GR":[.A, .I, .P, .S, .T, .U, .V, .W],  // GROAN, GROIN, GROPE, GROSS, GROTTO, GROVE, GROW
         "H": [.A, .B, .C, .D, .E, .G, .I, .L, .M, .N, .O, .P, .R, .S, .T, .U, .V, .W],
         "J": [.B, .C, .E, .G, .I, .K, .L, .S, .T, .U, .V, .W, .Y],
         "K": [.N, .O, .P, .R, .S, .T, .W],
         "KN": [.B, .C, .L, .T, .W],             // KNOB, KNOCK, KNOLL, KNOT, KNOW
         "L": [.A, .B, .C, .D, .E, .F, .G, .I, .M, .N, .O, .P, .R, .S, .T, .U, .V, .W, .X],
+        "M": [.A, .B, .C, .D, .E, .I, .L, .M, .N, .O, .P, .R, .S, .T, .U, .V, .W, .X],
         "N":[.B, .C, .D, .E, .I, .M, .N, .O, .R, .S, .T, .U, .V, .W, .Z],
                                                 // NOBS, NOCTURNE, NODS, NOES, NOMINAL, NONE, NOON, NORM, NOUN, NOVEL, NOWS, NOZZLE
+        "P": [.A, .C, .D, .E, .G, .I, .K, .L, .M, .N, .O, .P, .R, .S, .T, .U, .W, .X],
         "PH":[.E, .N, .O, .S],                  // PHOENIX, PHONE, PHOOEY, PHOSPHORUS
+        "PL":[.D, .P, .T, .U, .V, .W, .Y],      // PLOD, PLOP, PLOT, PLOUGH, PLOVER, PLOW, PLOY
+        "PR":[.B, .C, .D, .F, .G, .J, .L, .M, .N, .O, .P, .R, .S, .T, .W],
+                                                // PROBLEM, PROCEED, PRODUCT, PROFESS, PROGRAM, PROJECT, PROLONG, PROMONTORY,
+                                                // PRONOUNCE, PROOF, PROPOSE, PRORATE, PROSPECT, PROTECT, PROW
         "PS":[.R],                              // PSORIASIS
         "QU":[.R, .T],                          // QUORUM, QUOTE
+        "R": [.A, .B, .C, .D, .E, .G, .I, .L, .M, .N, .O, .P, .Q, .S, .T, .U, .V, .W, .Y],
         "RH":[.M, .S],                          // RHOMBUS/OID, RHOS
-        "SC":[.F, .L, .N, .O, .P, .R, .U, .W],  // SCOFF, SCOLL, SCONE, SCOOT, SCOPE, SCORE, SCOUT, SCOWL
+        "S": [.A, .B, .C, .D, .F, .G, .I, .L, .M, .N, .O, .P, .R, .T, .U, .W, .Y],
+        "SC":[.F, .L, .N, .O, .P, .R, .U, .W],  // SCOFF, SCOLL, SCONE, SCOOT, SCOPE, SCORE, SCOUT, SCOW(L)
+        "SCR":[.L, .T, .U],                     // SCROLL, SCROTUM, SCROUNGE,
         "SH":[.A, .B, .C, .D, .E, .N, .O, .P, .R, .T, .U, .V, .W],
                                                 // SHOAL, SHOBBY, SHOCK, SHOD, SHOE, SHONE, SHOOT, SHOP, SHORE, SHOT, SHOUT, SHOVE, SHOW
+        "SHR":[.U, .V],                         // SHROUD, SHROVE
+        "SL":[.B, .E, .G, .O, .P, .T, .U, .W],  // SLOB, SLOE, SLOG, SLOOP, SLOPPY, SLOT, SLOUGH, SLOW
         "SM":[.C, .G, .K, .O, .T],              // SMOCK, SMOG, SMOKE, SMOOTH, SMOTE/SMOTHER
         "SN":[.B, .O, .R, .T, .U, .W],          // SNOB, SNOOT, SNORE, SNOT, SNOUT, SNOW
+        "SP":[.I, .K, .N, .O, .R, .T, .U],      // SPOKE, SPOIL, SPONSOR, SPOON, SPORE, SPOT, SPOUT
+        "SPR":[.C, .U],                         // SPROCKET, SPROUT
+        "T": [.A, .C, .D, .E, .F, .G, .I, .L, .M, .N, .O, .P, .R, .S, .T, .U, .W, .Y],
+                                                // TOAD, TOCK, TODAY, TOES, TOFU, TOGS, TOIL, TOLD, TOMB,
+                                                // TONE, TOOL, TOPS, TORUS, TOSH, TOTAL, TOUT, TOWS, TOYS
+        "TH":[.N, .R, .S, .U],                  // THONG, THORN, THOSE, THOU
         "THR":[.B, .E, .N, .U, .W],             // THROB, THROE, THRONE, THROUGH, THROW
-        "WH": [.A, .L, .M, .R, .S],             // WHOA, WHOLE, WHOM, WHORE/WHORL, WHOSE
+        "TR":[.D, .G, .L, .O, .M, .P, .T, .U, .V, .W, .Y],
+                                                // TROD, TROGLODYTE, TROLL, TROMP TROOP, TROPE, TROT, TROUT, TROVE, TROWEL, TROY
+        "WH":[.A, .L, .M, .R, .S],              // WHOA, WHOLE, WHOM, WHORE/WHORL, WHOSE
+        "WR":[.N, .T, .U],                      // WRONG, WROTE, WROUGHT
         "Y": [.D, .G, .L, .N, .R, .U, .W, .Y]], // YODEL, YOGA, YOLK, YONDER, YORE, YOUR, YOWS, YOYO
     dynFollowers: {(syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []

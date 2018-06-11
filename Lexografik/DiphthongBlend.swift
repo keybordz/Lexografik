@@ -99,7 +99,7 @@ let AW = DiphthongBlend(vowel: .A, consonant: .W, start: true, end: true,
                             "CL":[.E, .I, .S],      // CLAWED, CLAWING, CLAWS
                             "CR":[.F, .L, .S],      // CRAWFISH, CRAWL, CRAWS
                             "D":[.D, .N],           // DAWDLE, DAWN
-                            "DR":[.E, .I, .N, .S],  // DRAWER, DRAWING, DRAWN, DRAWS
+                            "DR":[.B, .E, .I, .N, .S],  // DRAWBACK, DRAWER, DRAWING, DRAWN, DRAWS
                             "F":[.N],               // FAWN
                             "FL":[.E, .L, .S],      // FLAWED, FLAWLESS, FLAWS
                             "G":[.K],               // GAWK
@@ -220,7 +220,7 @@ let AY = DiphthongBlend(vowel: .A, consonant: .Y, start: true, end: true,
                             "PR":[.E, .I, .S],          // PRAYED, PRAYING, PRAYS
                             "QU":[.S],                  // QUAYS
                             "R":[.O, .S],               // RAYON, RAYS
-                            "S":[.I, .S],               // SAYING, SAYS
+                            "S":[.E, .I, .S],           // SAYER, SAYING, SAYS
                             "SL":[.E, .I, .S],          // SLAYED, SLAYING, SLAYS
                             "SP":[.E, .I, .S],          // SPAYED, SPAYING, SPAYS
                             "SPR":[.E, .I, .S],         // SPRAYED, SPRAYING, SPRAYS

@@ -110,8 +110,12 @@ class LexografikTests_2013: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SWOON")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SWORN")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "WRONG")))
+        
+        // No double O ending except for IGLOO
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "INGOO")))
-        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "ORIRN")))
+        
+        // No R stopper following an R blend
+//        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "ORIRN")))
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "WRORN")))
         
         storm.gatherWords(6)

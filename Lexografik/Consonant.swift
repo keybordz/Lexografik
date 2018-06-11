@@ -330,7 +330,7 @@ let G = Consonant( id: .G,
         "AE":[.I],              // AEGIS
         "AU":[.E],              // AUGER
         "E":[.A, .G, .O, .R],   // EGAD, EGGS, EGOS, EGRET
-        "EA":[.E],              // EAGER
+        "EA":[.E, .L],          // EAGER, EAGLE
         "EI":[.H],              // EIGHT
         "I":[.L, .N],           // IGLOO, IGNORE
         "O":[.D, .L, .R],       // OGDEN, OGLE, OGRE
@@ -415,7 +415,7 @@ let K = Consonant( id: .K,
     blendStart: [.L, .N, .R],
     blendInto: [.L, .N, .R],
     defFinal: [.E],
-    hardStops: [.M],
+    hardStops: [.M, .W],
     allowedVowels: allVowels,
     blendsWithY: true,
     canStart: true,
@@ -560,14 +560,14 @@ let M = Consonant( id: .M,
         if pos == .positionLAST {
             let lastElement = syll.lastElement()
             
-            // Final A words: LIMA, MAMA, COMA, MELANOMA, MAGMA
+            // Final A words: LIMA, MAMA, COMA, MELANOMA, MAGMA, PUMA
             if lastElement!.id == "A" || lastElement!.id == "I" || lastElement!.id == "O" ||
-                syll.matchesString("MAG", matchFull: true) {
+                syll.matchesSet(["MAG", "PU"]) {
                 followers += [.A]
             }
             
-            // Allow final I for SALAMI & SWAMI
-            if syll.matchesSet(["SALA", "SWA"]) {
+            // Allow final I for SALAMI, SEMI & SWAMI
+            if syll.matchesSet(["SALA", "SE", "SWA"]) {
                 followers += [.I]
             }
         }
@@ -586,7 +586,7 @@ let N = Consonant( id: .N,
     defFinal: [.E, .K],
 
     // INBRED, INFER, BANJO, INLET, INMATE, INPUT, UNRIG, INVITE, ENZYME, WAINWRIGHT
-    hardStops: [.B, .F, .J, .L, .M, .P, .R, .V, .W, .Z],
+    hardStops: [.B, .F, .G, .J, .L, .M, .P, .R, .V, .W, .Z],
     allowedVowels: allVowels,
     blendsWithY: true,
     canStart: true,
@@ -645,11 +645,11 @@ let N = Consonant( id: .N,
             }
             
             // Approve final NT for all regular vowels plus these blends
-            // ex. PANT, RENT, PINT, FONT, BUNT, PAINT, FEINT, POINT, GIANT, GRADIENT, COUNT, TRUANT, FLUENT
+            // ex. PANT, RENT, PINT, FONT, BUNT, PAINT, FEINT, POINT, GIANT, GRADIENT, COUNT, TRUANT, FLUENT, LEANT
             if lastElement is Vowel ||
                 (lastElement!.id == "AI" || lastElement!.id == "EI" || lastElement!.id == "OI" ||
                  lastElement!.id == "IA" || lastElement!.id == "IE" || lastElement!.id == "OU" ||
-                 lastElement!.id == "UA" || lastElement!.id == "UE") {
+                 lastElement!.id == "UA" || lastElement!.id == "UE" || lastElement!.id == "EA") {
                 followers += [.T]
             }
             
@@ -796,8 +796,8 @@ let R = Consonant( id: .R,
                 followers += [.L]
             }
             
-            // Allow final I for SAFARI, SARI, TORI
-            if syll.matchesSet(["SA", "SAFA", "TO"]) {
+            // Allow final I for SAFARI, SARI, SORI, TORI
+            if syll.matchesSet(["SA", "SAFA", "SO", "TO"]) {
                 followers += [.I]
             }
             
@@ -900,7 +900,7 @@ let T = Consonant( id: .T,
     liquidBlend: true,
     followerTable: [
         "A":[.L, .O, .R, .T],           // ATLAS, ATONE, ATRIA, ATTEST
-        "AU":[.H],                      // AUTHOR/AUTHENTIC
+        "AU":[.H, .O],                  // AUTHOR/AUTHENTIC, AUTO
         "E":[.C, .H, .N],               // ETCH, ETHER, ETNA,
         "EA":[.E, .I, .S],              // EATEN, EATING, EATS
         "EU":[.H],                      // EUTHENIZE
@@ -1072,6 +1072,7 @@ let Y = Consonant( id: .Y,
         "S":[.C, .L, .M, .N, .P, .R, .S],   // SYCOPHANT, SYLLABUS, SYMBOL, SYNERGY, SYPHILIS, SYRUP, SYSTEM
         "SC":[.T],                  // SCYTHE
         "SH":[.E, .I, .L],          // SHYER, SHYING, SHYLY
+        "SL":[.E, .I, .L],          // SLYER, SLYING, SLYLY
         "SP":[.I],                  // SPYING
         "ST":[.E, .M, .R],          // STYE, STYMIE, STYROFOAM
         "T":[.I, .P, .R],           // TYING, TYPE, TYRANT

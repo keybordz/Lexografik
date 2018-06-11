@@ -194,7 +194,7 @@ let AU = VowelBlend(first: .A, second: .U, third: nil,
                     dynFollowers: nil)
 
 let EA = VowelBlend(first: .E, second: .A, third: nil,
-                    initCons: [.C, .R, .S, .T, .V],
+                    initCons: [.C, .G, .R, .S, .T, .V],
                     interCons: [.B, .C, .D, .F, .G, .K, .L, .M, .N, .P, .R, .S, .T, .V],
                     finalCons: [.D, .F, .K, .L, .M, .N, .P, .R, .T],
                     blendInto: [],
@@ -696,6 +696,7 @@ let OU = VowelBlend(first: .O, second: .U, third: nil,
                         "R":[.G, .L, .N, .S, .T],       // ROUGE/ROUGH, ROULETTE, ROUND, ROUST, ROUT
                         "S":[.G, .L, .N, .P, .R, .S, .T],   // SOUGHT, SOUL, SOUND, SOUP, SOUR, SOUSE, SOUTH
                         "SC":[.R, .T],                  // SCOUR(GE), SCOUT
+                        "SCR":[.N],                     // SCROUNGE
                         "SH":[.L, .T],                  // SHOULD, SHOUT
                         "SHR":[.D],                     // SHROUD
                         "SL":[.C, .G],                  // SLOUCH, SLOUGH

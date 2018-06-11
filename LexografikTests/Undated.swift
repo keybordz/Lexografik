@@ -141,20 +141,6 @@ class LexografikTests_Undated: XCTestCase {
         storm.gatherWords(4)
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "COOI")))
     }
-    
-    func test_wearIsome() {
-        storm = WordStorm(outer: ["W", "E", "A", "R", "S", "O", "M", "E"], center: "I")
-        
-        storm.gatherWords(4)
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SARI")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "EMIR")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AIRE")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SWIM")))
-        
-        storm.gatherWords(5)
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AERIE")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "OSIER")))
-    }
         
     func test_triyearlY() {
         storm = WordStorm(outer: ["T", "R", "I", "Y", "E", "A", "R", "L"], center: "Y")
