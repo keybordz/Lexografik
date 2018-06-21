@@ -34,6 +34,12 @@
 		C95BF34C1C6C26C10051F725 /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95BF34B1C6C26C10051F725 /* Letter.swift */; };
 		C95BF34D1C6C270B0051F725 /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95BF34B1C6C26C10051F725 /* Letter.swift */; };
 		C96A46BD20B895C000B10E4B /* 2016.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A46BC20B895C000B10E4B /* 2016.swift */; };
+		C994D0B420DC4A78001A8ABB /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = C994D0B120DC4A78001A8ABB /* index.html */; };
+		C994D0B520DC4A78001A8ABB /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = C994D0B120DC4A78001A8ABB /* index.html */; };
+		C994D0B620DC4A78001A8ABB /* stat_styles.css in Resources */ = {isa = PBXBuildFile; fileRef = C994D0B220DC4A78001A8ABB /* stat_styles.css */; };
+		C994D0B720DC4A78001A8ABB /* stat_styles.css in Resources */ = {isa = PBXBuildFile; fileRef = C994D0B220DC4A78001A8ABB /* stat_styles.css */; };
+		C994D0B820DC4A78001A8ABB /* stats.js in Resources */ = {isa = PBXBuildFile; fileRef = C994D0B320DC4A78001A8ABB /* stats.js */; };
+		C994D0B920DC4A78001A8ABB /* stats.js in Resources */ = {isa = PBXBuildFile; fileRef = C994D0B320DC4A78001A8ABB /* stats.js */; };
 		C9A352831BA85A5D006FB539 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A352821BA85A5D006FB539 /* AppDelegate.swift */; };
 		C9A352851BA85A5D006FB539 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A352841BA85A5D006FB539 /* ViewController.swift */; };
 		C9A352881BA85A5D006FB539 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A352861BA85A5D006FB539 /* Main.storyboard */; };
@@ -90,6 +96,9 @@
 		C95BF34B1C6C26C10051F725 /* Letter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		C96A46BC20B895C000B10E4B /* 2016.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2016.swift; sourceTree = "<group>"; };
 		C9762D1B1BAB800000A4E25D /* LetterArray (OLD).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LetterArray (OLD).swift"; sourceTree = "<group>"; };
+		C994D0B120DC4A78001A8ABB /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		C994D0B220DC4A78001A8ABB /* stat_styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = stat_styles.css; sourceTree = "<group>"; };
+		C994D0B320DC4A78001A8ABB /* stats.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stats.js; sourceTree = "<group>"; };
 		C9A3527D1BA85A5D006FB539 /* Lexografik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lexografik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A352811BA85A5D006FB539 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9A352821BA85A5D006FB539 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -211,6 +220,9 @@
 		C9A352801BA85A5D006FB539 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C994D0B120DC4A78001A8ABB /* index.html */,
+				C994D0B220DC4A78001A8ABB /* stat_styles.css */,
+				C994D0B320DC4A78001A8ABB /* stats.js */,
 				C906A80F20BF95450049002B /* lexeval.js */,
 				C9A352811BA85A5D006FB539 /* Info.plist */,
 			);
@@ -326,6 +338,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C994D0B420DC4A78001A8ABB /* index.html in Resources */,
+				C994D0B820DC4A78001A8ABB /* stats.js in Resources */,
+				C994D0B620DC4A78001A8ABB /* stat_styles.css in Resources */,
 				C9A352881BA85A5D006FB539 /* Main.storyboard in Resources */,
 				C9A3528D1BA85A5D006FB539 /* LaunchScreen.xib in Resources */,
 				C906A81020BF95450049002B /* lexeval.js in Resources */,
@@ -338,6 +353,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C906A81120BF95450049002B /* lexeval.js in Resources */,
+				C994D0B720DC4A78001A8ABB /* stat_styles.css in Resources */,
+				C994D0B920DC4A78001A8ABB /* stats.js in Resources */,
+				C994D0B520DC4A78001A8ABB /* index.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

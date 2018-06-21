@@ -374,6 +374,11 @@ let G = Consonant( id: .G,
             if syll.lastElement()!.id == "A" || syll.lastElement()!.id == "O" {
                 followers += [.A, .O]
             }
+            
+            // Special case for AMIGO
+            if syll.matchesString("AMI", matchFull: true) {
+                followers += [.O]
+            }
         }
         
         return followers
@@ -695,8 +700,8 @@ let P = Consonant( id: .P,
         
         if pos == .positionLAST {
             
-            // Approve final T for KEPT, LEAPT, RAPT, WEPT, INAPT, INEPT
-            if syll.matchesSet(["ERU", "INA", "INE", "KE", "LEA", "RA", "WE"]) {
+            // Approve final T for KEPT, LEAPT, RAPT, SEPT, WEPT, INAPT, INEPT
+            if syll.matchesSet(["ERU", "INA", "INE", "KE", "LEA", "RA", "SE", "WE"]) {
                 followers += [.T]
             }
             
@@ -732,7 +737,7 @@ let Q = Consonant( id: .Q,
 let R = Consonant( id: .R,
     blendStart: [.H],                       // RH can only generate Y followers, ex. RHYME, RHYTHM
     blendInto: [.B, .C, .D, .F, .G, .H, .K, .L, .M, .N, .P, .R, .S, .T, .V],
-    defFinal: [.E, .K, .M, .N, .P, .T],
+    defFinal: [.E, .K, .M, .N, .P],
     hardStops: [.W],
     allowedVowels: allVowels,
     blendsWithY: true,
@@ -810,6 +815,11 @@ let R = Consonant( id: .R,
             if syll.matchesSet(["BU", "PU", "WHI"]) {
                 followers += [.R]
             }
+            
+            // Final RT for all singular vowels and HEART
+            if lastElement is Vowel || syll.matchesString("HEA", matchFull: true) {
+                followers += [.T]
+            }
         }
         
         else {
@@ -873,8 +883,8 @@ let S = Consonant(id: .S,
                 followers += [.O]
             }
             
-            // Final SP words: CLASP, CRISP, HASP, LISP, WASP, WISP
-            if syll.matchesSet(["CLA", "CRI", "HA", "LI", "WA", "WI"]) {
+            // Final SP words: CLASP, CRISP, GASP, HASP, LISP, RASP, WASP, WISP
+            if syll.matchesSet(["CLA", "CRI", "GA", "HA", "LI", "RA", "WA", "WI"]) {
                 followers += [.P]
             }
                 
@@ -908,7 +918,7 @@ let T = Consonant( id: .T,
         "IO":[.A],                      // IOTA
         "O":[.H, .I, .T],               // OTHER, OTIC, OTTER
         "OA":[.E, .H, .S],              // OATEN, OATH, OATS
-        "OU":[.S],                      // OUTS
+        "OU":[.E, .F, .I, .L, .S],      // OUTER, OUTFIELD, OUTING, OUTLAY, OUTS
         "U":[.T]],                      // UTTER
     dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
         var followers: [Letter] = []
@@ -935,8 +945,8 @@ let T = Consonant( id: .T,
                 followers += [.O]
             }
             
-            // Final TT words: BUTT, MATT, MITT, MUTT, SETT, WATT
-            if syll.matchesSet(["BU", "MA", "MI", "MU", "SE", "WA"]) {
+            // Final TT words: BUTT, MATT, MITT, MUTT, NETT, SETT, WATT
+            if syll.matchesSet(["BU", "MA", "MI", "MU", "NE", "SE", "WA"]) {
                 followers += [.T]
             }
             

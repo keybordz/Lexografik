@@ -81,8 +81,6 @@ class ConsonantBlend: LexicalBlend, PhoneticFollowers {
         followerTable: [String:[Letter]],
         
         dynFollowers: ((SyllabicArray, PositionIndicator) -> [Letter])?)   // Callback for context-sensitive followers
-        
-//        verifyEnd: ((PhoneticElementArray) -> Bool)? )       // Callback for context checking at the end of a word
     {
         var start = false
         
@@ -103,71 +101,6 @@ class ConsonantBlend: LexicalBlend, PhoneticFollowers {
         super.init(first: first, second: second, third: third,
                    canStart: start, canEnd: endOfWord, canPlural: canPlural,
                    dynFollowers: dynFollowers)
-        
-//        if endOfWord {
-//            if verifyEnd == nil {
-//                verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in
-//                    return self.defaultVerifyEnd(phonemes)
-//                }
-//            }
-//            else {
-//                self.verifyEndOfWord = verifyEnd
-//            }
-//        }
-//        else {
-//            self.verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return false }
-//        }
-    }
-    
-    // By default, blends that are combinations of sounds should only follow single vowels
-    // The exceptions are the H-blends that consititute a single sound (TH, PH, CH, SH)
-    // Also blends with a final S (BEANS, BOARS, SOAPS)
-    // Same things applies for double consonants with exception of SS
-    func defaultVerifyEnd(_ phonemes: PhoneticElementArray) -> Bool {
-        return true
-//        let lastElement = phonemes.lastElement()
-//
-//        // Use this to filter out some weird endings like NLK
-//        if (lastElement! is Consonant || lastElement! is ConsonantBlend) && lastElement!.id != "Y" {
-//            return false
-//        }
-//
-//        // Filter out consecutive R sounds
-//        else if !self.singlePhoneme && self.id.contains("R") {
-//            let prevElement = phonemes.nextToLastElement()
-//
-//            if prevElement == nil {
-//                return true
-//            }
-//            else if prevElement!.id.contains("R") {
-//                return false
-//            }
-//            else {
-//                return true
-//            }
-//        }
-//
-//        // single phoneme consonant blends (TH, CH, etc.) following a vowel blend are ok
-//        // so are blends that are S-plurals
-//        else if lastElement! is VowelBlend {
-//
-//            if self.singlePhoneme && (self.first != self.second) {
-//                return true
-//            }
-//
-//            else if self.second == .S && self.first != .S {
-//                return true
-//            }
-//
-//            else {
-//                return false
-//            }
-//        }
-//
-//        // Ok with any preceding single vowels
-//        else {
-//            return true
-//        }
     }
 }
 
@@ -1664,9 +1597,9 @@ let PR = ConsonantBlend(first: .P, second: .R, third: nil,
                         endOfWord: false,
                         preceders: [],
                         followerTable: [
-                            "A":[.I, .O],       // APRIL, APRON
-                            "O":[.Y],           // OPRY
-                            "U":[.I]],          // UPRIGHT
+                            "A":[.I, .O],           // APRIL, APRON
+                            "O":[.Y],               // OPRY
+                            "U":[.I, .O]],          // UPRIGHT, UPROOT
                         dynFollowers: nil)
 
 
@@ -2364,7 +2297,7 @@ let SQU = ConsonantBlend(first: .S, second: .Q, third: .U,
 let SS = ConsonantBlend(first: .S, second: .S, third: nil,
                         initBlend: [],
                         initVowels: [],
-                        midBlend: [.L],             // HASSLE, TUSSLE
+                        midBlend: [.L, .W],         // HASSLE/TUSSLE, PASSWORD
                         midVowels: allVowels,
                         finFollowers: [.O],         // LASSO
                         canPlural: false,

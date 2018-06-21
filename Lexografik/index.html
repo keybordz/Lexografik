@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lexografik Test Statistics</title>
+    <link rel="stylesheet" type="text/css" href="stat_styles.css">
+    <script type="text/javascript" src="stats.js"></script>
+  </head>
+  <body>
+    <h1>Lexografik Test Summary</h1>
+    <div class="options">
+
+      <span id="display_group">
+        <label>Display:</label>
+        <input type="radio" id="display_tabs" name="display_type" value="tabs"
+               onclick="rebuildDisplay()">
+        <label for="display_tabs">Tabs</label>
+        <input type="radio" id="display_full" name="display_type" value="full"
+               onclick="rebuildDisplay()" checked="checked">
+        <label for="display_full">Full</label>
+      </span>
+
+      <span id="length_group">
+        <label for="word_length">Word length:</label>
+        <select id="compare" name="compare" onchange="rebuildDisplay()">
+          <option value="EQ">=</option>
+          <option value="LT"><=</option>
+          <option value="GT">>=</option>
+        </select>
+        <select id="word_length" name="word_length" onchange="rebuildDisplay()">
+          <option value="any">Any</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+        </select>
+      </span>
+
+      <span id="filter_group">
+        <label for="filter_type">Filter options:</label>
+        <select id="filter_type" name="filter_type" onchange="rebuildDisplay()">
+          <option value="word_start">Word starts with</option>
+          <option value="word_end">Word ends with</option>
+          <option value="word_contains">Word contains</option>
+          <option value="initial_vowel">Initial vowel</option>
+          <option value="syllable_end">Syllable end</option>
+        </select>
+        <input type="text" id="filter" name="filter" size="5" maxlength="9"
+          pattern="[A-Z]" autocapitalize="characters" onchange="rebuildDisplay()">
+      </span>
+
+      <span id="highlight_group"
+        <label for="highlight">Hightlight only</label>
+        <input type="checkbox" id="highlight" name="highlight"
+          value="highlight_only">
+      </span>
+
+    </div>
+
+    <div class="dict" id="dict">
+
+      <!-- Tab links -->
+      <div class="tab" id="tabs">
+        <button class="tablinks" id="A_tab" onclick="showDict(event, 'A')">A</button>
+        <button class="tablinks" id="B_tab" onclick="showDict(event, 'B')">B</button>
+        <button class="tablinks" id="C_tab" onclick="showDict(event, 'C')">C</button>
+        <button class="tablinks" id="D_tab" onclick="showDict(event, 'D')">D</button>
+        <button class="tablinks" id="E_tab" onclick="showDict(event, 'E')">E</button>
+        <button class="tablinks" id="F_tab" onclick="showDict(event, 'F')">F</button>
+        <button class="tablinks" id="G_tab" onclick="showDict(event, 'G')">G</button>
+        <button class="tablinks" id="H_tab" onclick="showDict(event, 'H')">H</button>
+        <button class="tablinks" id="I_tab" onclick="showDict(event, 'I')">I</button>
+        <button class="tablinks" id="J_tab" onclick="showDict(event, 'J')">J</button>
+        <button class="tablinks" id="K_tab" onclick="showDict(event, 'K')">K</button>
+        <button class="tablinks" id="L_tab" onclick="showDict(event, 'L')">L</button>
+        <button class="tablinks" id="M_tab" onclick="showDict(event, 'M')">M</button>
+        <button class="tablinks" id="N_tab" onclick="showDict(event, 'N')">N</button>
+        <button class="tablinks" id="O_tab" onclick="showDict(event, 'O')">O</button>
+        <button class="tablinks" id="P_tab" onclick="showDict(event, 'P')">P</button>
+        <button class="tablinks" id="Q_tab" onclick="showDict(event, 'Q')">Q</button>
+        <button class="tablinks" id="R_tab" onclick="showDict(event, 'R')">R</button>
+        <button class="tablinks" id="S_tab" onclick="showDict(event, 'S')">S</button>
+        <button class="tablinks" id="T_tab" onclick="showDict(event, 'T')">T</button>
+        <button class="tablinks" id="U_tab" onclick="showDict(event, 'U')">U</button>
+        <button class="tablinks" id="V_tab" onclick="showDict(event, 'V')">V</button>
+        <button class="tablinks" id="W_tab" onclick="showDict(event, 'W')">W</button>
+        <button class="tablinks" id="X_tab" onclick="showDict(event, 'X')">X</button>
+        <button class="tablinks" id="Y_tab" onclick="showDict(event, 'Y')">Y</button>
+        <button class="tablinks" id="Z_tab" onclick="showDict(event, 'Z')">Z</button>
+      </div>
+
+      <!-- Tab content -->
+      <!-- These divs are filled in dynamically -->
+      <div id="A" class="tabcontent"></div>
+      <div id="B" class="tabcontent"></div>
+      <div id="C" class="tabcontent"></div>
+      <div id="D" class="tabcontent"></div>
+      <div id="E" class="tabcontent"></div>
+      <div id="F" class="tabcontent"></div>
+      <div id="G" class="tabcontent"></div>
+      <div id="H" class="tabcontent"></div>
+      <div id="I" class="tabcontent"></div>
+      <div id="J" class="tabcontent"></div>
+      <div id="K" class="tabcontent"></div>
+      <div id="L" class="tabcontent"></div>
+      <div id="M" class="tabcontent"></div>
+      <div id="N" class="tabcontent"></div>
+      <div id="O" class="tabcontent"></div>
+      <div id="P" class="tabcontent"></div>
+      <div id="Q" class="tabcontent"></div>
+      <div id="R" class="tabcontent"></div>
+      <div id="S" class="tabcontent"></div>
+      <div id="T" class="tabcontent"></div>
+      <div id="U" class="tabcontent"></div>
+      <div id="V" class="tabcontent"></div>
+      <div id="W" class="tabcontent"></div>
+      <div id="X" class="tabcontent"></div>
+      <div id="Y" class="tabcontent"></div>
+      <div id="Z" class="tabcontent"></div>
+
+  </div>
+  </body>
+</html>

@@ -118,8 +118,8 @@ let A = Vowel(id: .A,
                                                                                 // SLANDER, SLAQUE, SLAT, SLAUGHTER, SLAVE, SLAY
                 "SM": [.C, .L, .R, .S, .T],              // SMACK, SMALL, SMART, SMASH, SMATTER
                 "SN": [.C, .F, .G, .I, .P, .R, .T],      // SNACK, SNAFU, SNAG, SNAIL, SNAP, SNARE, SNATCH
-                "SP": [.C, .D, .I, .K, .M, .N, .S, .T, .Y], // SPACE, SPADE, SPAIN, SPAKE, SPAM, SPAN, SPASTIC, SPAT, SPAY
-                "SPL": [.Y],                             // SPLAY
+                "SP": [.C, .D, .I, .K, .M, .N, .R, .S, .T, .Y], // SPACE, SPADE, SPAIN, SPAKE, SPAM, SPAN, SPAR, SPASTIC, SPAT, SPAY
+                "SPL": [.T, .Y],                         // SPLAT, SPLAY
                 "SPR": [.T, .W, .Y],                     // SPRAT, SPRAWL, SPRAY
                 "SQU": [.B, .D, .L, .N, .R, .S, .T, .W], // SQUABBLE, SQUAD, SQUALOR, SQUANDER, SQUARE, SQUASH, SQUAT, SQUAWK
                 "ST": [.B, .C, .D, .F, .G, .I, .K, .L, .M, .N, .R, .S, .T, .U, .V, .Y],
@@ -188,7 +188,7 @@ let E = Vowel( id: .E,
         "DR":[.A, .C, .D, .G, .S, .W],                  // DREAM, DRECK, DREDGE, DREG, DRESS, DREW
         "DW": [.L],                                     // DWELL
         "F": [.A, .C, .D, .E, .I, .L, .M, .N, .R, .S, .T, .U, .W, .Y, .Z],
-        "FL":[.A, .C, .D, .E, .W, .X],
+        "FL":[.A, .C, .D, .E, .S, .W, .X],              // FLEA, FLECK, FLED, FLEE, FLESH, FLEW, FLEX
         "FR":[.A, .C, .E, .T],
         "G": [.A, .C, .E, .L, .M, .N, .O, .R, .S, .T],
         "H": [.A, .C, .D, .E, .F, .I, .L, .M, .N, .R, .S, .T, .U, .W, .Y],
@@ -200,9 +200,9 @@ let E = Vowel( id: .E,
         "N":[.A, .C, .E, .G, .M, .O, .P, .R, .S, .T, .U, .V, .W, .X],
                                         // NEAT, NECK, NEED, NEGATE, NEMATODE, NEON, NEPHEW, NERD, NEST, NETS, NEURAL, NEVER, NEWS
         "P": [.A, .C, .D, .E, .G, .I, .L, .M, .N, .O, .P, .R, .S, .T, .Z],
-        "PL": [.A, .B, .D, .E, .I, .N],
+        "PL": [.A, .B, .D, .E, .I, .N],                 // PLEAT, PLEB, PLEDGE, PLEE, PLEIN, PLENTY
         "PH":[.N],                                      // PHENOM
-        "PR":[.A, .D, .E, .F, .N, .R, .S, .T, .Y],
+        "PR":[.A, .D, .E, .F, .P, .S, .T, .V, .Y],      // PREACH, PREDICATE, PREEN, PREFER, PREP, PRESS, PREVALENT, PREY
         "QU":[.A, .E, .L, .R, .S, .U],                  // QUEASY, QUEEN, QUELL, QUERY, QUEST(ION), QUEUE
         "R": allLetters,
         "RH":[.A],                                      // RHEA
@@ -211,8 +211,15 @@ let E = Vowel( id: .E,
         "SM":[.G, .L],                                  // SMEGMA, SMELL/SMELTER
         "SN":[.A, .E],                                  // SNEAK, SNEER
         "SQU":[.A, .E],                                 // SQUEAL, SQUEEZE
+        "T":[.A, .C, .E, .F, .L, .M, .N, .P, .R, .S, .T, .X],
+                                                        // TEAS, TECH, TEEM, TEFLON, TELL, TEMPLE, TENT, TEPEE, TERSE, TEST, TETHER
+        "TH":[.E, .I, .N, .R, .S, .W, .Y],              // THEE, THEIR, THEN, THERE, THESE, THEW, THEY
+        "THR":[.A, .E, .N],                             // THREAT, THREE, THRENODY
+        "TR":[.A, .B, .E, .K, .L, .P, .S, .Y],          // TREAD, TREBLE, TRELLIS, TREPIDATE, TRESTLE, TREY
         "TS":[.T],                                      // TSETSE
-        "WH": [.A, .E, .N, .R, .T, .Y],                 // WHEAT, WHEEL, WHEN/CE, WHERE, WHET, WHEY
+        "W":[.A, .B, .C, .D, .E, .I, .L, .N, .P, .R, .S, .T],
+        "WH":[.A, .E, .N, .R, .T, .Y],                  // WHEAT, WHEEL, WHEN/CE, WHERE, WHET, WHEY
+        "WR":[.C, .N, .S],                              // WRECK, WREN, WRESTLE
         "Y": [.A, .G, .L, .N, .O, .P, .S, .T, .W]],     // YEAR, YEGG, YELL, YENS, YEOMAN, YEPS, YESTERDAY, YETI, YEWS
     dynFollowers: {(syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []
@@ -275,6 +282,8 @@ let I = Vowel( id: .I,
         "BL":[.N, .P, .S, .T],              // BLIND/K, BLIP, BLISS, BLITHE
         "BR":[.A, .B, .C, .D, .E, .G, .L, .M, .N, .O, .S, .T],
                                             // BRIAR, BRIBE, BRICK, BRIDE/BRIDGE, BRIEF, BRIG(HT), BRILL, BRIM, BRING, BRIO, BRIS, BRIT
+        "C": [.D, .G, .L, .P, .R, .S, .T, .V],
+                                            // CIDER, CIGAR, CIPHER, CIRCUIT, CISTERN, CITY, CIVIL
         "CH":[.C, .D, .E, .F, .L, .M, .N, .P, .R, .T, .V],
                                             // CHICK, CHIDE, CHIEF, CHIFFON, CHILD/CHILL, CHIMNEY, CHIN, CHIP, CHIRP, CHIT, CHIVES
         "CL":[.C, .F, .N, .P, .Q, .T],      // CLICK, CLIFF, CLINCH, CLIP, CLIQUE
@@ -286,10 +295,18 @@ let I = Vowel( id: .I,
         "FL": [.C, .E, .G, .M, .N, .R, .P, .T], // FLICKER, FLIER, FLIGHT, FLIMSEY, FLING, FLIP, FLIRT, FLIT
         "FR": [.A, .E, .L, .M, .N, .S, .T, .Z], // FRIAR, FRIED, FRILL, FRIM, FRINGE, FRISK, FRITTER, FRIZZY
         "G": [.A, .B, .D, .F, .G, .L, .N, .P, .R, .S, .T, .V],
+        "GL":[.A, .B, .D, .M, .N, .T],
+        "GR":[.D, .E, .F, .L, .M, .N, .P, .S, .T, .Z],
+        "H": [.A, .C, .D, .K, .L, .N, .P, .R, .S, .T, .V],
+                                            // HIATUS, HICK, HIDE, HIKE, HILL, HIND, HIPS, HIRSUTE, HISS, HITS, HIVES
         "J": [.B, .F, .G, .T, .V],          // JIBS, JIFFY, JIGS, JITNEY, JIVE
+        "K": [.B, .C, .D, .E, .L, .N, .P, .R, .S, .T],
         "KN": [.C, .F, .S, .T, .V],         // KNICKER, KNIFE, KNISH, KNIT, KNIVES
+        "L": [.A, .B, .C, .D, .E, .F, .G, .K, .L, .M, .N, .O, .P, .R, .Q, .S, .T, .V],
+        "M": [.C, .D, .E, .F, .G, .K, .L, .M, .N, .R, .S, .T, .X],
         "N": [.B, .C, .E, .G, .L, .M, .N, .P, .T],
                                             // NIBS, NICHE, NIECE, NIGH, NILS, NIMBLE, NINE, NIPS, NITS
+        "P":[.A, .C, .D, .E, .F, .G, .K, .L, .N, .O, .P, .Q, .R, .S, .T, .X],
         "QU": [.B, .C, .D, .E, .F, .L, .N, .P, .R, .T, .V],
                                             // QUIBBLE, QUICK, QUID, QUIET, QUIFF, QUILL, QUINT, QUIP, QUIRE, QUIT, QUIVER
         "RH": [.N],                         // RHINO
@@ -371,8 +388,8 @@ let O = Vowel( id: .O,
         "BL":[.A, .B, .C, .G, .N, .O, .T, .V, .W],  // BLOAT, BLOB, BLOCK, BLOG, BLOND, BLOOD, BLOT, BLOVIATE, BLOW
         "BR":[.A, .I, .O, .T, .U, .W],
         "CL":[.A, .B, .C, .D, .G, .N, .P, .S, .T, .U, .V, .W, .Y],
-                                                // CLOAK, CLOBBER, CLOCK, CLOD, CLOG, CLONE, CLOP, CLOSE, CLOT, CLOUT, CLOWN, CLOY
-        "CR":[.A, .C, .F, .N, .P, .U, .W],      // CROAK, CROCK, CROFT, CRONY, CROP, CROUCH, CROW(N)
+                                                    // CLOAK, CLOBBER, CLOCK, CLOD, CLOG, CLONE, CLOP, CLOSE, CLOT, CLOUT, CLOWN, CLOY
+        "CR":[.A, .C, .F, .N, .P, .Q, .T, .U, .W],  // CROAK, CROCK, CROFT, CRONY, CROP, CROQUET, CROTCH, CROUCH, CROW(N)
         "D": allLetters - [.A, .H, .K, .Q],
         "F": [.A, .B, .C, .D, .E, .G, .I, .L, .N, .O, .P, .R, .S, .U, .W, .X],
         "FL": [.A, .C, .E, .G, .P, .R, .S, .T, .U, .W],
@@ -410,6 +427,7 @@ let O = Vowel( id: .O,
         "SN":[.B, .O, .R, .T, .U, .W],          // SNOB, SNOOT, SNORE, SNOT, SNOUT, SNOW
         "SP":[.I, .K, .N, .O, .R, .T, .U],      // SPOKE, SPOIL, SPONSOR, SPOON, SPORE, SPOT, SPOUT
         "SPR":[.C, .U],                         // SPROCKET, SPROUT
+        "SW":[.O, .P, .R, .T],                  // SWOON, SWOP, SWORE, SWOT
         "T": [.A, .C, .D, .E, .F, .G, .I, .L, .M, .N, .O, .P, .R, .S, .T, .U, .W, .Y],
                                                 // TOAD, TOCK, TODAY, TOES, TOFU, TOGS, TOIL, TOLD, TOMB,
                                                 // TONE, TOOL, TOPS, TORUS, TOSH, TOTAL, TOUT, TOWS, TOYS
@@ -465,9 +483,9 @@ let O = Vowel( id: .O,
                 followers += [.O]
             }
             
-            // Final P after O vowel for CHOP, CLOP, CROP, DROP, FLOP, PLOP, PROP, SHOP, SLOP, STOP, BISHOP, TABLETOP
+            // Final P after O vowel for CHOP, CLOP, CROP, DROP, FLOP, PLOP, PROP, SHOP, SLOP, STOP, SWOP, BISHOP, TABLETOP
             if lastElement!.id == "CH" || lastElement!.id == "SH" || lastElement!.id == "ST" || lastElement!.id == "T" ||
-                lastElement!.lastLetter().isLiquid() {
+                lastElement!.id == "SW" || lastElement!.lastLetter().isLiquid() {
                 followers += [.P]
             }
             
@@ -487,28 +505,36 @@ let U = Vowel( id: .U,
     defFinal: [.E, .B, .D, .G, .L, .M, .N, .P, .S, .T],
     followerTable: [
         "B": [.B, .C, .D, .F, .G, .I, .L, .M, .N, .O, .R, .S, .T, .X, .Y, .Z],
-        "BL": [.B, .E, .F, .I, .N, .R, .S],  // BLUBBER, BLUE, BLUFF, BLUISH, BLUNDER/BLUNT, BLUR, BLUSTER
+        "BL":[.B, .E, .F, .I, .N, .R, .S],      // BLUBBER, BLUE, BLUFF, BLUISH, BLUNDER/BLUNT, BLUR, BLUSTER
+        "BR":[.I, .N, .S, .T],                  // BRUISE, BRUNT, BRUSH, BRUTE
         "C": [.A, .B, .C, .D, .E, .F, .I, .L, .M, .N, .P, .R, .S, .T],
-        "CL": [.B, .C, .E, .M, .N, .S],      // CLUB, CLUCK, CLUE, CLUMSY, CLUNK, CLUSTER
+        "CH":[.B, .C, .G, .M, .R, .T],          // CHUBBY, CHUCK, CHUG, CHUM, CHURN, CHUTE
+        "CL":[.B, .C, .E, .M, .N, .S],          // CLUB, CLUCK, CLUE, CLUMSY, CLUNK, CLUSTER
+        "CR":[.D, .E, .I, .L, .M, .S],          // CRUD, CRUEL, CRUISE, CRULLER, CRUMB, CRUSH/T
         "D": allLetters - [.H, .I, .J, .Q, .U, .X, .Y, .Z],
         "F": [.C, .D, .E, .G, .L, .M, .N, .R, .S, .T, .Z],
         "G": [.A, .E, .I, .L, .M, .N, .R, .S, .T, .Y],
+        "GN":[.S],                              // GNUS
         "H": [.B, .C, .D, .E, .F, .G, .L, .M, .N, .R, .S, .T, .U],
         "J": [.D, .G, .I, .N, .R, .S, .T, .V, .X],
         "K": [.N, .R, .S],
-        "KN": [.C],                     // KNUCKLES
+        "KN": [.C],                             // KNUCKLES
         "L": [.B, .C, .D, .G, .M, .N, .R, .S, .T, .X],
         "M": [.C, .D, .F, .G, .L, .M, .N, .O, .R, .S, .T, .Z],
         "N": [.B, .C, .D, .K, .L, .M, .N, .P, .R, .T],
                                         // NUBS, NUCLEAR, NUDE, NUKE, NULL, NUMBER, NUNS, NUPTIAL, NURSE, NUTS
-        "GN":[.S],                      // GNUS
+        "P": [.B, .C, .D, .F, .G, .K, .L, .M, .N, .P, .R, .S, .T, .Z],
+        "R": [.B, .D, .E, .F, .G, .I, .L, .M, .N, .P, .R, .S, .T],
         "RH":[.M],                      // RHUMBA
+        "S": [.B, .C, .D, .E, .F, .G, .I, .L, .M, .N, .P, .R, .S, .T],
         "SC":[.D, .F, .M, .R],          // SCUD, SCUFF, SCUM, SCURVY
         "SH":[.C, .N, .T],              // SHUCK, SHUN, SHUT
         "SM":[.G, .T],                  // SMUG, SMUT
         "SN":[.B, .C, .F, .G],          // SNUB, SNUCK, SNUFF, SNUG
+        "T": [.B, .C, .F, .G, .L, .M, .N, .P, .Q, .R, .S, .T, .X],
+        "W": [.R],                      // WURST
         "WH":[.M, .R],                  // WHUMP, WHURL
-        "Y": [.C, .L, .M, .P, .R]],     // YUCCA, YULE, YUMMY, YUPS, YURT
+        "Y": [.C, .L, .M, .R]],         // YUCCA, YULE, YUMMY, YURT
     
     dynFollowers: {(syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
         var followers: [Letter] = []

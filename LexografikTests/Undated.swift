@@ -189,13 +189,6 @@ class LexografikTests_Undated: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HAIKUS")))
     }
     
-    func test_fOrtunate() {
-        storm = WordStorm(outer: ["F", "R", "T", "U", "N", "A", "T", "E"], center: "O")
-        
-        storm.gatherWords(4)
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TOFU")))
-    }
-    
     func test_shuTtered() {
         storm = WordStorm(outer: ["S", "H", "U", "T", "E", "R", "E", "D"], center: "T")
         
