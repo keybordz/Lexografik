@@ -52,10 +52,18 @@ class WordTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
+        // device resolution
+        let bounds = UIScreen.main.bounds
+        let width = bounds.size.width
+        let height = bounds.size.height
+        
         let sectionLtr = storm!.unique[section].rawValue
         let lower = storm!.sectionIndices[sectionLtr]!
         var upper = 0
         var numrows = 0
+        var numcols = 3
+        
+//        print("Device width: \(width), height: \(height)")
         
         if section == storm!.unique.count - 1 {
             upper = storm!.wordCount
@@ -67,8 +75,8 @@ class WordTableViewController: UITableViewController {
         // Number of words in this section of the table
         storm!.sectionTotals[sectionLtr]! = upper - lower
         
-        numrows = (upper - lower) / 3
-        if (upper - lower) % 3 > 0 {
+        numrows = (upper - lower) / numcols
+        if (upper - lower) % numcols > 0 {
             numrows += 1
         }
 

@@ -9,17 +9,20 @@
     <h1>Lexografik Test Summary</h1>
     <div class="options">
 
-      <span id="display_group">
+      <span class="options" id="display_group">
         <label>Display:</label>
         <input type="radio" id="display_tabs" name="display_type" value="tabs"
-               onclick="rebuildDisplay()">
+               onclick="rebuildDisplay()" checked="checked">
         <label for="display_tabs">Tabs</label>
         <input type="radio" id="display_full" name="display_type" value="full"
-               onclick="rebuildDisplay()" checked="checked">
+               onclick="rebuildDisplay()">
         <label for="display_full">Full</label>
+        <input type="radio" id="display_stat" name="display_type" value="stat"
+               onclick="displayStats()">
+        <label for="display_full">Stats</label>
       </span>
 
-      <span id="length_group">
+      <span class="options" id="length_group">
         <label for="word_length">Word length:</label>
         <select id="compare" name="compare" onchange="rebuildDisplay()">
           <option value="EQ">=</option>
@@ -37,23 +40,31 @@
         </select>
       </span>
 
-      <span id="filter_group">
+      <span class="options" id="filter_group">
         <label for="filter_type">Filter options:</label>
         <select id="filter_type" name="filter_type" onchange="rebuildDisplay()">
-          <option value="word_start">Word starts with</option>
-          <option value="word_end">Word ends with</option>
-          <option value="word_contains">Word contains</option>
-          <option value="initial_vowel">Initial vowel</option>
-          <option value="syllable_end">Syllable end</option>
+          <option value="none">None</option>
+          <option value="start">Word starts with</option>
+          <option value="end">Word ends with</option>
+          <option value="contain">Word contains</option>
+          <option value="ivowel">Initial vowel</option>
+          <option value="istop">Initial stop</option>
+          <option value="fvowel">Vowel ender</option>
         </select>
         <input type="text" id="filter" name="filter" size="5" maxlength="9"
-          pattern="[A-Z]" autocapitalize="characters" onchange="rebuildDisplay()">
+               pattern="[A-Z]" autocapitalize="characters"
+               onchange="rebuildDisplay()">
       </span>
 
-      <span id="highlight_group"
-        <label for="highlight">Hightlight only</label>
-        <input type="checkbox" id="highlight" name="highlight"
-          value="highlight_only">
+      <span class="options" id="settings">
+        <label for="highcheck" id="highlabel">Highlight only</label>
+        <input type="checkbox" id="highcheck" onchange="rebuildDisplay()">
+        <label for="pluralcheck" id="plurallabel">Separate plurals</label>
+        <input type="checkbox" id="pluralcheck" onchange="rebuildDisplay()">
+      </span>
+
+      <span class="options" id="refresh">
+        <button class="push" onclick="reloadPage()">Refresh</button>
       </span>
 
     </div>
@@ -89,6 +100,7 @@
         <button class="tablinks" id="Y_tab" onclick="showDict(event, 'Y')">Y</button>
         <button class="tablinks" id="Z_tab" onclick="showDict(event, 'Z')">Z</button>
       </div>
+      <span id="infospan"></span>
 
       <!-- Tab content -->
       <!-- These divs are filled in dynamically -->
@@ -118,7 +130,7 @@
       <div id="X" class="tabcontent"></div>
       <div id="Y" class="tabcontent"></div>
       <div id="Z" class="tabcontent"></div>
-
+      <div id="stats" class="tabcontent"></div>
   </div>
   </body>
 </html>

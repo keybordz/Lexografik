@@ -61,8 +61,6 @@
 		C9B1E8D920A903F8009D74F9 /* WordMatchDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1E8D720A903F8009D74F9 /* WordMatchDictionary.swift */; };
 		C9B1E8DB20A944A0009D74F9 /* PhoneticFollower.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1E8DA20A944A0009D74F9 /* PhoneticFollower.swift */; };
 		C9B1E8DC20A944A0009D74F9 /* PhoneticFollower.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1E8DA20A944A0009D74F9 /* PhoneticFollower.swift */; };
-		C9B6D8A51CB586B0004032EE /* YBlend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B6D8A41CB586B0004032EE /* YBlend.swift */; };
-		C9B6D8A61CB586B0004032EE /* YBlend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B6D8A41CB586B0004032EE /* YBlend.swift */; };
 		C9B6E81D20C5C9CB00D9E1B6 /* SyllabicArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93086BC20C4BA20002AB81B /* SyllabicArray.swift */; };
 		C9EB4A681C65A78200F0D877 /* LexicalBlend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB4A671C65A78200F0D877 /* LexicalBlend.swift */; };
 		C9EB4A691C65A78300F0D877 /* LexicalBlend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB4A671C65A78200F0D877 /* LexicalBlend.swift */; };
@@ -373,7 +371,6 @@
 				C90DC2481BEFDC2D0034CFB0 /* WordCellTableViewCell.swift in Sources */,
 				C9B1E8DB20A944A0009D74F9 /* PhoneticFollower.swift in Sources */,
 				C93086BD20C4BA20002AB81B /* SyllabicArray.swift in Sources */,
-				C9B6D8A51CB586B0004032EE /* YBlend.swift in Sources */,
 				C9045F3E1C70FCA700958455 /* Consonant.swift in Sources */,
 				C9EB4A681C65A78200F0D877 /* LexicalBlend.swift in Sources */,
 				C93C90501C6AABB00033B3E4 /* PhoneticElement.swift in Sources */,
@@ -396,7 +393,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9B6E81D20C5C9CB00D9E1B6 /* SyllabicArray.swift in Sources */,
-				C9B6D8A61CB586B0004032EE /* YBlend.swift in Sources */,
 				C95BF34D1C6C270B0051F725 /* Letter.swift in Sources */,
 				C90C53671C571F6C00FD7550 /* LexicalLetter.swift in Sources */,
 				C92FB5891C6AB9B300BD269C /* LetterArray.swift in Sources */,

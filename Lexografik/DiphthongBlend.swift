@@ -165,6 +165,7 @@ let OW = DiphthongBlend(vowel: .O, consonant: .W, start: true, end: true,
                             "CL":[.N],                      // CLOWN
                             "CR":[.D, .E, .I, .N, .S],      // CROWD, CROWED, CROWING, CROWN, CROWS
                             "D":[.A, .D, .E, .N, .S],       // DOWAGER, DOWDY, DOWEL, DOWN, DOWS
+                            "DR":[.S],                      // DROWSY
                             "F":[.L],                       // FOWL
                             "FL":[.E, .I, .N, .S],          // FLOWED, FLOWING, FLOWN, FLOWS
                             "FR":[.N],                      // FROWN
@@ -181,7 +182,7 @@ let OW = DiphthongBlend(vowel: .O, consonant: .W, start: true, end: true,
                             "P":[.E, .S],                   // POWER, POWS
                             "PL":[.E, .I, .S],              // PLOWED, PLOWING, PLOWS
                             "PR":[.E, .I, .L, .S],          // PROWED, PROWING, PROWL, PROWS
-                            "R":[.E, .I, .N, .S],           // ROWED, ROWING, ROWN, ROWS
+                            "R":[.D, .E, .I, .N, .S],       // ROWDY, ROWED, ROWING, ROWN, ROWS
                             "S":[.E, .I, .N, .S],           // SOWED, SOWING, SOWN, SOWS
                             "SC":[.E, .I, .L, .S],          // SCOWED, SCOWING, SCOWL, SCOWS
                             "SH":[.E, .I, .N, .S, .Y],      // SHOWED, SHOWING, SHOWN, SHOWS, SHOWY
@@ -239,6 +240,7 @@ let EY = DiphthongBlend(vowel: .E, consonant: .Y, start: true, end: true,
                         followerTable: [
                             "B":[.O],                   // BEYOND
                             "F":[.E, .L],               // FEYER, FEYLY
+                            "G":[.S],                   // GEYSER
                             "GR":[.E, .I, .S],          // GREYED, GREYING, GREYS
                             "H":[.S],                   // HEYS
                             "K":[.E, .I, .R, .S],       // KEYS, KEYING, KEYRING, KEYS(TONE)
@@ -251,7 +253,7 @@ let OY = DiphthongBlend(vowel: .O, consonant: .Y, start: true, end: true,
                         interFollowers: [.A, .E, .I, .O],
                         finFollowers: [.S],
                         followerTable: [
-                            "B":[.H, .S],            // BOYHOOD, BOYS
+                            "B":[.F, .H, .S],        // BOYFRIEND, BOYHOOD, BOYS
                             "C":[.E, .L],            // COYER, COYLY
                             "CL":[.E, .I, .S],       // CLOYED, CLOYING, CLOYS
                             "D":[.E],                // DOYEN
@@ -263,7 +265,7 @@ let OY = DiphthongBlend(vowel: .O, consonant: .Y, start: true, end: true,
                             "R":[.A],                // ROYAL
                             "S":[.B, .S],            // SOYBEAN, SOYS
                             "T":[.E, .I, .S],        // TOYED, TOYING, TOYS
-                            "V":[.E],                // VOYEUR
+                            "V":[.A, .E],            // VOYAGE, VOYEUR
                             "Y":[.O]])               // YOYO
 
 let UY = DiphthongBlend(vowel: .U, consonant: .Y, start: true, end: true,

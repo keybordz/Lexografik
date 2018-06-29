@@ -481,7 +481,8 @@ class LexografikTests_2015: XCTestCase {
         storm.gatherWords(5)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TRIES")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FIRES")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FRIES")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FIRES")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FIRST")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TIRES")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TIERS")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FRETS")))
@@ -1467,5 +1468,162 @@ class LexografikTests_2015: XCTestCase {
         storm.gatherWords(7)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "VALLEYS")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SLAVERY")))
+    }
+
+    func test_2015May14_Boyfriend() {
+        storm = WordStorm(outer: ["O", "Y", "F", "R", "I", "E", "N", "D"], center: "B")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BIRD")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BEND")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BIND")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BODY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BOND")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BONY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BIDE")))
+
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BORNE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BRIDE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ROBIN")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BONED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "EBONY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BRINY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DERBY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BONEY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BONER")))
+
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BINDER")))
+        
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BOYFRIEND")))
+    }
+
+    func test_2015Jun08_judgeShip() {
+        storm = WordStorm(outer: ["J", "U", "D", "G", "E", "H", "I", "P"], center: "S")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PUDS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DIGS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PUSH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SHED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SPED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HUGS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "JUGS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "JIGS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "GUSH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SIGH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SPUD")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PEGS")))
+
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HIDES")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DUPES")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SHIED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "GUISE")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "JUDGES")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PUSHED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "GUSHED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SIGHED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "UPSIDE")))
+
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "JUDGESHIP")))
+    }
+
+    func test_2015Jun04_exchAnges() {
+        storm = WordStorm(outer: ["E", "X", "C", "H", "N", "G", "E", "S"], center: "A")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AXES")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SCAG")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "GASH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HANG")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HAGS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SHAG")))
+
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ACHES")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "GNASH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CAGES")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HANGS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CEASE")))
+        
+        storm.gatherWords(7)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CHANGES")))
+
+        storm.filterStops = false
+        storm.gatherWords(8)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "EXCHANGE")))
+    }
+
+    func test_2015Aug10_Hermitage() {
+        storm = WordStorm(outer: ["E", "R", "M", "I", "T", "A", "G", "E"], center: "H")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "THEM")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HAME")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HIRE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AHEM")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HEIR")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HERE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MATH")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "THREE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "THERE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "RIGHT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MIGHT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "EARTH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "THEIR")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ETHER")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "THEME")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "GIRTH")))
+
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HERMIT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HEATER")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "GATHER")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "REHEAT")))
+
+        storm.gatherWords(8)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HERITAGE")))
+        
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HERMITAGE")))
+    }
+
+    func test_2015Aug10_blasphemY() {
+        storm = WordStorm(outer: ["B", "L", "A", "S", "P", "H", "E", "M"], center: "Y")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PAYS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "YAPS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "YAMS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BAYS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SPAY")))
+        
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PHYLA")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "LYMPH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PLAYS")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SPLAY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BALMY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SYLPH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PALSY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SEAMY")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MEASLY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BELAYS")))
+        
+        storm.gatherWords(7)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SHAPELY")))
+        
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BLASPHEMY")))
     }
 }

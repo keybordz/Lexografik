@@ -56,13 +56,6 @@ class LexografikTests_Undated: XCTestCase {
         XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "BUSHI")))
     }
     
-    func test_firsTborn() {   // self-generated
-        storm = WordStorm(outer: ["F", "I", "R", "S", "B", "O", "R", "N"], center: "T")
-        
-        storm.gatherWords(5)
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FIRST")))
-    }
-    
     func test_shOulders() {   // self-generated
         storm = WordStorm(outer: ["S", "H", "U", "L", "D", "E", "R", "S"], center: "O")
         

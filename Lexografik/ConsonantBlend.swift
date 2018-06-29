@@ -357,6 +357,7 @@ let CT = ConsonantBlend(first: .C, second: .T, third: nil,
                         preceders: ["EA", "IA", "OA"],
                         followerTable: [
                             "A":[.E, .I, .O, .S],       // ACTED, ACTING, ACTOR, ACTS
+                            "AU":[.I],                  // AUCTION
                             "E":[.O],                   // ECTOPLASM
                             "O":[.A, .E]],              // OCTANE/OCTAVE, OCTET
                         dynFollowers: {(syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
@@ -367,8 +368,11 @@ let CT = ConsonantBlend(first: .C, second: .T, third: nil,
                                 if syll.matchesString("CA", matchFull: false) {
                                     followers += [.I]
                                 }
-                                else if syll.matchesSet(["DI", "RE"]) {
+                                if syll.matchesSet(["DI", "RE"]) {
                                     followers += [.A]
+                                }
+                                if syll.matchesSet(["RE"]) {
+                                    followers += [.O]
                                 }
                             }
                             return followers
@@ -583,7 +587,7 @@ let GH = ConsonantBlend(first: .G, second: .H, third: nil,          // this is r
                         initBlend: [],
                         initVowels: [.A, .O],
                         midBlend: [],
-                        midVowels: [.I],
+                        midVowels: [.E, .I],
                         finFollowers: [],
                         canPlural: true,
                         blendsWithY: false,     // maybe true for DINGHY?
@@ -598,6 +602,7 @@ let GH = ConsonantBlend(first: .G, second: .H, third: nil,          // this is r
                             
                             let lastElement = syll.lastElement()
                             
+                            // T follower examples: NIGHT, WEIGHT, CAUGHT, BOUGHT
                             if pos != .positionFIRST {
                                 if lastElement!.id == "I" || lastElement!.id == "EI" ||
                                     lastElement!.id == "AU" || lastElement!.id == "OU" {
@@ -1257,7 +1262,7 @@ let MPT = ConsonantBlend(first: .M, second: .P, third: .T,
 let NC = ConsonantBlend(first: .N, second: .C, third: nil,
                         initBlend: [],
                         initVowels: [],
-                        midBlend: [.H],
+                        midBlend: [.H, .T],
                         midVowels: allVowels,
                         finFollowers: [.E, .H],
                         canPlural: true,
@@ -1302,7 +1307,7 @@ let NCH = ConsonantBlend(first: .N, second: .C, third: .H,
 let ND = ConsonantBlend(first: .N, second: .D, third: nil,
                         initBlend: [],
                         initVowels: [],
-                        midBlend: [.L],
+                        midBlend: [.L, .R],
                         midVowels: allVowels,
                         finFollowers: [.A, .O],         // AGENDA, BANDO?
                         canPlural: true,
@@ -1314,7 +1319,7 @@ let ND = ConsonantBlend(first: .N, second: .D, third: nil,
                             "A":[.E, .R, .S],
                             "E":[.E, .I, .O, .S, .U],       // ENDED, ENDING, ENDOSCOPY, ENDS, ENDURE
                             "I":[.A, .E, .I, .O, .U, .Y],   // INDEPDENDENT, INDICATE, INDOLENT, INDULGE, INDY
-                            "U":[.A, .E, .I, .R, .U]],      // UNDAUNTED, UNDER, UNDIES, UNDRESS, UNDUE
+                            "U":[.A, .E, .I, .O, .R, .U]],  // UNDAUNTED, UNDER, UNDIES, UNDO, UNDRESS, UNDUE
                         dynFollowers: nil)
 
 let NG = ConsonantBlend(first: .N, second: .G, third: nil,
@@ -1469,10 +1474,12 @@ let NT = ConsonantBlend(first: .N, second: .T, third: nil,
                         preceders: ["A", "AI", "E", "EI", "I", "O", "OI", "U"],
                         followerTable: [
                             "A":[.E, .H, .I, .O, .R, .S],   // ANTE, ANTHEM, ANTI, ANTONYM, ANTHRAX, ANTS
+                            "AU":[.S],                      // AUNTS
                             "E":[.A, .E, .H, .O, .R],       // ENTAIL, ENTER, ENTHRALL, ENTOMB, ENTROPY
                             "I":[.A, .E, .I, .O, .R],       // INTANGIBLE, INTENT, INTONE, INTRIGUE
                             "O":[.O],                       // ONTO
-                            "U":[.H, .I, .O, .R]],          // UNTHINKABLE, UNTIMELY, UNTO, UNTRIED
+                            "OI":[.M],                      // OINTMENT
+                            "U":[.A, .E, .H, .I, .O, .R]],  // UNTALENTED, UNTENABLE, UNTHINKABLE, UNTIMELY, UNTO, UNTRIED
                         dynFollowers: {(syll: SyllabicArray, pos: PositionIndicator) -> [Letter] in
                             var followers: [Letter] = []
                             
@@ -1804,7 +1811,7 @@ let RH = ConsonantBlend(first: .R, second: .H, third: nil,
                         initBlend: [],
                         initVowels: [.A, .E, .I],       // RHAPSODY, RHEA, RHINO
                         midBlend: [],
-                        midVowels: [],
+                        midVowels: [.A],                // UNDERHAND -- need a better solution
                         finFollowers: [],
                         canPlural: false,
                         blendsWithY: true,
@@ -1999,8 +2006,9 @@ let RT = ConsonantBlend(first: .R, second: .T, third: nil,
                         endOfWord: true,
                         preceders: ["A", "E", "I", "O", "U"],
                         followerTable: [
-                            "A":[.H, .I, .S],       // ARTHUR, ARTIST, ARTSY
+                            "A":[.I, .S],           // ARTIST, ARTSY
                             "AO":[.A, .I],          // AORTA, AORTIC
+                            "EA":[.H],              // EARTH
                             "O":[.H, .S],           // ORTHOPEDIC, ORTS
                             "U":[.E]],              // URTEXT
                         dynFollowers: nil)
@@ -2017,8 +2025,8 @@ let RTH = ConsonantBlend(first: .R, second: .T, third: .H,
                         endOfWord: true,
                         preceders: ["A", "E", "EA", "I", "O", "OA", "U"],
                         followerTable: [
-                            "A":[.U],           // ARTHUR
-                            "O":[.O]],          // ORTHOPEDIC
+                            "EA":[.L, .S, .Y],      // EARTHLY, EARTHS, EARTHY
+                            "O":[.O]],              // ORTHOPEDIC
                         dynFollowers: nil)
 
 let RV = ConsonantBlend(first: .R, second: .V, third: nil,
@@ -2072,7 +2080,7 @@ let SC = ConsonantBlend(first: .S, second: .C, third: nil,
 
 let SCH = ConsonantBlend(first: .S, second: .C, third: .H,
                         initBlend: [.M],                // SCHMOOZE
-                        initVowels: [.I, .O],
+                        initVowels: [.E, .I, .O],       // SCHEME, SCHISM, SCHOOL
                         midBlend: [],
                         midVowels: allVowels,
                         finFollowers: [],
@@ -2236,7 +2244,7 @@ let SPH = ConsonantBlend(first: .S, second: .P, third: .H,
 
 let SPL = ConsonantBlend(first: .S, second: .P, third: .L,
                         initBlend: [],
-                        initVowels: allVowels,
+                        initVowels: [.A, .E, .I, .U],   // SPLAT, SPLENDID, SPLINE, SPLURGE
                         midBlend: [],
                         midVowels: allVowels,
                         finFollowers: [],

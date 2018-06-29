@@ -955,6 +955,76 @@ class LexografikTests_2011: XCTestCase {
         storm.gatherWords(8)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BOUFFANT")))
     }
+
+    func test_2011Jul14_abductioN() {
+        storm = WordStorm(outer: ["A", "B", "D", "U", "C", "T", "I", "O"], center: "N")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "UNDO")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AUNT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TUNA")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ICON")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BUNT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DINT")))
+
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BACON")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "COUNT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BOUND")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DONUT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TONIC")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DAUNT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TUNIC")))
+        
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BANDIT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "INDUCT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ABOUND")))
+
+        storm.gatherWords(7)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CONDUIT")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AUCTION")))
+
+        storm.filterStops = false
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ABDUCTION")))
+    }
+
+    func test_2011Jul07_unDerhand() {
+        storm = WordStorm(outer: ["U", "N", "E", "R", "H", "A", "N", "D"], center: "D")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HEAD")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HERD")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HUED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "RUED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DEAN")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HADE")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "RUDD")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DUDE")))
+
+        storm.gatherWords(5)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HEARD")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "UDDER")))
+        
+        storm.filterStops = false
+        storm.gatherWords(6)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HARDEN")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HANDED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DARNED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "UNREAD")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "UNHAND")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "UNDEAD")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DANDER")))
+
+        storm.gatherWords(7)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HUNDRED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "UNHEARD")))
+        
+        storm.filterStops = true
+        storm.gatherWords(9)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "UNDERHAND")))
+    }
 }
 
 
