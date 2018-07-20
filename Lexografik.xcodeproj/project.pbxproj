@@ -29,6 +29,8 @@
 		C92FB5881C6AB9B300BD269C /* LetterArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92FB5871C6AB9B300BD269C /* LetterArray.swift */; };
 		C92FB5891C6AB9B300BD269C /* LetterArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92FB5871C6AB9B300BD269C /* LetterArray.swift */; };
 		C93086BD20C4BA20002AB81B /* SyllabicArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93086BC20C4BA20002AB81B /* SyllabicArray.swift */; };
+		C939AD03210172A7001BBB32 /* stat_utils.js in Resources */ = {isa = PBXBuildFile; fileRef = C939AD02210172A6001BBB32 /* stat_utils.js */; };
+		C939AD04210172B1001BBB32 /* stat_utils.js in Resources */ = {isa = PBXBuildFile; fileRef = C939AD02210172A6001BBB32 /* stat_utils.js */; };
 		C93C90501C6AABB00033B3E4 /* PhoneticElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93C904F1C6AABB00033B3E4 /* PhoneticElement.swift */; };
 		C93C90511C6AABB00033B3E4 /* PhoneticElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93C904F1C6AABB00033B3E4 /* PhoneticElement.swift */; };
 		C95BF34C1C6C26C10051F725 /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95BF34B1C6C26C10051F725 /* Letter.swift */; };
@@ -90,6 +92,7 @@
 		C924BC2F20B0AADF00D03EE8 /* SyllabicElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyllabicElement.swift; sourceTree = "<group>"; };
 		C92FB5871C6AB9B300BD269C /* LetterArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetterArray.swift; sourceTree = "<group>"; };
 		C93086BC20C4BA20002AB81B /* SyllabicArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyllabicArray.swift; sourceTree = "<group>"; };
+		C939AD02210172A6001BBB32 /* stat_utils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stat_utils.js; sourceTree = "<group>"; };
 		C93C904F1C6AABB00033B3E4 /* PhoneticElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneticElement.swift; sourceTree = "<group>"; };
 		C95BF34B1C6C26C10051F725 /* Letter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		C96A46BC20B895C000B10E4B /* 2016.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2016.swift; sourceTree = "<group>"; };
@@ -218,6 +221,7 @@
 		C9A352801BA85A5D006FB539 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C939AD02210172A6001BBB32 /* stat_utils.js */,
 				C994D0B120DC4A78001A8ABB /* index.html */,
 				C994D0B220DC4A78001A8ABB /* stat_styles.css */,
 				C994D0B320DC4A78001A8ABB /* stats.js */,
@@ -340,6 +344,7 @@
 				C994D0B820DC4A78001A8ABB /* stats.js in Resources */,
 				C994D0B620DC4A78001A8ABB /* stat_styles.css in Resources */,
 				C9A352881BA85A5D006FB539 /* Main.storyboard in Resources */,
+				C939AD03210172A7001BBB32 /* stat_utils.js in Resources */,
 				C9A3528D1BA85A5D006FB539 /* LaunchScreen.xib in Resources */,
 				C906A81020BF95450049002B /* lexeval.js in Resources */,
 				C9A3528A1BA85A5D006FB539 /* Images.xcassets in Resources */,
@@ -353,6 +358,7 @@
 				C906A81120BF95450049002B /* lexeval.js in Resources */,
 				C994D0B720DC4A78001A8ABB /* stat_styles.css in Resources */,
 				C994D0B920DC4A78001A8ABB /* stats.js in Resources */,
+				C939AD04210172B1001BBB32 /* stat_utils.js in Resources */,
 				C994D0B520DC4A78001A8ABB /* index.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

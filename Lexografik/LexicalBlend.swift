@@ -13,7 +13,7 @@ class LexicalBlend: PhoneticElement {
 
     init(first: Letter, second: Letter, third: Letter?,
          canStart: Bool, canEnd: Bool, canPlural: Bool,
-         dynFollowers: ((SyllabicArray, PositionIndicator) -> [Letter])?) {
+         dynFollowers: ((SyllabicArray, Int) -> [Letter])?) {
 
         super.init(first: first, second: second, third: third,
                    canStart: canStart, canEnd: canEnd, canPlural: canPlural,

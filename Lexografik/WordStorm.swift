@@ -199,6 +199,9 @@ class WordStorm {
                 let newInput = input.partial(0, toIndex: i)!
                 let right = input.partial(i + 1)!
                 newInput.appendLetters(right.letters)
+//                print("Calling recurseWords with left: \(newInput.stringFromLetters()), ", terminator: "")
+//                print("right: \(newPartialWord.stringFromLetters()), ", terminator: "")
+//                print("length: \(length - 1)")
                 recurseWords(newInput, partialWord: newPartialWord, length: length - 1)
             }
         }
@@ -210,6 +213,9 @@ class WordStorm {
         let partialWord = LetterArray()
         partialWord.filterStops = filterStops
         partialWord.oneSyllableWords = oneSyllableWords
+//        print("Calling recurseWords top-level with left: \(full.stringFromLetters()), ", terminator: "")
+//        print("right: \(partialWord.stringFromLetters()), ", terminator: "")
+//        print("length: \(wordLength)")
         recurseWords(full, partialWord: partialWord, length: wordLength)
         
         for word in allWords {

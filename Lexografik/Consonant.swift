@@ -64,7 +64,7 @@ class Consonant: LexicalLetter, PhoneticFollowers {
         }
         
         if dynFollowers != nil {
-            midFollowers += self.dynFollowers!(syll, .positionMIDDLE)
+            midFollowers += self.dynFollowers!(syll, nRemain)
         }
         return midFollowers
     }
@@ -92,7 +92,7 @@ class Consonant: LexicalLetter, PhoneticFollowers {
             lastFollowers += [.S]
         }
         if dynFollowers != nil {
-            lastFollowers += self.dynFollowers!(syll, .positionLAST)
+            lastFollowers += self.dynFollowers!(syll, 2)
         }
         return lastFollowers
     }
@@ -110,7 +110,7 @@ class Consonant: LexicalLetter, PhoneticFollowers {
          dipthong: Bool,
          liquidBlend: Bool,
          followerTable: [String:[Letter]],
-         dynamicFollowers: ((SyllabicArray, PositionIndicator) -> [Letter])?)
+         dynamicFollowers: ((SyllabicArray, Int) -> [Letter])?)
     {
         self.blendStart = blendStart
         self.blendInto = blendInto
@@ -124,8 +124,6 @@ class Consonant: LexicalLetter, PhoneticFollowers {
         super.init(first: id, second: nil, third: nil,
                    canStart: canStart, canEnd: canEnd, canPlural: canPlural,
                    dynFollowers: dynamicFollowers)
-        
-        self.verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return true }
     }
 }
 
@@ -147,7 +145,7 @@ let B = Consonant(id: .B,
                     "E":[.B, .O, .U],                               // EBBS, EBONY, EBULLIENT
                     "I":[.E, .I],                                   // IBEX, IBIS
                     "O":[.D, .E, .F, .J, .L, .O, .S, .T]],          // OBOE
-                  dynamicFollowers: { (syll: SyllabicArray, posIndicator: PositionIndicator) in
+                  dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
                         var followers: [Letter] = []
                     
                         // Allow T follower only for DEBT, DOUBT
@@ -155,7 +153,7 @@ let B = Consonant(id: .B,
                             followers += [.T]
                         }
                     
-                        if posIndicator == .positionLAST {
+                        if nRemain == 2 {
                             
                             // Approve A follower for TUBA
                             if syll.matchesString("TU", matchFull: true) {
@@ -190,10 +188,10 @@ let C = Consonant( id: .C,
         "I":[.E, .I, .O, .T],                         // ICES, ICIER, ICON, ICTHYS
         "O":[.C, .H, .R, .T, .U],                     // OCCUR, OCHRE, OCRA, OCTAGON, OCULAR
         "OU":[.H]],                                   // OUCH
-    dynamicFollowers: { (syll: SyllabicArray, posIndicator: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         
-        if posIndicator == .positionLAST {
+        if nRemain == 2 {
             let lastElement = syll.lastElement()
             let prevElement = syll.nextToLastElement()
             
@@ -247,11 +245,11 @@ let D = Consonant( id: .D,
                     "I":[.E, .I, .L, .O, .Y],           // IDES, IDIOT, IDLE, IDOL, IDYL(L)
                     "O":[.D, .E, .I, .O],               // ODDS, ODES, ODIOUS, ODOR/ODOMETER
                     "U":[.D]],                          // UDDER
-    dynamicFollowers: { (syll: SyllabicArray, posIndicator: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers:[Letter] = []
         
 
-        if posIndicator == .positionLAST {
+        if nRemain == 2 {
             
             // Allow final A for CODA, SODA
             if syll.matchesSet(["CO", "SO"]) {
@@ -300,13 +298,13 @@ let F = Consonant( id: .F,
         "I":[.F],                           // IFFY
         "O":[.F, .T],                       // OFFING, OFTEN
         "OA":[.S]],                         // OAFS
-    dynamicFollowers: { (syll: SyllabicArray, posIndicator: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers:[Letter] = []
         
-        if posIndicator == .positionLAST {
+        if nRemain == 2 {
             
-            // Approve final A for SOFA
-            if syll.matchesString("SO", matchFull: true) {
+            // Approve final A for LOOFA, SOFA
+            if syll.matchesSet(["LOO", "SO"]) {
                 followers += [.A]
             }
             
@@ -341,7 +339,7 @@ let G = Consonant( id: .G,
         "I":[.L, .N],           // IGLOO, IGNORE
         "O":[.D, .L, .R],       // OGDEN, OGLE, OGRE
         "U":[.G]],              // UGLY
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         let lastElement = syll.lastElement()
         let prevElement = syll.nextToLastElement()      // assuming this will be not be nil
@@ -369,7 +367,7 @@ let G = Consonant( id: .G,
             followers += [.N]
         }
         
-        if pos == .positionLAST {
+        if nRemain == 2 {
             
             // Approve final followers for YOGA, YOGI
             if syll.matchesString("YO", matchFull: true) {
@@ -424,7 +422,7 @@ let J = Consonant( id: .J,
 
 let K = Consonant( id: .K,
     blendStart: [.L, .N, .R],
-    blendInto: [.L, .N, .R],
+    blendInto: [.L, .R],
     defFinal: [.E],
     hardStops: [.M, .W],
     allowedVowels: allVowels,
@@ -441,39 +439,34 @@ let K = Consonant( id: .K,
         "O":[.A, .R],   // OKAY, OKRA
         "OA":[.E, .S],  // OAKEN, OAKS
         "U":[.E]],      // UKELELE
-    dynamicFollowers: { (syll: SyllabicArray, posIndicator: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
+        var followers: [Letter] = []
     
-        if posIndicator == .positionLAST {
+        if nRemain == 2 {
             
             // Allow final U for HAIKU
             if syll.matchesString("HAI", matchFull: true)  {
-                return [.U]
+                followers += [.U]
             }
             
             // Allow final I for RAKI, SAKI
             else if syll.matchesSet(["RA", "SA"]) {
-                return [.I]
+                followers += [.I]
             }
             
             // Allow final O for SHAKO
             else if syll.matchesString("SHA", matchFull: true)  {
-                return [.O]
-            }
-            
-            // final A's?
-            else {
-                return []
+                followers += [.O]
             }
         }
-        else {
-            return []
-        }
+
+        return followers
     })
 
 let L = Consonant( id: .L,
     blendStart: [.L],                   // only for LLAMA
-    blendInto: [.B, .C, .D, .F, .G, .K, .L, .M, .P, .S, .T, .V],
-    defFinal: [.E, .F, .K, .L, .M, .T],
+    blendInto: [.B, .C, .D, .F, .G, .K, .L, .M, .P, .S, .V],
+    defFinal: [.E, .F, .K, .L, .M],
     hardStops: [.N],                    // ULNA
     allowedVowels: allVowels,
     blendsWithY: true,
@@ -492,11 +485,11 @@ let L = Consonant( id: .L,
         "O":[.D, .E, .F, .I, .L],           // OLDER, OLEANDER, OLFACTORY, OLIO, OLLA
         "OI":[.E, .I, .S, .Y],              // OILED, OILING, OILS, OILY
         "U":[.C, .N, .S, .T]],
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers:[Letter] = []
+        let lastElement = syll.lastElement()
         
-        if pos == .positionLAST {
-            let lastElement = syll.lastElement()
+        if nRemain == 2 {
             let prevElement = syll.nextToLastElement()
             
             // Only allow LC blend at end for TALC and A follower for TALA
@@ -526,8 +519,8 @@ let L = Consonant( id: .L,
                 followers += [.I]
             }
             
-            // Approve final O for HALO, KILO, SILO, SOLO
-            if syll.matchesSet(["HA", "KI", "SO", "SI"]) {
+            // Approve final O for HALO, KILO, POLO, SILO, SOLO
+            if syll.matchesSet(["HA", "KI", "PO", "SO", "SI"]) {
                 followers += [.O]
             }
             
@@ -540,6 +533,12 @@ let L = Consonant( id: .L,
         // Only allow LN blend for KILN
         if syll.matchesString("KI", matchFull: true) {
             followers += [.N]
+        }
+        
+        // LT combination can only follow vowels or AU (FAULT), EA (DEALT)
+        if lastElement is Vowel || lastElement!.id == "AU" || lastElement!.id == "EA" ||
+            lastElement!.id == "OU" || lastElement!.id == "UI" {
+            followers += [.T]
         }
 
         return followers
@@ -565,10 +564,10 @@ let M = Consonant( id: .M,
         "O":[.E, .I, .N],
         "OH":[.S],
         "U":[.B]],
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         
-        if pos == .positionLAST {
+        if nRemain == 2 {
             let lastElement = syll.lastElement()
             
             // Final A words: LIMA, MAMA, COMA, MELANOMA, MAGMA, PUMA
@@ -596,8 +595,8 @@ let N = Consonant( id: .N,
     blendInto: [.C, .D, .K, .N, .Q, .S, .T],
     defFinal: [.E, .K],
 
-    // INBRED, INFER, BANJO, INLET, INMATE, INPUT, UNRIG, INVITE, ENZYME, WAINWRIGHT
-    hardStops: [.B, .F, .G, .J, .L, .M, .P, .R, .V, .W, .Z],
+    // INBRED, INFER, INHALE, BANJO, INLET, INMATE, INPUT, UNRIG, INVITE, ENZYME, WAINWRIGHT
+    hardStops: [.B, .F, .G, .H, .J, .L, .M, .P, .R, .V, .W, .Z],
     allowedVowels: allVowels,
     blendsWithY: true,
     canStart: true,
@@ -613,18 +612,18 @@ let N = Consonant( id: .N,
         "EO":[.S],                       // EONS
         "EU":[.U],                       // EUNUCH
         "I":[.A, .C, .D, .E, .F, .G, .I, .J, .K, .L, .N, .O, .P, .Q, .S, .T, .U, .V],
-        "IO":[.S],                       // IONS
+        "IO":[.I, .S],                   // IONIC, IONS
         "O":[.C, .E, .L, .S, .T, .U],    // ONCE, ONES, ONLY, ONSET, ONTO, ONUS
         "OE":[.O],                       // OENOPHILE
         "OI":[.N],                       // OINTMENT
         "OU":[.C],                       // OUNCE
         "OW":[.E, .I, .S],               // OWNER, OWNING, OWNS
         "U":[.A, .B, .C, .D, .E, .F, .G, .H, .I, .K, .L, .M, .N, .O, .P, .R, .S, .T, .U, .V, .W, .Y, .Z]],
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         let lastElement = syll.lastElement()
         
-        if pos == .positionLAST {
+        if nRemain == 2 {
                 
             // Final A after vowels E (ARENA, HYENA), I (CHINA, VINA, PATINA), O (KONA, CORONA), AU (FAUNA, SAUNA)
             // Also MYNA, TUNA
@@ -682,6 +681,11 @@ let N = Consonant( id: .N,
                                                                                     // ENSUING, IMBUING, RUING, SUING, TRUING
             followers += [.G]
             }
+        
+        // NX words: JINX, MINX, SPHINX
+        if syll.matchesSet(["JI", "MI", "SPH"]) {
+            followers += [.X]
+        }
 
         return followers
     })
@@ -704,10 +708,10 @@ let P = Consonant( id: .P,
         "O":[.A, .E, .I, .P, .T, .U],
         "OO":[.S],
         "U":[.B, .D, .E, .L, .O, .R, .S, .T, .V]],
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         
-        if pos == .positionLAST {
+        if nRemain == 2 {
             
             // Approve final T for KEPT, LEAPT, RAPT, SEPT, WEPT, INAPT, INEPT
             if syll.matchesSet(["ERU", "INA", "INE", "KE", "LEA", "RA", "SE", "WE"]) {
@@ -765,17 +769,18 @@ let R = Consonant( id: .R,
         "E":[.A, .E, .G, .I, .O, .R, .S, .U],       // ERASE, ERECT, ERGS, ERIN, EROTIC, ERRS, ERST, ERUPT
         "EA":[.G, .L, .N, .S, .T],                  // EAGER, EARL, EARN, EARS, EARTH
         "EE":[.I],                                  // EERIE
+        "EU":[.O],                                  // EURO
         "I":[.A, .E, .I, .K, .O, .R],               // IRATE, IRES, IRIDESCENT, IRKS, IRON, IRRITATE
         "O":[.A, .B, .C, .D, .E, .G, .I, .N, .P],   // ORANGE, ORBS, ORCA, ORDER, ORES, ORGAN, ORIGIN, ORNATE, ORPHAN
         "OA":[.E, .I, .S],                          // OARED, OARING, OARS
         "OU":[.S],                                  // OURS
         "U":[.A, .E, .G, .I, .N, .O, .S, .U]],      // URANUS, UREA, URGE, URIC/URINE, URNS, UROLOGY, URSING, URSU?
     
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         let lastElement = syll.lastElement()
         
-        if pos == .positionLAST {
+        if nRemain == 2 {
             
             // Approve final A for LIRA, TIARA, OPERA, SERA, others?
             if syll.matchesSet(["LI", "TIA", "OPE", "SE"]) {
@@ -864,15 +869,15 @@ let S = Consonant(id: .S,
         "OA":[.E, .I, .T],                  // OASES, OASIS, OAST
         "OU":[.T],                          // OUST
         "U":[.A, .E, .H, .I, .U]],          // USABLE, USED, USHER, USING, USUAL
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         let lastElement = syll.lastElement()
         
-        if pos == .positionLAST {
+        if nRemain == 2 {
             let lastElement = syll.lastElement()
             
-            // Approve A follower for MESA
-            if syll.matchesSet(["ME"]) {
+            // Approve A follower for MESA, VISA
+            if syll.matchesSet(["ME", "VI"]) {
                 followers += [.A]
             }
             
@@ -909,7 +914,7 @@ let T = Consonant( id: .T,
     blendStart: [.H, .R, .S, .W, .Y],
     blendInto: [.C, .H, .L, .R, .T, .Z],
     defFinal: [.E, .H],
-    hardStops: [],
+    hardStops: [.F],
     allowedVowels: allVowels,
     blendsWithY: true,
     canStart: true,
@@ -927,12 +932,12 @@ let T = Consonant( id: .T,
         "IO":[.A],                      // IOTA
         "O":[.H, .I, .T],               // OTHER, OTIC, OTTER
         "OA":[.E, .H, .S],              // OATEN, OATH, OATS
-        "OU":[.E, .F, .I, .L, .S],      // OUTER, OUTFIELD, OUTING, OUTLAY, OUTS
+        "OU":[.E, .F, .G, .I, .L, .M, .P, .R, .S],      // OUTER, OUTING, all combos with OUT
         "U":[.T]],                      // UTTER
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         
-        if pos == .positionLAST {
+        if nRemain == 2 {
             
             // Final A followers: BETA, SETA, ERRATA
             if syll.matchesSet(["BE", "SE", "ERRA"]) {
@@ -944,8 +949,8 @@ let T = Consonant( id: .T,
                 followers += [.I]
             }
             
-            // Approve A follower for PITA
-            if syll.matchesSet(["PI"]) {
+            // Approve A follower for PITA, FETA, META
+            if syll.matchesSet(["FE", "ME", "PI"]) {
                 followers += [.A]
             }
             
@@ -987,10 +992,10 @@ let V = Consonant( id: .V,
         "I":[.E, .I, .O],           // IVES, IVIED, IVORY
         "O":[.A, .E, .I, .O],       // OVATION, OVER, OVIATE, OVOID
         "U":[.U]],                  // UVULA
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         
-        if pos == .positionLAST {
+        if nRemain == 2 {
             let lastElement = syll.lastElement()
             
             // Approve final A for LAVA, CAVA, DIVA, NOVA etc.
@@ -1019,7 +1024,7 @@ let W = Consonant( id: .W,
     dipthong: true,
     liquidBlend: false,
     followerTable: [:],         // no vowels since this is a diphthong
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         
         // Allow I follower for KIWI
@@ -1031,7 +1036,7 @@ let W = Consonant( id: .W,
 
 let X = Consonant( id: .X,
     blendStart: [],
-    blendInto: [.A, .C, .E, .I, .O, .P, .T, .U],    // EXACT, EXCEL, EXIST, TAXONOMY, EXPEL, EXTENT, EXULT
+    blendInto: [.A, .C, .E, .I, .O, .P, .T, .U],    // EXACT, EXCEL, EXIST, TAXONOMY, EXPEL, EXTENT, EXULT/NEXUS
     defFinal: [],
     hardStops: [],
     allowedVowels: [],
@@ -1043,9 +1048,9 @@ let X = Consonant( id: .X,
     liquidBlend: true,
     followerTable: [
         "A":[.E, .I, .L, .O],
-        "E":[.A, .C, .E, .I, .O, .P, .T, .U],
+        "E":[.A, .C, .E, .H, .I, .O, .P, .T, .U],
         "O":[.C, .E, .I, .T, .Y]],                  // OXCART, OXEN, OXIDE, OXTENT, OXYGEN
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         
         // Allow I follower for TAXI
@@ -1053,8 +1058,8 @@ let X = Consonant( id: .X,
             followers += [.I]
         }
             
-        // Allow final T only for NEXT, SEXT, TEXT
-        if syll.matchesSet(["NE", "SE", "TE"]) {
+        // Allow T follower for NEXT, SEXT, SIXTY, TEXT
+        if syll.matchesSet(["NE", "SE", "SI", "TE"]) {
             followers += [.T]
         }
         
@@ -1109,12 +1114,12 @@ let Y = Consonant( id: .Y,
         "W":[.V],                   // WYVERN
         "Z":[.G]],                  // ZYGOTE
         
-    dynamicFollowers: { (syll: SyllabicArray, pos: PositionIndicator) in
+    dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         let lastElement = syll.lastElement()
         let prevElement = syll.nextToLastElement()    // assuming will be non-nil
         
-        if pos == .positionLAST {
+        if nRemain <= 3 {
             
             // Approve final L for BERYL, IDYL, VINYL
             if syll.matchesSet(["BER", "ID", "VIN"]) {
@@ -1129,6 +1134,11 @@ let Y = Consonant( id: .Y,
             // Approve final O for YOYO
             if syll.matchesString("YO", matchFull: true) {
                 followers += [.O]
+            }
+            
+            // Approve final P for POLYP
+            if syll.matchesString("POL", matchFull: true) {
+                followers += [.P]
             }
             
             // Approve final R for MARTYR, SATYR

@@ -209,6 +209,7 @@ class LexografikTests_2015: XCTestCase {
         
         storm.gatherWords(5)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "NINTH")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "NIGHT")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TINGE")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "THINE")))
         
@@ -480,7 +481,6 @@ class LexografikTests_2015: XCTestCase {
         
         storm.gatherWords(5)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TRIES")))
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FIRES")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FIRES")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "FIRST")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TIRES")))

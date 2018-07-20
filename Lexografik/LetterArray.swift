@@ -38,6 +38,7 @@ class LetterArray: Equatable {
     var exactMatches: [String] = []
     var filterStops: Bool = true
     var oneSyllableWords: Bool = false
+    var forceFinalPlural: Bool = false
     var phonemes: PhoneticElementArray = PhoneticElementArray()
     var syllables: SyllabicArray = SyllabicArray()
     
@@ -64,6 +65,7 @@ class LetterArray: Equatable {
         self.phonemes.replaceElements(sourceArray.phonemes)
         self.filterStops = sourceArray.filterStops
         self.oneSyllableWords = sourceArray.oneSyllableWords
+        self.forceFinalPlural = sourceArray.forceFinalPlural
         self.exactMatches = sourceArray.exactMatches
         self.syllables.replaceElements(sourceArray.syllables)
     }

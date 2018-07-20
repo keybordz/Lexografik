@@ -24,17 +24,19 @@
   margin-top: 0;
 }
 
-/* Styles for word count totals */
-#infospan {
-  /* margin-top: 0;
-  margin-bottom: 0; */
-}
-
+/* Styles for information displayed at the top of the page */
 .info {
   text-align: right;
-  font-style: italic;
   margin-top: 0;
   margin-bottom: 0;
+}
+
+#date {
+  font-weight: bold;
+}
+
+#summary {
+  font-style: italic;
 }
 
 /* Styles for table headers */
@@ -44,6 +46,10 @@
 }
 
 /* Styles for dictionary tables */
+table {
+  border: 2px solid;
+}
+
 td {
   padding-right: 1em;
 }
@@ -87,8 +93,36 @@ td {
 
 /* Style the tab content */
 .tabcontent {
+    clear: both;
     display: none;
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+}
+
+/* Styles for stats page */
+.statheader {
+    margin-bottom: 0;
+}
+
+.statheader:first-child {
+    margin-top: 0;
+}
+
+.statrow {
+    display: flex;
+}
+
+.statcap {
+    width: 7.5em;
+}
+
+.stattot {
+    width: 2.5em;
+    font-style: italic;
+}
+
+.statpct {
+    width: 12em;
+    font-style: italic;
 }

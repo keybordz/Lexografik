@@ -52,8 +52,6 @@ class DiphthongBlend: LexicalBlend, PhoneticFollowers {
         super.init(first: vowel, second: consonant, third: nil,
                    canStart: start, canEnd: end, canPlural: true,
                    dynFollowers: nil)
-
-        verifyEndOfWord = { (phonemes:PhoneticElementArray) -> Bool in return end }
     }
     
 }
@@ -106,7 +104,7 @@ let AW = DiphthongBlend(vowel: .A, consonant: .W, start: true, end: true,
                             "GN":[.E, .I, .N, .S],  // GNAWED, GNAWING, GNAWN, GNAWS
                             "H":[.K, .S],           // HAWK, HAWS
                             "J":[.B, .E, .I, .S],   // JAWBONE, JAWED, JAWING, JAWS
-                            "L":[.F, .L, .N, .S, .Y],   // LAWFUL, LAWLESS, LAWN, LAWS, LAWYER
+                            "L":[.F, .L, .M, .N, .S, .Y],   // LAWFUL, LAWLESS, LAWMEN, LAWN, LAWS, LAWYER
                             "M":[.S],               // MAWS
                             "P":[.E, .I, .N, .S],   // PAWED, PAWING, PAWN, PAWS
                             "PR":[.N],              // PRAWN
@@ -126,7 +124,7 @@ let AW = DiphthongBlend(vowel: .A, consonant: .W, start: true, end: true,
 
 let EW = DiphthongBlend(vowel: .E, consonant: .W, start: true, end: true,
                         initFollowers: [.E],
-                        interFollowers: [.A, .D, .E, .I, .L, .N, .T, .Y],
+                        interFollowers: [.A, .D, .E, .I, .L, .N, .O, .T, .Y],
                         finFollowers: [.L, .N, .S, .T],
                         followerTable: [
                             "BL":[],                // BLEW
@@ -187,7 +185,7 @@ let OW = DiphthongBlend(vowel: .O, consonant: .W, start: true, end: true,
                             "SC":[.E, .I, .L, .S],          // SCOWED, SCOWING, SCOWL, SCOWS
                             "SH":[.E, .I, .N, .S, .Y],      // SHOWED, SHOWING, SHOWN, SHOWS, SHOWY
                             "SL":[.E, .I, .L, .S],          // SLOWED, SLOWING, SLOWLY, SLOWS
-                            "SN":[.E, .I, .S, .Y],          // SNOWED, SNOWING, SNOWS, SNOWY
+                            "SN":[.B, .E, .I, .S, .Y],      // SNOWBOUND, SNOWED, SNOWING, SNOWS, SNOWY
                             "ST":[.E, .I, .N, .S],          // STOWED, STOWING, STOWN, STOWS
                             "T":[.E, .I, .N, .S],           // TOWED, TOWING, TOWN, TOWS
                             "THR":[.I, .N, .S],             // THROWING, THROWN, THROWS

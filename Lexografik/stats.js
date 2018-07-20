@@ -1,17 +1,12 @@
 // GLOBAL VARIABLES
 
-// Alphabet characters
-const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-//const vowels = "AEIOUY".split("");
-const vowelExp = new RegExp('[AEIOUY]')
-//const consonants = "BCDFGHJKLMNPQRSTVWXYZ".split("");
-const consExp = new RegExp('[BCDFGHJKLMNPQRSTVWXZ]')
+// Data structure returned from server
+var lexStats;
 
 // State vars
-var currentLetterView = "A";
-var tabLetterView = "";
+var selectedView = "A";
+var selectedTab = "A";
 var firstValidTab = "";
-var lexStats;
 
 // Returns the value of the radio button setting for the display type
 function getDisplayType() {
@@ -30,159 +25,122 @@ function simulateClick(target) {
 }
 
 // Resets the display of the tab container based on the given letter
+// If letter is set to 'full', then show the full display tabContainer
+// If letter is set to 'stat', then show the stats container
+// If letter is set to ' ', then show the last selected tab
 function showDict(evt, letter) {
-    // Declare all variables
     var i, tabcontent, tablinks;
+    let tabContainer = document.getElementById("tabs");
 
-    // Remember the current letter in case the view display switches
-    currentLetterView = letter;
-    if (getDisplayType() === "tabs") {
-      tabLetterView = letter;
-    }
-
-    // Get all elements with class="tabcontent" and hide them
+    // Hide EVERY view: cancel display for all elements with class="tabcontent"
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
 
-    // Get all elements with class="tablinks" and remove the class "active"
+    // Deselect EVERY tab: remove class "active" for all class="tablinks"
     tablinks = document.getElementsByClassName("tablinks");
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
 
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    const currentView  = document.getElementById(letter);
-    currentView.style.display = "block";
-    evt.currentTarget.className += " active";
-}
-
-// Display the stats page and hide all the other letter views
-function displayStats() {
-    var i, tabcontent, tablinks;
-
-    // Hide the tabs
-    document.getElementById("tabs").style.display = "none";
-
-    // Access the stat container
-    let statView = document.getElementById('stats');
-    var statHTML = "";
-
-    // Overall counts
-    let wordCount = lexStats.dictionary.length;
-    let wordPct = Number(wordCount/lexStats.testCount).toFixed(1);
-    statHTML += `<p>${lexStats.testCount} test cases, `;
-    statHTML += `<b>${wordCount}</b> total words (${wordPct} words per test case), `;
-    statHTML += `${lexStats.errorCount} error checks`;
-
-    // Word counts
-    statHTML += `<h2>Length totals</h2><p>`;
-    for (i = 0; i < 6; i++) {
-      statHTML += `<i>${lexStats.lengthCounter[i]}</i> ${i+4}-letter words<br>`;
-    }
-
-    // Pattern counts
-    statHTML += `<h2>Pattern totals</h2><p>`;
-    let pluralCount = lexStats.endCounter["S"];
-    let plural4Count = lexStats.endCounter["S4"];
-    let plural5Count = pluralCount - plural4Count;
-    let pluralPct = Number(plural5Count/wordCount*100).toFixed(1);
-    let pastCount = lexStats.endCounter["ED"];
-    let gerundCount = lexStats.endCounter["ING"];
-    let adverbCount = lexStats.endCounter["LY"];
-    let actorCount = lexStats.endCounter["ER"] + lexStats.endCounter["OR"];
-    let stateCount = lexStats.endCounter["TION"] + lexStats.endCounter["SION"];
-    let superCount = lexStats.endCounter["EST"];
-    let finalYCount = lexStats.endCounter["Y"];
-
-    statHTML += `${pluralCount} plurals: `
-    statHTML += `${plural5Count} non-unique (${pluralPct}%) / `;
-    statHTML += `${plural4Count} unique<br>`
-    statHTML += `${pastCount} past tense verbs<br>`;
-    statHTML += `${gerundCount} gerunds<br>`;
-    statHTML += `${adverbCount} adverbs<br>`;
-    statHTML += `${finalYCount} words ending in Y<br>`;
-    statHTML += `${actorCount} actor/comparative<br>`;
-    statHTML += `${superCount} superlatives<br>`;
-    statHTML += `${stateCount} state nouns<br>`;
-
-    statView.innerHTML = statHTML;
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the stats tab
-    statView.style.display = "block";
-}
-
-// Returns the initial combination of vowels in the word or null
-// if only consonants are present
-function initialVowel(alphaStr) {
-
-  // Drop the initial Y if present (since Y's are treated as vowels)
-  if (alphaStr[0] === "Y") {
-    alphaStr = alphaStr.substring(1, alphaStr.length);
-  }
-
-  let vowelPieces = alphaStr.split(consExp);
-  if (vowelPieces.length === 0) {
-    return "";
-  }
-
-  // skip any null pieces
-  for (i = 0; vowelPieces[i] === "" && i < vowelPieces.length - 1; i += 1);
-  return vowelPieces[i];
-}
-
-// Returns any combination of vowels at the end of the word or null
-// if the word ends in a consonant
-function vowelEnder(alphaStr) {
-  let vowelPieces = alphaStr.split(consExp);
-  if (vowelPieces.length === 0) {
-    console.log("No vowels in", alphaStr);
-    return "";
-  }
-
-  return vowelPieces[vowelPieces.length - 1];
-}
-
-// Returns the initial consonant stop following the first vowel or null
-// if the word is all vowels or has no consonants beyond the initial ones
-function initialStop(alphaStr) {
-  let consPieces = alphaStr.split(vowelExp);
-
-  if (consPieces.length === 0) {
-    console.log("No consonants in", alphaStr);
-    return "";
-  }
-
-  // Words that start with vowels
-  if (consPieces[0] === "") {
-    if (consPieces.length > 1) {
-      return consPieces[1];
+    // If viewing stats, hide all the filter options and the summary count
+    if (letter === 'stat') {
+      document.getElementById("length_group").style.display = "none";
+      document.getElementById("filter_group").style.display = "none";
+      document.getElementById("settings_group").style.display = "none";
+      document.getElementById("summary").style.display = "none";
     } else {
-      return "";
+      document.getElementById("length_group").style.display = "inline";
+      document.getElementById("filter_group").style.display = "inline";
+      document.getElementById("settings_group").style.display = "inline";
+      document.getElementById("summary").style.display = "block";
     }
 
-  // Single syllable word that ends in a vowel
-  } else if (consPieces.length === 1) {
-    return "";
+    // If viewing tabs, make sure the tab bar is visible
+    if (letter !== 'full' && letter != 'stat') {
+      tabContainer.style.display = "block";
 
-  // Words with consonant stops
-  } else {
-    for (i = 1; consPieces[i] === "" && i < consPieces.length - 1; i += 1);
-    return consPieces[i];
+      // If letter is a blank character, then reset to the last selected tab
+      if (letter === ' ') {
+        selectedView = selectedTab;
+        document.getElementById(`${selectedTab}_tab`).className += " active";
+
+      // Otherwise make the selected tab active
+      } else {
+        evt.currentTarget.className += " active";
+        selectedTab = letter;
+        selectedView = letter;
+      }
+
+    // Hide the tab buttons if viewing full display or stats
+    } else {
+      tabContainer.style.display = "none";
+      selectedView = letter
+    }
+
+    // Now display the currently selected view
+    document.getElementById(selectedView).style.display = "block";
+}
+
+function buildStatRow(statType, keyIndex, caption) {
+  const wordCount = lexStats.dictionary.length;
+  var total1 = 0, total2 = 0;
+  var percent;
+
+  // Number of test cases
+  if (statType === 'test') {
+    total1 = lexStats.testCount;
+
+  // Number of words and average words per test case
+  } else if (statType === 'word') {
+    total1 = wordCount;
+    percent = Number(wordCount/lexStats.testCount).toFixed(2);
+
+  // Number of error checks
+  } else if (statType === 'error') {
+    total1 = lexStats.errorCount;
+
+  // Word length stats
+  } else if (statType === 'length') {
+    total1 = lexStats.lengthCounter[parseInt(keyIndex)]
+    percent = Number(total1/wordCount*100).toFixed(2);
+
+  // Starting letter stats
+  } else if (statType === 'letter') {
+    total1 = lexStats.startCounter[keyIndex];
+    percent = Number(total1/wordCount*100).toFixed(2);
+
+  // Ending pattern stats
+  } else if (statType === 'pattern') {
+    var keys = keyIndex.split('+');
+    total1 = lexStats.endCounter[keys[0]];
+    if (keys.length > 1) {
+      total2 = lexStats.endCounter[keys[1]];
+    }
+  percent = Number((total1 + total2)/wordCount*100).toFixed(2);
   }
+
+  // Start a new HTML row
+  var rowHTML = '<span class="statrow">';
+
+  // Caption is first column
+  rowHTML += `<span class="statcap">${caption}:</span>`;
+
+  // Total is second column
+  rowHTML += `<span class="stattot">${total1 + total2}</span>`;
+
+  // Third column: For word totals, percent is actually an average
+  if (statType === 'word') {
+    rowHTML += `<span class="statpct">(${percent} words per case)</span>`;
+
+  // Percentage is normal third column
+  } else if (statType !== 'test' && statType != 'error') {
+    rowHTML += `<span class="statpct">(${percent}%)</span>`;
+  }
+
+  rowHTML += `</span>`;
+  return rowHTML
 }
 
 // Constructs all the dynamic html for displaying the dictionary
@@ -191,10 +149,10 @@ function buildDictionaryDisplay() {
   let wordCount = lexStats.dictionary.length;
   var wordIndex = 0;
   var currentWord = lexStats.dictionary[wordIndex];
-  var fullHTML = '';
+  var fullHTML = "";
   var aggCount = 0;
 
-  // View browser settings
+  // Get the display settings
   let displayType = getDisplayType();
   var lengthView = 0;     // Setting of 0 means view any & all word lengths
   if (word_length.value !== "any") {
@@ -206,15 +164,8 @@ function buildDictionaryDisplay() {
   let highCheck = document.getElementById("highcheck");
   let pluralCheck = document.getElementById("pluralcheck");
   let tabContainer = document.getElementById("tabs");
-  if (displayType === "full") {
-    tabContainer.style.display = 'none';
-  } else {
-    tabContainer.style.display = 'block';
-  }
 
-  let infoSpan = document.getElementById('infospan');
-  var infoHTML = '<p class="info">';
-
+  // Reset the first open tab value here since the filter may be changing
   firstValidTab = "";
 
   // Iterating over the entire alphabet
@@ -229,12 +180,8 @@ function buildDictionaryDisplay() {
     var rowIndex = 0;
     var displayCount = 0;
     var tableHTML = '<table>';
+    var sectionHTML = `<h3>${letter}</h3>`;
     var headerHTML = '';
-
-    // Otherwise, tack on heading for current letter
-    if (displayType === "full") {
-      headerHTML += `<h3>${letter}</h3>`;
-    }
 
     // Add words to the table that start with the current letter
     while (currentWord.substring(0, 1) === letter) {
@@ -262,7 +209,7 @@ function buildDictionaryDisplay() {
       var hasPlural = false;
 
       // The plural check only happens for the default length setting
-      if (lengthView === 0 && !pluralCheck.checked) {
+      if (!pluralCheck.checked) {
 
         // Look for a final S (but not final SS)
         // Should refine this to handle the "ES" for words ending in SS
@@ -281,9 +228,10 @@ function buildDictionaryDisplay() {
             hasPlural = true;
           }
         }
+      }
 
       // Honor word length option
-      } else if (lengthView !== 0) {
+      if (lengthView !== 0) {
         if (compare.value === "EQ" && currentLength !== lengthView) {
           skipLength = true;
         } else if (compare.value === "LT" && currentLength > lengthView) {
@@ -347,7 +295,7 @@ function buildDictionaryDisplay() {
       // Add the word to the table if it hasn't been filtered OR if the
       // option is set to only highlight filtered words and not hide the rest
       // (Non-unique plurals are NEVER added unless the Separate option is active)
-      if (!skipLength && (!skipFilter || highCheck.checked) && !skipPlural) {
+      if (((!skipLength && !skipFilter) || highCheck.checked) && !skipPlural) {
 
         // Start a new row when the index has been reset to 0
         if (rowIndex === 0) {
@@ -355,7 +303,7 @@ function buildDictionaryDisplay() {
         }
 
         // Highlight filtered words when that option is active
-        if (filter.value !== "" && !skipFilter && highCheck.checked) {
+        if (!skipLength && !skipFilter && highCheck.checked) {
           tableHTML += `<td class="highlight">${currentWord}</td>`;
           highCount += 1;
 
@@ -391,7 +339,6 @@ function buildDictionaryDisplay() {
     tableHTML += `</table>`;
     headerHTML += '<p class="headinfo">';
 
-
     // No words in this letter section
     if (displayCount === 0) {
       headerHTML += `No words`;
@@ -399,35 +346,45 @@ function buildDictionaryDisplay() {
       // If displaying tabs, gray out the empty ones EXCEPT for the current view
       if (displayType === "tabs") {
         currentTab.disabled = true;
-        if (tabLetterView === letter) {
-          tabLetterView = "";
-        }
       } else {
         currentTab.disabled = false;
       }
 
+    // Fill in the word totals for the header
     } else {
+      var displayPct;
+      var sectionPct = Number(sectionCount/wordCount*100).toFixed(2);
 
-      // Add the section totals
-      headerHTML += `${sectionCount} words`;
+      // No filtering
       if (filter.value === "" && lengthView === 0) {
+        aggCount += displayCount
+        displayPct = Number(displayCount/sectionCount*100).toFixed(2);
         if (!pluralCheck.checked) {
-          headerHTML += ` (${displayCount} unique)`;
+          headerHTML += `${displayCount} unique (${displayPct}%) out of `;
         }
-      } else {
-        headerHTML += ` (${displayCount} selected)`;
-      }
-      headerHTML += '</p>'
 
-      // Aggregate counter for all letters
-      aggCount += displayCount
+      // Highlighting
+      } else if (highCheck.checked) {
+        aggCount += highCount
+        displayPct = Number(highCount/sectionCount*100).toFixed(2);
+        headerHTML += `${highCount} selected (${displayPct}%) out of `;
+
+      // Normal filtering
+      } else {
+        aggCount += displayCount
+        displayPct = Number(displayCount/sectionCount*100).toFixed(2);
+        headerHTML += `${displayCount} selected (${displayPct}%) out of `;
+      }
+
+      // Add the overall total
+      headerHTML += `${sectionCount} (${sectionPct}%)</p>`;
 
       // Keep track of the first tab to have a non-empty display
       if (firstValidTab === "") {
         firstValidTab = letter;
-//        console.log('Setting firstValidTab to', firstValidTab);
       }
 
+      // Enable the current tab and highlight it if that option is enabled
       currentTab.disabled = false;
       if (highCheck.checked && highCount > 0) {
         if (currentTab.className.indexOf(" highlight") === -1) {
@@ -438,39 +395,97 @@ function buildDictionaryDisplay() {
       }
     }
 
-    if (displayType === "tabs") {
-      currentView.innerHTML = headerHTML + tableHTML;
+    // HTML for current tab is now complete
+    currentView.innerHTML = headerHTML + tableHTML;
 
     // Skip letters in full display with no words
-    } else if (displayCount !== 0) {
-      fullHTML += headerHTML + tableHTML;
+    if (displayCount !== 0) {
+      fullHTML += sectionHTML + headerHTML + tableHTML;
     }
   });  // forEach  (Letter iteration)
 
-  // Build the info string displayed at the top right
-  infoHTML += `${wordCount} words total`;
+  // Display the date/time record from the query
+  let dateSpan = document.getElementById('date');
+  dateSpan.innerHTML = `${formatDate(lexStats.dateString)}<br>`;
+
+  // Display the word count summary
+  let sumSpan = document.getElementById('summary');
+  var sumHTML;
+  var sumPct;
+
   if (filter.value === "" && lengthView === 0) {
     if (!pluralCheck.checked) {
-      infoHTML += ` (${aggCount} unique)`;
+      sumPct = Number(aggCount/wordCount*100).toFixed(2);
+      sumHTML = `${aggCount} unique (${sumPct}%) out of ${wordCount} total`;
+    } else {
+      sumHTML = `${wordCount} total`;
     }
-  } else {
-    infoHTML += ` (${aggCount} selected)`;
-  }
-  infoHTML += `<br>${lexStats.dateString}</p>`;
-  infoSpan.innerHTML = infoHTML;
 
-  // Use the first (A) tab for the full display
-  if (displayType === "full") {
-    document.getElementById("A").innerHTML = fullHTML;
+  } else {
+    sumPct = Number(aggCount/wordCount*100).toFixed(2);
+    sumHTML = `${aggCount} selected out of ${wordCount} total (${sumPct}%)`;
   }
+  sumSpan.innerHTML = sumHTML;
+
+  // HTML for full display is complete
+  document.getElementById("full").innerHTML = fullHTML;
+
+  // Now build the stats display view
+  var statHTML = '';
+
+  // Overall counts
+  statHTML += `<h2 class="statheader">Overall</h2>`;
+  statHTML += buildStatRow('test', '', 'Test cases');
+  statHTML += buildStatRow('word', '', 'Words');
+  statHTML += buildStatRow('error', '', 'Error checks');
+  // statHTML += `<span class="statrow"><span class="statcap">Test cases:`;
+  // statHTML += `<span class="stattot">${lexStats.testCount}</span></span>`;
+  // statHTML += `<span class="statrow"><span class="statcap">Test cases:`;
+  // statHTML += `<span class="stattot">${lexStats.testCount}</span></span>`;
+  //
+  // let wordPct = Number(wordCount/lexStats.testCount).toFixed(2);
+  //
+  // statHTML += `<b>${wordCount}</b> total words (${wordPct} words per test case), `;
+  // statHTML += `${lexStats.errorCount}</span>`;
+
+  // Word counts
+  statHTML += `<h2 class="statheader">Length totals</h2>`;
+  for (i = 0; i < 6; i++) {
+    statHTML += buildStatRow('length', `${i}`, `${i+4}-letter words`);
+  }
+
+  // Letter counts
+  statHTML += `<h2 class="statheader">Letter totals</h2>`;
+  letters.forEach(letter => {
+    statHTML += buildStatRow('letter', letter, letter);
+  });
+
+  // Pattern counts
+  statHTML += `<h2 class="statheader">Pattern totals</h2>`;
+  // let plural5Count = pluralCount - plural4Count;
+  // let pluralPct = Number(plural5Count/wordCount*100).toFixed(2);
+
+//  statHTML += `${plural5Count} non-unique (${pluralPct}%) / `;
+//  statHTML += `${plural4Count} unique</i><br>`
+  statHTML += buildStatRow('pattern', 'S', 'Plurals');
+  statHTML += buildStatRow('pattern', 'S4', 'Unique plurals')
+  statHTML += buildStatRow('pattern', 'ED', 'Past tense (ED)');
+  statHTML += buildStatRow('pattern', 'ING', 'Gerund (ING)');
+  statHTML += buildStatRow('pattern', 'LY', 'Adverb (LY)');
+  statHTML += buildStatRow('pattern', 'Y', 'Other final Y');
+  statHTML += buildStatRow('pattern', 'ER+OR', 'ER/OR');
+  statHTML += buildStatRow('pattern', 'EST', 'EST');
+  statHTML += buildStatRow('pattern', 'SION+TION', 'SION/TION');
+
+  document.getElementById("stat").innerHTML = statHTML;
 }
 
 function enableOption(optionID) {
-//    console.log(`Enabling option ${optionID}`);
-    labelElem = document.getElementById(`${optionID}label`);
-    labelElem.className = labelElem.className.replace(" disable", "");
-    checkElem = document.getElementById(`${optionID}check`);
-    checkElem.disabled = false;
+//  console.log(`Enabling option ${optionID}`);
+  labelElem = document.getElementById(`${optionID}label`);
+  labelElem.className = labelElem.className.replace(" disable", "");
+  checkElem = document.getElementById(`${optionID}check`);
+  checkElem.disabled = false;
 }
 
 function disableOption(optionID) {
@@ -483,51 +498,67 @@ function disableOption(optionID) {
   checkElem.disabled = true;
 }
 
+// Resets the display based on the current settings
 function rebuildDisplay() {
+  let currentDisplay = getDisplayType();
 
-  // Clear out the filter if the type is set to None and disable the
-  // highlight option
+  // If filter type set to None then clear out the field and disable highlight
   if (filter_type.value === "none") {
     filter.value = "";
     filter.disabled = true;
-    disableOption('high');
-
-    // Plural option is still valid unless word length setting is in place
-    if (word_length.value === "any") {
-      enableOption('plural');
-    } else {
-      disableOption('plural');
-    }
-
-  // If a filter is specified, then highlight option is always enabled and
-  // the plural option is always disabled
   } else {
     filter.disabled = false;
-    enableOption('high');
-    disableOption('plural');
   }
 
-  // This check prevents an unnecessary refresh when changing the filter
-  // setting before entering a filter value
+  // The highlight option is DISABLED by default; it is enabled if a word
+  // length or filter value is in effect
+  if (word_length.value !== "any" || filter.value !== "") {
+    enableOption('high');
+  } else {
+    disableOption('high');
+  }
+
+  // The plural option is ENABLED by default; it is disabled if a word length
+  // option is in effect or the filter type is set to match a word ending
+  if (word_length.value !== "any" || filter_type.value === "end" ||
+        filter_type.value === "fvowel") {
+    disableOption('plural');
+  } else {
+    enableOption('plural');
+  }
+
+  // This check prevents an unnecessary refresh when changing the filter type
+  // before entering a filter value
   if (filter.value !== "" || filter_type.value === "none") {
     buildDictionaryDisplay();
 
-    // Full display always uses the first tab
-    if (getDisplayType() === "full") {
-      currentLetterView = "A";
+    // Displaying one of the tabs
+    if (currentDisplay === "tabs") {
+      let currentTab = document.getElementById(`${selectedTab}_tab`);
 
-    // Honor the current user selected tab first
-    } else if (tabLetterView !== "") {
-      currentLetterView = tabLetterView
+      // Reset the current tab if it no longer has any words in it
+      if (currentTab.disabled && firstValidTab !== "") {
+        selectedView = firstValidTab;
+      }
 
-    // If switching to tabs with a filter in place, go to the first non-empty one
-    } else if (firstValidTab !== "") {
-      currentLetterView = firstValidTab;
+      // Simulate mouse click on the current/new tab
+      simulateClick(`${selectedView}_tab`);
     }
 
-    // Simulate mouse click on the current/new tab
-    simulateClick(`${currentLetterView}_tab`);
+    else {
+      simulateClick(`display_${currentDisplay}`)
+    }
   }
+}
+
+function resetDefault() {
+  selectedView = "A";
+  selectedTab = "A";
+  firstValidTab = "";
+  word_length.value = "any";
+  filter_type.value = "none";
+  document.getElementById('display_tabs').checked = true
+  rebuildDisplay();
 }
 
 function checkStatus(response) {
@@ -555,5 +586,4 @@ function reloadPage() {
 }
 
 // Main execution
-var cn = " "
 reloadPage();

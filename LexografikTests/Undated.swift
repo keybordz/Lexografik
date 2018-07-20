@@ -182,16 +182,6 @@ class LexografikTests_Undated: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HAIKUS")))
     }
     
-    func test_shuTtered() {
-        storm = WordStorm(outer: ["S", "H", "U", "T", "E", "R", "E", "D"], center: "T")
-        
-        storm.gatherWords(4)
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "THRU")))
-        
-        storm.gatherWords(6)
-        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "TTHREE")))
-    }
-    
     func test_Columnist() {
         storm = WordStorm(outer: ["O", "L", "U", "M", "N", "I", "S", "T"], center: "C")
         
@@ -210,7 +200,6 @@ class LexografikTests_Undated: XCTestCase {
         storm = WordStorm(outer: ["S", "I", "H", "T", "I", "N", "G", "S"], center: "G")
         
         storm.gatherWords(5)
-        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "NIGHT")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "SIGHT")))
         
         // Make sure GH can plural
@@ -261,6 +250,25 @@ class LexografikTests_Undated: XCTestCase {
         
         storm.gatherWords(6)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ORPHAN")))
+    }
+    
+    func test_uNknowing() {
+        storm = WordStorm(outer: ["U", "K", "N", "O", "W", "I", "N", "G"], center: "N")
+        
+        storm.filterStops = false
+        storm.gatherWords(7)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "UNKNOWN")))
+    }
+    
+    func test_examIning() {
+        storm = WordStorm(outer: ["E", "X", "A", "M", "N", "I", "N", "G"], center: "I")
+        
+        storm.gatherWords(4)
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MINX")))
+        
+        // NX only allowed after I vowels
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "MANX")))
+        XCTAssertFalse(storm.allWords.contains(LetterArray(initString: "GENX")))
     }
 }
 
