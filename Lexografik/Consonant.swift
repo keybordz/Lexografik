@@ -29,6 +29,7 @@ class Consonant: LexicalLetter, PhoneticFollowers {
     
     func secondFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter] {
         let firstElement: PhoneticElement?
+        var secondFollowers: [Letter] = []
         
         // Y's operating as vowels in the middle of a word
         if self.id == "Y" {
@@ -39,12 +40,16 @@ class Consonant: LexicalLetter, PhoneticFollowers {
             firstElement = syll.initialVowel()
         }
         
-        if let secondFollowers = followerTable[firstElement!.id] {
-            return secondFollowers
+        if let tableFollowers = followerTable[firstElement!.id] {
+            secondFollowers += tableFollowers
         }
-        else {
-            return []
-        }
+        
+        // Not sure we want to do this
+//        if dynFollowers != nil {
+//            secondFollowers += self.dynFollowers!(syll, nRemain)
+//        }
+        
+        return secondFollowers
     }
     
     func midFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter] {
@@ -271,8 +276,8 @@ let D = Consonant( id: .D,
                 followers += [.O]
             }
             
-            // Approve final A for CICADA
-            if syll.matchesSet(["CICA"]) {
+            // Approve final A for ARMADA, CICADA
+            if syll.matchesSet(["ARMA", "CICA"]) {
                 followers += [.A]
             }
         }
@@ -342,7 +347,7 @@ let G = Consonant( id: .G,
     dynamicFollowers: { (syll: SyllabicArray, nRemain: Int) in
         var followers: [Letter] = []
         let lastElement = syll.lastElement()
-        let prevElement = syll.nextToLastElement()      // assuming this will be not be nil
+        let prevElement = syll.nextToLastElement()      // assuming this will be not be nil --> WRONG: EIG
 
         // GH followers: I (NIGH), EI (WEIGH), AU (CAUGHT), OU (COUGH)
         if lastElement!.id == "I" || lastElement!.id == "EI" || lastElement!.id == "AU" || lastElement!.id == "OU" {
@@ -350,20 +355,20 @@ let G = Consonant( id: .G,
         }
         
         // GN followers for I vowel: ALIGN, ASSIGN, SIGN, DESIGN, RESIGN, BENIGN, DIGNIFY
-        if lastElement!.id == "I" &&
+        if lastElement!.id == "I" && prevElement != nil &&
             (prevElement!.id == "D" || prevElement!.id == "L" || prevElement!.id == "N" ||
                 prevElement!.id == "S" || prevElement!.id == "SS") {
             followers += [.N]
         }
             
         // GN followers for EI blend: DEIGN, REIGN, FEIGN, PEIGNOIR
-        else if lastElement!.id == "EI" &&
+        else if lastElement!.id == "EI" && prevElement != nil &&
             (prevElement!.id == "D" || prevElement!.id == "F" || prevElement!.id == "R" || prevElement!.id == "P") {
             followers += [.N]
         }
         
         // GN followers for U vowel: IMPUGN
-        else if lastElement!.id == "U" && prevElement!.id == "P" {
+        else if lastElement!.id == "U" && prevElement != nil && prevElement!.id == "P" {
             followers += [.N]
         }
         
@@ -424,7 +429,7 @@ let K = Consonant( id: .K,
     blendStart: [.L, .N, .R],
     blendInto: [.L, .R],
     defFinal: [.E],
-    hardStops: [.M, .W],
+    hardStops: [.M, .P, .W],
     allowedVowels: allVowels,
     blendsWithY: true,
     canStart: true,
@@ -659,10 +664,8 @@ let N = Consonant( id: .N,
             
             // Approve final NT for all regular vowels plus these blends
             // ex. PANT, RENT, PINT, FONT, BUNT, DAUNT, PAINT, FEINT, POINT, GIANT, GRADIENT, COUNT, TRUANT, FLUENT, LEANT
-            if lastElement is Vowel ||
-                (lastElement!.id == "AI" || lastElement!.id == "AU" || lastElement!.id == "EI" || lastElement!.id == "OI" ||
-                 lastElement!.id == "IA" || lastElement!.id == "IE" || lastElement!.id == "OU" ||
-                 lastElement!.id == "UA" || lastElement!.id == "UE" || lastElement!.id == "EA") {
+            let allowedBlends = ["AI", "AU", "EA", "EI", "OI", "IA", "IE", "OU", "UA", "UE"]
+            if lastElement is Vowel || allowedBlends.contains(lastElement!.id) {
                 followers += [.T]
             }
             
@@ -767,7 +770,7 @@ let R = Consonant( id: .R,
         "AO":[.T],                                  // AORTA(L)
         "AU":[.A, .O],                              // AURA, AURORA
         "E":[.A, .E, .G, .I, .O, .R, .S, .U],       // ERASE, ERECT, ERGS, ERIN, EROTIC, ERRS, ERST, ERUPT
-        "EA":[.G, .L, .N, .S, .T],                  // EAGER, EARL, EARN, EARS, EARTH
+        "EA":[.G, .L, .N, .T],                      // EAGER, EARLY, EARNS, EARTH
         "EE":[.I],                                  // EERIE
         "EU":[.O],                                  // EURO
         "I":[.A, .E, .I, .K, .O, .R],               // IRATE, IRES, IRIDESCENT, IRKS, IRON, IRRITATE
@@ -810,8 +813,8 @@ let R = Consonant( id: .R,
                 followers += [.G]
             }
             
-            // Final RL words: GIRL, GNARL, FURL, CURL, WHORL, PEARL
-            if syll.matchesSet(["CU", "FU", "GI", "GNA", "PEA", "WHO"]) {
+            // Final RL words: GIRL, GNARL, EARL, FURL, CURL, WHORL, PEARL
+            if syll.matchesSet(["CU", "EA", "FU", "GI", "GNA", "PEA", "WHO"]) {
                 followers += [.L]
             }
             
@@ -820,8 +823,8 @@ let R = Consonant( id: .R,
                 followers += [.I]
             }
             
-            // Final RO words incude: TARO, HERO, TORO
-            if lastElement!.id == "A" || lastElement!.id == "E" || lastElement!.id == "O" {
+            // Final RO words incude: EURO, TARO, HERO, TORO
+            if lastElement!.id == "A" || lastElement!.id == "E" || lastElement!.id == "O" || lastElement!.id == "EU" {
                 followers += [.O]
             }
             
@@ -923,13 +926,12 @@ let T = Consonant( id: .T,
     dipthong: false,
     liquidBlend: true,
     followerTable: [
-        "A":[.L, .O, .R, .T],           // ATLAS, ATONE, ATRIA, ATTEST
-        "AU":[.H, .O],                  // AUTHOR/AUTHENTIC, AUTO
+        "A":[.H, .L, .O, .R, .T],       // ATHEIST, ATLAS, ATONE, ATRIA, ATTEST
+        "AU":[.H, .O],                  // AUTHOR/AUTHENTIC, AUTOMATIC
         "E":[.C, .H, .N],               // ETCH, ETHER, ETNA,
         "EA":[.E, .I, .S],              // EATEN, EATING, EATS
         "EU":[.H],                      // EUTHENIZE
         "I":[.A, .C, .E, .I, .S, .T],   // ITALIC, ITCH, ITEM, ITINERANT, ITSY, ITTY
-        "IO":[.A],                      // IOTA
         "O":[.H, .I, .T],               // OTHER, OTIC, OTTER
         "OA":[.E, .H, .S],              // OATEN, OATH, OATS
         "OU":[.E, .F, .G, .I, .L, .M, .P, .R, .S],      // OUTER, OUTING, all combos with OUT
@@ -939,8 +941,8 @@ let T = Consonant( id: .T,
         
         if nRemain == 2 {
             
-            // Final A followers: BETA, SETA, ERRATA
-            if syll.matchesSet(["BE", "SE", "ERRA"]) {
+            // Final A followers: BETA, DATA, SETA, ERRATA
+            if syll.matchesSet(["BE", "DA", "SE", "ERRA"]) {
                 followers += [.A]
             }
             
@@ -950,12 +952,12 @@ let T = Consonant( id: .T,
             }
             
             // Approve A follower for PITA, FETA, META
-            if syll.matchesSet(["FE", "ME", "PI"]) {
+            if syll.matchesSet(["FE", "IO", "ME", "PI"]) {
                 followers += [.A]
             }
             
-            // Approve O follower for VETO
-            if syll.matchesSet(["VE"]) {
+            // Approve O follower for AUTO, VETO
+            if syll.matchesSet(["AU", "VE"]) {
                 followers += [.O]
             }
             
@@ -1081,6 +1083,7 @@ let Y = Consonant( id: .Y,
     followerTable: [
         "B":[.E, .P, .S, .T, .Z],   // BYES, BYPASS, BYSTANDER, BYTE, BYZANTINE
         "C":[.A, .B, .C, .G, .P, .S, .T],   // CYANIDE, CYBER, CYCLE, CYGNET, CYPHER, CYST, CYTOSIS
+        "CH":[.M],                  // CHYME
         "CHR":[.S],                 // CHRYSALIS/CHRYSANTHEMUM
         "CR":[.I],                  // CRYING
         "D":[.E, .I, .N, .S],       // DYES, DYING, DYSTOPIA, DYNOMITE
@@ -1106,10 +1109,10 @@ let Y = Consonant( id: .Y,
         "SH":[.E, .I, .L],          // SHYER, SHYING, SHYLY
         "SL":[.E, .I, .L],          // SLYER, SLYING, SLYLY
         "SP":[.I],                  // SPYING
-        "ST":[.E, .M, .R],          // STYE, STYMIE, STYROFOAM
+        "ST":[.E, .M, .R],          // **STYES, STYMIE, STYROFOAM
         "T":[.I, .P, .R],           // TYING, TYPE, TYRANT
         "TH":[.M],                  // THYME
-        "TR":[.I, .S],              // TRYING, TRYST
+        "TR":[.I, .O, .S],          // TRYING, TRYOUT, TRYST
         "V":[.I],                   // VYING
         "W":[.V],                   // WYVERN
         "Z":[.G]],                  // ZYGOTE
@@ -1121,13 +1124,18 @@ let Y = Consonant( id: .Y,
         
         if nRemain <= 3 {
             
+            // Approve final E for STYE
+            if syll.matchesString("ST", matchFull: true) {
+                followers += [.E]
+            }
+            
             // Approve final L for BERYL, IDYL, VINYL
             if syll.matchesSet(["BER", "ID", "VIN"]) {
                 followers += [.L]
             }
             
             // Approve final M for ANTONYM, SYNONYM
-            if lastElement!.id == "N" && prevElement!.id == "O" {
+            if lastElement!.id == "N" && prevElement != nil && prevElement!.id == "O" {
                 followers += [.M]
             }
             
@@ -1146,6 +1154,10 @@ let Y = Consonant( id: .Y,
                 followers += [.R]
             }
             
+            // Approve final S for DRYS
+            if syll.matchesString("DR", matchFull: true) {
+                followers += [.S]
+            }
         }
         return followers
     })

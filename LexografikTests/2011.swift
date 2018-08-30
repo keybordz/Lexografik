@@ -743,6 +743,7 @@ class LexografikTests_2011: XCTestCase {
         storm.gatherWords(4)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "YARD")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ARMY")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PACY")))
         
         storm.gatherWords(5)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PAYED")))
@@ -757,6 +758,7 @@ class LexografikTests_2011: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "MERCY")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CHARY")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "HYPED")))
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CHYME")))
         
         storm.gatherWords(6)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "PRAYED")))
@@ -976,11 +978,14 @@ class LexografikTests_2011: XCTestCase {
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "DAUNT")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "TUNIC")))
         
+        storm.filterStops = false     // OBTAIN
         storm.gatherWords(6)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "BANDIT")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "INDUCT")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "ABOUND")))
-
+        XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "OBTAIN")))
+        
+        storm.filterStops = true
         storm.gatherWords(7)
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "CONDUIT")))
         XCTAssertTrue(storm.allWords.contains(LetterArray(initString: "AUCTION")))

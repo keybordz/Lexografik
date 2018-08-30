@@ -24,13 +24,15 @@ class VowelBlend: LexicalBlend, PhoneticFollowers {
     
     func secondFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter] {
         let firstElement = syll.firstElement()               // Should only be one element
+        var secondFollowers: [Letter] = []
         
-        if let secondFollowers = followerTable[firstElement!.id] {
-            return secondFollowers
+        if let tableFollowers = followerTable[firstElement!.id] {
+            secondFollowers += tableFollowers
         }
-        else {
-            return []
-        }
+//        if nRemain == 2 && canPlural {
+//            secondFollowers += [.S]
+//        }
+        return secondFollowers
     }
     
     func midFollowers(syll: SyllabicArray, nRemain: Int) -> [Letter] {
@@ -86,7 +88,7 @@ let AA = VowelBlend(first: .A, second: .A, third: nil,
                     canPlural: false,
                     glottal: false,
                     followerTable: [
-                        "B":[.S]],                  // BAAS
+                        "B":[.S]],
                     dynFollowers: nil)
 
 let AE = VowelBlend(first: .A, second: .E, third: nil,
@@ -172,8 +174,8 @@ let AU = VowelBlend(first: .A, second: .U, third: nil,
                         "CL":[.S],              // CLAUSE
                         "D":[.N, .P],           // DAUNT, DAUPHIN
                         "DR":[.G],              // DRAUGHT
-                        "F":[.N],               // FAUN
-                        "FL":[.N],              // FLAUNT
+                        "F":[.L, .N],           // FAULT, FAUN
+                        "FL":[.N, .T],          // FLAUNT, FLAUTIST
                         "FR":[.D, .G],          // FRAUD, FRAUGHT
                         "G":[.D, .G],           // GAUDY, GAUGE
                         "H":[.G, .L, .N],       // HAUGHTY, HAUL, HAUNCH
@@ -186,8 +188,8 @@ let AU = VowelBlend(first: .A, second: .U, third: nil,
                         "S":[.C, .N],           // SAUCE, SAUNTER
                         "SL":[.G],              // SLAUGHTER
                         "ST":[.N],              // STAUNCH
-                        "STR":[.G],             // (DIS)TRAUGHT
                         "T":[.G, .N, .P, .T],   // TAUGHT, TAUNT, TAUPE, TAUT
+                        "TR":[.G, .M],          // (DIS)TRAUGHT, TRAUMA
                         "V":[.L, .N]],          // VAULT, VAUNT
                     dynFollowers: nil)
 
@@ -215,6 +217,7 @@ let EA = VowelBlend(first: .E, second: .A, third: nil,
                         "GL":[.M, .N],                                      // GLEAM, GLEAN
                         "GR":[.S, .T],                                      // GREASE, GREAT
                         "H":[.D, .L, .P, .R, .T, .V],                       // HEAD, HEAL(TH), HEAP, HEAR(TH)/HEARSE, HEATH, HEAVE
+                        "J":[.L],                                           // JEALOUS
                         "KN":[.D],                                          // KNEAD
                         "L":[.C, .D, .F, .G, .K, .N, .P, .R, .S, .V],       // LEACH, LEAD, LEAF, LEAGUE, LEAK, LEAN,
                                                                             // LEAP, LEAR(N), LEAS(E/H/T), LEAVE
@@ -334,7 +337,8 @@ let EI = VowelBlend(first: .E, second: .I, third: nil,
                         "D":[.C, .F, .G, .S, .T],   // DEICE, DEIFY, DEIGN, DEISM/ST, DEITY
                         "F":[.G, .N, .S],           // FEIGN, FEINT, FEISTY
                         "FR":[.G],                  // FREIGHT
-                        "H":[.G, .R, .S],           // HEIGHT, HEIR, HEIST
+                        "G":[.S],                   // GEISHA
+                        "H":[.G, .N, .R, .S],       // HEIGHT, HEINOUS, HEIR, HEIST
                         "L":[.G, .S],               // LEIGH(T), LEIS
                         "N":[.G],                   // NEIGH(BOR)
                         "P":[.G, .N],               // PEIGNOIR, PEIN
@@ -421,6 +425,7 @@ let IE = VowelBlend(first: .I, second: .E, third: nil,
                         "B":[.N, .R],               // BIENNIAL, BIER
                         "BR":[.F, .R],              // BRIEF, BRIER
                         "CH":[.F],                  // CHIEF
+                        "CL":[.N],                  // CLIENT
                         "CR":[.D, .R, .S],          // CRIED, CRIER, CRIES
                         "D":[.D, .S, .T],           // DIED, DIES, DIET
                         "DR":[.D, .R, .S],          // DRIED, DRIER, DRIES

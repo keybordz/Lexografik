@@ -733,14 +733,15 @@ class LetterArray: Equatable {
                 else if suffix == .Y {
                     
                     if !endOfWord {
-                        // First Y after initial consonant or consonant blend
-                        if phonemes.numElements() == 1 {
-                            expecting = suffixProtocol.secondFollowers(syll: syllables, nRemain: remainingLetters)
+                        
+                        // Y directly precedes  the last letter
+                        if remainingLetters == 2 {
+                            expecting = suffixProtocol.lastFollowers(syll: syllables)
                         }
                             
-                        // Just before the last letter
-                        else if remainingLetters == 2 {
-                            expecting = suffixProtocol.lastFollowers(syll: syllables)
+                        // First Y after initial consonant or consonant blend
+                        else if phonemes.numElements() == 1 {
+                            expecting = suffixProtocol.secondFollowers(syll: syllables, nRemain: remainingLetters)
                         }
                             
                         // Somewhere in the middle of the word
@@ -895,20 +896,23 @@ class LetterArray: Equatable {
                     syllables.skipLast = true
                 }
                 
-                if (!endOfWord) {
+                if !endOfWord {
                     // Blend occurs at the start of the word
                     if nLetters == 1 {
                         expecting = conBlend!.initialFollowers(nRemain: remainingLetters)
+                    }
+                        
+                    // Blend immediately precedes the last letter
+                    // IMPORTANT: This condition should precede the secondFollower check to prevent cases
+                    // (usually 4-letter words) which end in an uncommon vowel; for vowel blends the
+                    // reverse is true since consonant endings are more common
+                    else if remainingLetters == 2 {
+                        expecting = conBlend!.lastFollowers(syll: syllables)
                     }
 
                     // Adding the blend after an initial vowel (make sure to ignore Y blends)
                     else if phonemes.numElements() == 1 {
                         expecting = conBlend!.secondFollowers(syll: syllables, nRemain: remainingLetters)
-                    }
-                        
-                    // Blend immediately precedes the last letter
-                    else if remainingLetters == 2 {
-                        expecting = conBlend!.lastFollowers(syll: syllables)
                     }
                         
                     // Somewhere in the middle
@@ -1012,11 +1016,11 @@ class LetterArray: Equatable {
                     return true
                 }
                 
-                if phonemes.numElements() == 1 {
-                    expecting = suffixProtocol.secondFollowers(syll: syllables, nRemain: remainingLetters)
-                }
-                else if remainingLetters == 2 {
+                if remainingLetters == 2 {
                     expecting = suffixProtocol.lastFollowers(syll: syllables)
+                }
+                else if phonemes.numElements() == 1 {
+                    expecting = suffixProtocol.secondFollowers(syll: syllables, nRemain: remainingLetters)
                 }
                 else {
                     expecting = suffixProtocol.midFollowers(syll: syllables, nRemain: remainingLetters)
@@ -1085,18 +1089,13 @@ class LetterArray: Equatable {
                         // First vowel added after initial consonant/consonant blend
                         if phonemes.numElements() == 1 {
                             expecting = suffixProtocol.secondFollowers(syll: syllables, nRemain: remainingLetters)
-//                            if expecting != [] {
-//                                processNewLetter(newElement: lexSuffix, newState: .articulateVowel, bias: .expectSubset,
-//                                                 nRemain: remainingLetters)
-//                                return true
-//                            }
                         }
-                            
+                        
                         // Just before the last letter
                         else if remainingLetters == 2 {
                             expecting = suffixProtocol.lastFollowers(syll: syllables)
                         }
-                        
+
                         // Somewhere in the middle of the word
                         else {
                             expecting = suffixProtocol.midFollowers(syll: syllables, nRemain: remainingLetters)

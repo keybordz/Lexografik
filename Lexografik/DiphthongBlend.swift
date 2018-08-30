@@ -82,7 +82,8 @@ let OH = DiphthongBlend(vowel: .O, consonant: .H, start: true, end: false,
                         interFollowers: [.N],
                         finFollowers: [],       // Need conditional A for ALOHA
                         followerTable: [
-                            "J":[.N]])
+                            "J":[.N],
+                            "PR":[.I]])         // PROHIBIT
 
 //let UH = DiphthongBlend(vowel: .A, consonant: .H, start: false, end: false)
 
